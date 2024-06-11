@@ -1,0 +1,13 @@
+{% include theme_path ~ "/templates/layout/header.html.twig" %}
+
+{% if is_front and page.banner %}
+    {{page.banner}}
+{% endif %}
+
+<section class="sec1 text-center">
+    <div class="container">
+        {{page.front_content}}
+    </div>
+</section>
+
+{% include theme_path ~ "/templates/layout/footer.html.twig" %}

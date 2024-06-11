@@ -1,0 +1,22 @@
+name: goomov
+type: theme
+description: "Goomo Theme"
+package: core
+base theme: false
+core_version_requirement: ^8 || ^9
+
+libraries:
+  - goomov/global-styling
+  - goomov/fonts
+
+regions:
+  header: Header
+  logo: Logo
+  mainmenu: Main Menu
+  banner: Banner
+  featuretop: FeatureTop
+  content: Content
+  front_content: Front content
+  footer1: Footer1
+  footer2: Footer2
+  footer3: Footer3

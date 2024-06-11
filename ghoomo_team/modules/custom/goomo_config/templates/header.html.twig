@@ -1,0 +1,276 @@
+ <style>
+  @font-face{font-family:'cs-Segoe UI';src:url('fonts/cs-SegoeUI.eot');src:url('fonts/cs-SegoeUI.eot?#iefix') format('embedded-opentype'),url('fonts/cs-SegoeUI.woff2') format('woff2'),url('fonts/cs-SegoeUI.woff') format('woff'),url('fonts/cs-SegoeUI.ttf') format('truetype'),url('fonts/cs-SegoeUI.svg#SegoeUI') format('svg');font-weight:normal;font-style:normal;font-display:swap;}
+    * {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+  }
+  body { margin:0px; padding:0;}
+  body {
+      margin: 0;
+      color: #000;
+      font-weight: 400;
+      font-family: 'Museo Sans Rounded 300', sans-serif;
+      font-size: 14px;
+      outline: none;
+      line-height: 1.4;
+      min-height: 100vh;
+      position: relative;
+  }
+  a, a:hover, a:focus {
+      text-decoration: none;
+  }
+  img {
+      max-width: 100%;
+      vertical-align: middle;
+      border: 0;
+  }
+  header.header-top-nav {
+      position: relative;
+      z-index: 9;
+  }
+  .top-nav {
+      padding: 0px;
+      border-bottom: 3px solid #2A577C;
+      width: 100%;
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+  }
+  .link-hone {
+      float: left;
+      padding: 15px 20px;
+  }
+  .link-hone img {
+      max-width: 30px;
+  }
+  .logo-hone-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      height: 65px;
+      align-items: center;
+  }
+  .logo-hone-center img {
+      max-height: 40px;
+  }
+  .menu-right {
+      float: right;
+      padding: 15px 0;
+  }
+  .search-row {
+      padding: 20px 20px 0 20px;
+      display: none;
+  }
+  .clear {
+      clear: both;
+  }
+  .s-btn img {
+      width: 30px;
+      height: 30px;
+  }
+  .s-btn {
+      float: left;
+      cursor: pointer;
+  }
+  .user-in {
+      background: url({{user_png}}) no-repeat center center;
+      border: 1px solid #F48830;
+      outline: none;
+      height: 30px;
+      width: 30px;
+      border-radius: 20px;
+      float: left;
+      margin-right: 20px;
+      position: relative;
+      cursor: pointer;
+  }
+  .user-in ul {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background: #FFFFFF;
+      border: 1px solid #eaeaea;
+      box-shadow: 0 3px 2px rgb(0 0 0 / 20%);
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      z-index: 99;
+      min-width: 170px;
+      display: none;
+  }
+  .user-in:hover ul {
+      display: block;
+  }
+  .user-in ul li a {
+      padding: 10px 16px;
+      font-family: 'cs-Segoe UI';
+      font-size: 16px;
+      white-space: pre;
+      border-bottom: 2px solid #D4D4D4;
+      display: block;
+      color: #000;
+  }
+  .user-in ul li a:hover {
+      border-bottom: 2px solid #2A577C;
+      background: #2A577C;
+      color: #fff;
+  }
+ .user-in ul li:last-child a{
+    border-bottom:2px solid #fff;
+  }
+  .footer.login-footer {
+      padding: 10px 40px;
+  }
+  ​
+  .footer {
+      background: #2A577C;
+      padding: 40px 0;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+  }
+  .full-width {
+      width: 100%;
+      float: left;
+  }
+  .footer-inner {
+      display: table;
+      width: 100%;
+  }
+  .footer.login-footer .copyright {
+      display: table-cell;
+      padding: 0;
+      width: calc(100% - 50px );
+      padding-left: 50px;
+      text-align: center;
+  }
+  ​
+  .copyright {
+      font-size: 15px;
+      font-family: 'cs-Segoe UI';
+      color: #fff;
+      padding: 30px 0 0 0;
+  }
+  .footer.login-footer .footer-logo {
+      display: table-cell;
+      text-align: right;
+      width: 110px;
+  }
+  .footer.login-footer .footer-logo img {
+      max-height: 30px;
+  }
+  @media (max-width: 1399px){
+  .top-nav {  padding: 0px;}
+  }
+  @media (max-width: 1299px){
+  .top-nav { padding: 0px;}
+  }
+  @media (max-width: 1199px){
+  .top-nav { padding: 0px;}
+  }
+  @media (max-width: 1023px){
+  .top-nav { padding: 0px;}
+  .logo-hone-center img {
+      max-height: 60px;
+  }
+  .menu-right {
+      padding: 30px 0;
+  }
+  .logo-hone-center {
+      height: 60px;
+  }
+  .link-hone {
+      padding: 10px 0;
+  }
+  .footer.login-footer {
+      padding: 10px 30px;
+  }
+  }
+  @media (max-width: 767px){
+  .top-nav {padding: 10px 0px 5px 10px;}
+  .logo-hone-center img {
+      max-height: 35px;
+  }
+  .menu-right {
+      padding: 5px 0;
+  }
+  .logo-hone-center {
+      height: 50px;
+  }
+  .link-hone {
+      padding: 5px 0;
+  }
+  .footer.login-footer {
+      padding: 10px 20px;
+  }
+  .footer.login-footer .copyright {
+      text-align: left;
+      padding-left: 0;
+  }
+  .copyright {
+      font-size: 14px;
+      padding: 10px 0 0 0;
+  }
+  }
+  @media (max-width: 499px){
+  .top-nav {padding: 10px 0px 5px 10px;}
+  .link-hone img {
+      max-width: 30px;
+  }
+  .logo-hone-center img {
+      max-height: 35px;
+  }
+  .menu-right {
+      padding: 5px 0;
+  }
+  .logo-hone-center {
+      height: 40px;
+  }
+  .user-in {
+      margin-right: 15px;
+  }
+  }
+  </style>
+        <header class="header-top-nav">
+           {% if not header_home_icon and header_user_profile_menu != 1  %}
+            <div class="top-nav " style = "padding-bottom : 33px; ">
+           {% else %}
+            <div class="top-nav " >
+           {% endif %} 
+            <div class="link-hone">
+              {% if header_home_icon %}
+                  <a href="{{header_home_icon}}"><img src="{{house_png}}" alt="logo"></a> 
+              {% endif %} 
+            </div>
+
+           {% if header_logo %}
+              <div class="logo-hone-center">
+                 {% set logo_url = ghoomo_logo %}
+                    {% if store_logo %}
+                        {% set logo_url = store_logo %}
+                    {% endif %} 
+                 <a href="{{header_logo}}"><img src="{{logo_url}}" alt="logo"></a>
+              </div>
+           {% endif %} 
+           <div class="menu-right">
+              {% if header_user_profile_menu %}
+             <div  class="user-in">
+                    <ul>
+                        {% if header_signin_url %}
+
+                        <li><a href="{{store_base_url}}{{header_signin_url}}">{{header_signin_label}}</a></li>
+                       {% endif %} 
+                        
+                        {% if header_signup_url %}
+                       
+                        <li><a href="{{store_base_url}}{{header_signup_url}}">{{header_signup_label}}</a></li>
+                        {% endif %} 
+                    </ul>
+               </div> 
+                {% endif %} 
+            </div>
+           </div>
+        </header>

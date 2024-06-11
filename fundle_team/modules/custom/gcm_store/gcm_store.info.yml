@@ -1,0 +1,6 @@
+name: 'GCM Store'
+type: module
+description: 'GCM Store Module'
+core: 8.x
+package: 'Fundle'
+configure: gcm_header.settings

@@ -1,0 +1,49 @@
+{#<header class="header-top-nav">
+    <div class="top-nav text-center">
+        <div class="container">
+            <div class="logo">
+                <a href="{{ front_page }}" title="{{ 'Home'|t }}" rel="home"><img src="{{ logo }}" alt="{{ 'Home'|t }}"></a>
+            </div>
+        </div>
+    </div>
+</header>#}
+
+{#<section class="sec1 text-center">
+    <div class="container">
+        {% if page.header_bottom %}
+            {{ page.header_bottom }}
+        {% endif %}
+        <div class="btn-row btn-gp20">
+            <a href="#" class="btn btn-primary">Sign up</a><a href="#" class="btn btn-primary">Login</a>
+        </div>
+    </div>
+</section>#}
+<section class="mall-listing tpa  ">
+    <div class="container">
+
+{% if is_front %}
+  {{ page.content.breadcrumbs }}
+  {{ page.content.page_title }}
+  {{ page.content.local_tasks }}
+  {{ page.content.help }}
+  {{ page.content.local_actions }}
+  {#{{ page.content.content }}#} < no content
+{% else %}
+  {{ page.content }}
+{% endif %}
+
+{% if page.footer_top %}
+    {{ page.footer_top }}
+{% endif %}
+
+{#<footer class="footer" style="color:#fff; text-align: center;">
+    {% if page.footer %}
+        {{ page.footer }}
+    {% endif %}
+
+
+    &copy; {{ "now"|date("Y") }} fundle.com - All Rights Reserved
+
+</footer>#}
+    </div>
+</section>

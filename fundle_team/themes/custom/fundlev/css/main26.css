@@ -1,0 +1,229 @@
+*:before, *:after{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+header:before, header:after, .clearfix:before, .clearfix:after, .dl-horizontal dd:before, .dl-horizontal dd:after, .container:before, .container:after, .container-fluid:before, .container-fluid:after, .container-1200:before, .container-1200:after, .row:before, .row:after, .form-horizontal .form-group:before, .form-horizontal .form-group:after, .btn-toolbar:before, .btn-toolbar:after, .btn-group-vertical>.btn-group:before, .btn-group-vertical>.btn-group:after, .nav:before, .nav:after, .navbar:before, .navbar:after, .navbar-header:before, .navbar-header:after, .navbar-collapse:before, .navbar-collapse:after, .pager:before, .pager:after, .panel-body:before, .panel-body:after, .modal-header:before, .modal-header:after, .modal-footer:before, .modal-footer:after{content:" ";display:table;}
+
+@font-face {
+    font-family: 'Galano Grotesque Black';
+    src: url('../fonts/GalanoGrotesque-Black.eot');
+    src: url('../fonts/GalanoGrotesque-Black.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/GalanoGrotesque-Black.woff2') format('woff2'),
+        url('../fonts/GalanoGrotesque-Black.woff') format('woff'),
+        url('../fonts/GalanoGrotesque-Black.ttf') format('truetype'),
+        url('../fonts/GalanoGrotesque-Black.svg#../fonts/GalanoGrotesque-Black') format('svg');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Galano Grotesque Bold';
+    src: url('../fonts/GalanoGrotesque-Bold.eot');
+    src: url('../fonts/GalanoGrotesque-Bold.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/GalanoGrotesque-Bold.woff2') format('woff2'),
+        url('../fonts/GalanoGrotesque-Bold.woff') format('woff'),
+        url('../fonts/GalanoGrotesque-Bold.ttf') format('truetype'),
+        url('../fonts/GalanoGrotesque-Bold.svg#../fonts/GalanoGrotesque-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Galano Grotesque ExtraBold';
+    src: url('../fonts/GalanoGrotesque-ExtraBold.eot');
+    src: url('../fonts/GalanoGrotesque-ExtraBold.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/GalanoGrotesque-ExtraBold.woff2') format('woff2'),
+        url('../fonts/GalanoGrotesque-ExtraBold.woff') format('woff'),
+        url('../fonts/GalanoGrotesque-ExtraBold.ttf') format('truetype'),
+        url('../fonts/GalanoGrotesque-ExtraBold.svg#../fonts/GalanoGrotesque-ExtraBold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Galano Grotesque Heavy';
+    src: url('../fonts/GalanoGrotesque-Heavy.eot');
+    src: url('../fonts/GalanoGrotesque-Heavy.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/GalanoGrotesque-Heavy.woff2') format('woff2'),
+        url('../fonts/GalanoGrotesque-Heavy.woff') format('woff'),
+        url('../fonts/GalanoGrotesque-Heavy.ttf') format('truetype'),
+        url('../fonts/GalanoGrotesque-Heavy.svg#../fonts/GalanoGrotesque-Heavy') format('svg');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Galano Grotesque Medium';
+    src: url('../fonts/GalanoGrotesque-Medium.eot');
+    src: url('../fonts/GalanoGrotesque-Medium.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/GalanoGrotesque-Medium.woff2') format('woff2'),
+        url('../fonts/GalanoGrotesque-Medium.woff') format('woff'),
+        url('../fonts/GalanoGrotesque-Medium.ttf') format('truetype'),
+        url('../fonts/GalanoGrotesque-Medium.svg#../fonts/GalanoGrotesque-Medium') format('svg');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Galano Grotesque';
+    src: url('../fonts/GalanoGrotesque-Regular.eot');
+    src: url('../fonts/GalanoGrotesque-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/GalanoGrotesque-Regular.woff2') format('woff2'),
+        url('../fonts/GalanoGrotesque-Regular.woff') format('woff'),
+        url('../fonts/GalanoGrotesque-Regular.ttf') format('truetype'),
+        url('../fonts/GalanoGrotesque-Regular.svg#../fonts/GalanoGrotesque-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+
+
+
+body{margin:0; color:#000000;   font-family: 'Galano Grotesque'; font-size:15px;outline:none;line-height:1.4;}
+ul{margin:0 0 30px 0;text-decoration:none;}
+ol{margin:0 0 30px 0}
+p{margin:0 0 30px 0;color:#000;}
+h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {font-family: 'Galano Grotesque Bold';}
+h1{line-height:1; margin:0 0 25px 0;text-transform:uppercase;}
+h2{font-size:32px;margin:0 0 10px 0;line-height:1; }
+h2 a {color:#01556F;}
+h3{font-size:36px;color:#fff;margin:0 0 20px 0;line-height:1.1;}
+h4{font-size:20px;margin:0 0 20px 0;line-height:1.1;}
+h5{font-size:18px;margin:0 0 5px 0;line-height:1;line-height:1.2;}
+h6{font-size:15px;margin:0 0 10px 0;line-height:1.1;}
+button{cursor:pointer;}
+form {    font-family: 'Verdana';}
+select {    font-family: 'Verdana';}
+input {    font-family: 'Verdana';}
+textarea {    font-family: 'Verdana';}
+a{color:#05aff2;cursor:pointer;color:#54bcfc;}
+a, a:hover, a:focus{text-decoration:none;}
+img{max-width:100%;vertical-align:middle;border:0;}
+.clear{clear:both}
+.btn{color:#ffffff;border-radius:5px;padding:15px 15px;display:inline-block;margin-bottom:0;text-align:center;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;white-space:nowrap;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;line-height:20px;font-size:20px;border:none;min-width:170px; font-family: 'Galano Grotesque Bold';}
+.btn-primary{background:#000000;border-color:#000000;color:#fff !important;}
+.btn-primary:hover{border-color:#fcbb6c;background-color:#fcbb6c;color:#000000 !important;}
+.btn-primary:visited:hover{border-color:#fcbb6c;background-color:#fcbb6c;color:#000000 !important;}
+.btn-primary:active:hover, .btn-primary.active:hover, .open>.dropdown-toggle.btn-primary:hover, .btn-primary:active:focus, .btn-primary.active:focus, .open>.dropdown-toggle.btn-primary:focus, .btn-primary:active.focus, .btn-primary.active.focus, .open>.dropdown-toggle.btn-primary.focus{border-color:#fcbb6c;background-color:#fcbb6c;color:#000000 !important;}
+.container{width:inherit;max-width:1240px; padding:0 20px; margin:0 auto;position:relative;}
+.text-center { text-align: center;}
+.btn-gp20 .btn-primary { margin: 0 20px;}
+.pb-10{padding-bottom:10px !important;}
+.pb-15{padding-bottom:15px !important;}
+.pb-20{padding-bottom:20px !important;}
+.pb-25{padding-bottom:25px !important;}
+.pb-30{padding-bottom:30px !important;}
+.pt-10{padding-top:10px !important;}
+.pt-15{padding-top:15px !important;}
+.pt-20{padding-top:20px !important;}
+.pt-25{padding-top:25px !important;}
+.pt-30{padding-top:30px !important;}
+.flex-wrap {  -webkit-flex-wrap: wrap;  -ms-flex-wrap: wrap;  flex-wrap: wrap;}
+.row{ width: 100%;  display: -webkit-box;  display: -webkit-flex; display: -ms-flexbox; display: flex; }
+.column { position: relative;  min-height: 1px; display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; }
+.column-middle{ align-content: center;   align-items: center;}
+.text-1 { font-size: 22px;  font-family: 'Galano Grotesque Medium';}
+
+.top-border { border-top: 2px solid #707070; max-width: 250px;  margin: 0 auto 35px auto;}
+.column-25 { width: 25%;}
+.column-50 { width: 50%;}
+.row-20 { margin: 0 -20px;     width: auto;}
+.column-p20 { padding: 0 20px;}
+
+/* Header CSS Start */
+
+.top-nav{padding:30px 0; border-bottom:2px solid #707070; position:relative;}
+.logo img { max-width:130px;}
+/* Header CSS  END*/
+
+/* Footer CSS Start */
+
+.footer { background: #000000;padding: 20px 0;}
+
+/* Footer CSS  END*/
+
+
+/* Section 1 CSS Start */
+.sec1 { padding: 35px 0;  border-bottom:2px solid #E6E7E8; }
+.icon-box {height: 100%; width: 100%;  }
+.icon-box .text-1 { padding: 15px 0 0 0}
+.icon-box  img { max-width: 82px;}
+.icon-box a { color:#000;}
+.icon-box-section { padding: 35px 0;}
+.text-2 { font-size: 18px;     color: #000;}
+/* Section 1 CSS  END*/
+.text-3 { font-size: 20px; color:#707070;}
+.icon-box-left { display: table; vertical-align: middle; border: 1px solid #F7941D; border-radius:5px; padding: 5px 20px; margin: 15px 0;     height: auto;}
+.icon-box-left a { display: table; vertical-align: middle;}
+.icon-box-left div  {display: table-cell; vertical-align: middle; height: 88px; }
+.icon-box-left .icon-left {width: 60px;}
+.icon-box.icon-box-left .text-1 {padding: 0;    font-size: 20px;     line-height: 1.2;}
+.icon-left {padding: 0 20px 0 0;}
+.icon-box-left img { width: 40px; max-width: inherit;}
+.icon-box.icon-box-left .text-1 span { display: block; font-size: 16px;}
+.padd-0 { padding:0 !important;}
+.copytight { font-size: 15px; color:#fff;}
+
+.banner-col-50 { max-width: 50%;}
+
+
+
+
+
+@media( min-width:1024px ){#menu-button{display:none}
+.nav-mobile{display:none}
+
+ }
+
+@media( max-width:1023px ){
+h2 { font-size: 30px;}
+h4{font-size:19px;}
+h5{font-size:16px;}
+.text-1 { font-size: 22px;}
+
+/* Header CSS Start */
+
+.top-nav{padding:25px 0;}
+
+
+/* Section 1 CSS Start */
+
+.icon-box-section { padding: 30px 0;}
+.icon-box-section .column-25 {}
+.text-2 { font-size: 17px;}
+/* Section 1 CSS  END*/
+.text-3 { font-size: 19px;}
+.icon-box-left { padding: 20px;}
+.footer {padding: 20px 0;}
+}
+
+
+@media( max-width:767px ){
+h2 { font-size: 24px;}
+h4{font-size:19px;}
+h5{font-size:16px;}
+.icon-box-section .column-25 { width: 50%;}
+.icon-box { padding: 20px 0;}
+.icon-box-section { padding: 10px 0;}
+.sec1 { padding: 30px 0;}
+.btn { min-width: 130px}
+.btn-gp20 .btn-primary {margin: 0 10px;}
+.btn img { max-width: 110px;}
+.text-2 { font-size: 16px;}
+/* Section 1 CSS  END*/
+.text-3 { font-size: 18px;}
+.icon-box-left { padding: 20px; margin: 10px 0;}
+.column-50 { width: 100%;}
+.footer {padding: 15px 0;}
+}
+
+
+
+
+
+

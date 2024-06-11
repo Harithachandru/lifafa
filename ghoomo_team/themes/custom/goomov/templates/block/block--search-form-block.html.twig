@@ -1,0 +1,10 @@
+{# empty Twig template #}
+
+{#  {{ title_prefix }}
+  {% if label %}
+    {{ label }}
+  {% endif %}
+  {{ title_suffix }}#}
+  {% block content %}
+    {{ content|raw }}
+  {% endblock %}

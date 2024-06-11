@@ -1,0 +1,373 @@
+<?php
+
+use Drupal\Core\Site\Settings;
+use Drupal\Core\Access\CsrfTokenGenerator;
+use Drupal\Core\Session\AccountProxy;
+use Drupal\Core\Session\SessionManagerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\node\Entity\Node;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+
+
+function goomov_theme_suggestions_page_alter(array &$suggestions, array $variables)
+{
+    // Add content type suggestions.
+    if ($node = \Drupal::request()->attributes->get('node')) {
+        // Check if the node type is a specific content type (e.g., 'customer_store').
+        if ($node->getType() == 'customer_store') {
+            $suggestions[] = 'page__' . $node->bundle();
+        }
+    }
+}
+function goomov_preprocess_page(&$variables)
+{
+    \Drupal::service('page_cache_kill_switch')->trigger();
+    global $base_url;
+
+    $variables['logopath'] = '/' . drupal_get_path('theme', 'goomov') . '/images/Ghoomo_Logo.png';
+    $theme = \Drupal::theme()->getActiveTheme()->getName();
+    $is_front = \Drupal::service('path.matcher')->isFrontPage();
+    $isLoggedOut = \Drupal::request()->query->get('isLoggedOut');
+    if (isset($isLoggedOut)) {
+       // \Drupal::logger('goomov')->info("isLoggedout");
+        $currentUrlWithoutParameter = strtok($_SERVER["REQUEST_URI"], '?');
+        //    echo "<script>history.pushState(null, '', '$currentUrlWithoutParameter');</script>";
+        unset($_COOKIE['storeid']);
+        setcookie('storeid', '', time() - 3600, '/');
+    }
+
+    //Check Ghoomo User is Already Logged in Or not
+    $isNotLoggedIn = \Drupal::request()->query->get('isNotLoggedIn');
+
+    $isLoad = \Drupal::request()->query->get('isLoad');
+
+    // get the current URL without query parameters
+    $currentUrlWithoutParameter = strtok($_SERVER["REQUEST_URI"], '?');
+    if ($isNotLoggedIn || $isLoad)
+        echo "<script>history.pushState(null, '', '$currentUrlWithoutParameter');</script>";
+
+    $isCookiesStoreId = '';
+    $points = 0;
+    if (!$isNotLoggedIn && $is_front  && !$isLoad) {
+        $isCookiesData = checkUserIsAlreadyLoggedInOrNot();
+        $isCookiesStoreId = isset($isCookiesData['isCookiesStoreId']) ? $isCookiesData['isCookiesStoreId'] : '';
+        $points = isset($isCookiesData['points']) ? $isCookiesData['points'] : '';
+        $isCookiescompanyTerminalId = isset($isCookiesData['isCookiescompanyTerminalId']) ? $isCookiesData['isCookiescompanyTerminalId'] : '';
+
+        $indexPage = "$_SERVER[HTTP_HOST]/";
+        $fullUrl = "$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $parsedUrl = parse_url($fullUrl);
+        $fullUrl = $parsedUrl['host'] . $parsedUrl['path'];
+        if($indexPage == $fullUrl)
+        {
+            $countrycode = isset($_COOKIE['countrycode']) ? $_COOKIE['countrycode'] : '';
+            if($countrycode)
+            {
+                $redirectionLink = "https://$_SERVER[HTTP_HOST]/".$countrycode."?isLoad=1";
+
+                header("Location: ".$redirectionLink);
+                exit;
+            }
+            
+        }
+
+    }
+    $storeId = isset($_COOKIE['storeid']) ? $_COOKIE['storeid'] : $isCookiesStoreId;
+    $variables['storeId'] = $storeId;
+    $variables['available_point'] = $points;
+
+    $request = \Drupal::request();
+    $current_path = $request->getPathInfo();
+    $path_args = explode('/', $current_path);
+    $store = $path_args[1];
+    $variables['store'] = $store;
+
+    if ($node = \Drupal::request()->attributes->get('node')) {
+        if ($node->getType() == 'customer_store') {
+            $bannerId = $node->field_store_logo->target_id;
+            $store_logo = '';
+            if (!empty($bannerId)) {
+                $store_logo = getFileUrl($bannerId);
+            }
+            $variables['store_logo'] = $store_logo;
+            $variables['store_id'] = $node->field_store_id->value;
+            $variables['external_url'] = $node->field_external_url->value;
+            $variables['heading'] = $node->field_heading->value;
+            $variables['body'] = $node->body->value;
+            $request = \Drupal::request();
+            $cookies = $request->cookies;
+            // Retrieve the value of the 'auth_token' cookie.
+            $idToken = $cookies->get('Auth_Token');
+            $variables['logged_in'] = $idToken;
+            $userdata = getauthToken();
+            $storeId = $userdata['storeId'];
+            $variables['token_storeid'] = $storeId;
+            // \Drupal::logger('goomov')->info($storeId);
+
+        }
+    }
+}
+
+
+function goomov_preprocess_node(&$variables)
+{
+    if ($node = \Drupal::request()->attributes->get('node')) {
+        if ($node->getType() == 'our_products') {
+            $variables['store_id'] = $node->field_store_id->value;
+            $request = \Drupal::request();
+            $cookies = $request->cookies;
+            // Retrieve the value of the 'storeId' cookie.
+            $storeId = $cookies->get('storeid');
+            // $storeId = $_COOKIE['storeid'] ?? '';
+            $variables['storeId'] = $storeId;
+            $idToken = $cookies->get('Auth_Token');
+            $variables['logged_in'] = $idToken;
+        }
+    }
+    if ($node = \Drupal::request()->attributes->get('node')) {
+        if ($node->getType() == 'header_content') {
+            $variables['store_id'] = $node->field_store_id->value;
+            $request = \Drupal::request();
+            $cookies = $request->cookies;
+            // Retrieve the value of the 'storeId' cookie.
+            $storeId = $cookies->get('storeid');
+            // $storeId = $_COOKIE['storeid'] ?? '';
+            $variables['storeId'] = $storeId;
+        }
+    }
+}
+function goomov_preprocess(array &$variables, $hook)
+{
+    global $base_url;
+    $variables['base_url'] = $base_url;
+    $variables['base_path'] = base_path();
+    $variables['store_base_url'] = getStoreUrl();
+    $variables['theme_path'] = '/' . drupal_get_path('theme', 'goomov');
+    //  $variables['loggedin'] = \Drupal::currentUser()->isAuthenticated();  
+    $request = \Drupal::request();
+    $cookies = $request->cookies;
+    $cookies_storeId = $cookies->get('storeid');
+    $userdata = getauthToken();
+    $token_storeId = $userdata['storeId'];
+    $storeId = '';
+    if (!empty($cookies_storeId)) {
+        $storeId = $cookies_storeId;
+    } else {
+        $storeId = $token_storeId;
+    }
+
+    //Header block content
+    $headerData = getLoggedHeaderBlockContent($storeId);
+    $variables['header_block_data'] = $headerData;
+
+    //   $nonlogged_headerData = getNonLoggedHeaderBlockContent($storeId);
+    //    $variables['nonlogged_header_block_data'] = $nonlogged_headerData;  
+
+    if ($node_type = \Drupal::entityTypeManager()->getStorage('node_type')->load('customer_store')) {
+        $query = \Drupal::entityQuery('node')
+            ->condition('type', 'customer_store')
+            ->execute();
+        $store_name = '';
+        foreach ($query as $node_id) {
+            $node = \Drupal\node\Entity\Node::load($node_id);
+            $field_store_id = $node->field_store_id->value;
+            if ($storeId == $field_store_id) {
+                if ($node->hasField('field_link_header')) {
+                    $store_references = $node->get('field_link_header')->referencedEntities();
+                    foreach ($store_references as $store_reference) {
+                        $store_name = $store_reference->label();
+                    }
+                }
+            }
+            $variables['store_name'] = $store_name;
+        }
+    }
+}
+
+function goomov_preprocess_image(&$variables)
+{
+    if (isset($variables['attributes']['width'])) {
+        unset($variables['attributes']['width']);
+    }
+    if (isset($variables['attributes']['height'])) {
+        unset($variables['attributes']['height']);
+    }
+    if (isset($variables['attributes']['typeof'])) {
+        unset($variables['attributes']['typeof']);
+    }
+}
+
+function goomov_preprocess_html(&$variables)
+{
+    $variables['environment'] = getenv('APP_ENV');
+    if (!empty($feviconUrl)) {
+        $variables['page']['#attached']['html_head_link'][1] = $variables['page']['#attached']['html_head_link'][0];
+        unset($variables['page']['#attached']['html_head_link']);
+        $icon = [
+            '#tag' => 'link',
+            '#attributes' => [
+                'rel' => 'shortcut icon',
+                'href' => $feviconUrl,
+
+                'sizes' => '52x52',
+                'type' => "image/png",
+            ],
+        ];
+        $variables['#attached']['html_head'][0] = [$icon, 'icon52x52'];
+    }
+    if ($node = \Drupal::request()->attributes->get('node')) {
+        if ($node->getType() == 'customer_store') {
+            $bannerId = $node->field_store_fevicon->target_id;
+            if (!empty($bannerId)) {
+                $file = \Drupal\file\Entity\File::load($bannerId);
+                $path = $file->getFileUri();
+                $feviconUrl = \Drupal\Core\Url::fromUri(file_create_url($path), [
+                    'https' =>
+                    !empty(getenv('APP_ENV')) ? true : false
+                ])->toString();
+
+                if (!empty($feviconUrl)) {
+                    $variables['page']['#attached']['html_head_link'][1] = $variables['page']['#attached']['html_head_link'][0];
+                    unset($variables['page']['#attached']['html_head_link']);
+                    $icon = [
+                        '#tag' => 'link',
+                        '#attributes' => [
+                            'rel' => 'shortcut icon',
+                            'href' => $feviconUrl,
+
+                            'sizes' => '52x52',
+                            'type' => "image/png",
+                        ],
+                    ];
+                    $variables['#attached']['html_head'][0] = [$icon, 'icon52x52'];
+                }
+            }
+        }
+    }
+    $current_url = \Drupal::request()->getUri();
+    if (strpos($current_url, 'http://') !== false) {
+        $current_url = str_replace('http://', 'https://', $current_url);
+    }
+    foreach ($variables['page']['#attached']['html_head'] as $key => $element) {
+        if (isset($element[0]['#tag']) && $element[0]['#tag'] === 'link' && isset($element[0]['#attributes']['rel']) && $element[0]['#attributes']['rel'] === 'canonical') {
+            unset($variables['page']['#attached']['html_head'][$key]);
+            break;
+        }
+    }
+    // Add the current URL as the canonical tag.
+    $variables['page']['#attached']['html_head'][] = [
+        [
+            '#tag' => 'link',
+            '#attributes' => [
+                'rel' => 'canonical',
+                'href' => $current_url,
+            ],
+        ],
+        'goomov_canonical_link',
+    ];
+}
+function checkUserIsAlreadyLoggedInOrNot()
+{
+    $isCookiesStoreId = '';
+    $domainRecord = '';
+    $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $path_args = explode('/', $path);
+    if (isset($path_args[1]) && !empty($path_args[1])) {
+        $domainRecord = $path_args[1];
+    }
+
+    // Store the country code in a cookie
+    $countryCode = !empty($domainRecord) ? $domainRecord : 'in';
+    setcookie('countrycode', $countryCode, time() + 3600, "/");
+
+    // Getting parameter values from config file
+    $lauthUrl = \Drupal::config('goomo_user.goomouser')->get('lauth_url');
+
+    // Replace the placeholder in the lauth URL with the country code
+    $lauthUrlCountyCode = str_replace('countryCode', $countryCode, $lauthUrl);
+    $clientId = \Drupal::config('goomo_user.goomouser')->get('client_id');
+    $redirectUri = \Drupal::config('goomo_user.goomouser')->get('redirect_uri');
+    $getTokenUrl = \Drupal::config('goomo_user.goomouser')->get('get_token_url');
+    // get the current URL without query parameters
+    $currentUrlWithoutParameter = strtok($_SERVER["REQUEST_URI"], '?');
+    //Check already cookies set or not
+    $storeId = isset($_COOKIE['storeid']) ? $_COOKIE['storeid'] : 0;
+    unset($_COOKIE['storeid']);
+    setcookie('storeid', '', time() - 3600, '/');
+    unset($_COOKIE['Auth_Token']);
+    setcookie('Auth_Token', '', time() - 3600, '/');
+    unset($_COOKIE['External_Auth_Token']);
+    setcookie('External_Auth_Token', '', time() - 3600, '/');
+    $code = \Drupal::request()->query->get('code');
+    if (!$code) {
+        $response = new RedirectResponse($lauthUrlCountyCode);
+        $response->send();
+        return;
+    }
+
+    if ($code) {
+        $storeData = [];
+        // Define the dynamic values as variables
+        $grantType = "authorization_code";
+
+        $data = http_build_query(array(
+            'code' => $code,
+            'grant_type' => $grantType,
+            'client_id' => $clientId,
+            'redirect_uri' => $redirectUri
+        ));
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $getTokenUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+        $headers = array();
+        $headers[] = 'Accept: */*';
+        $headers[] = 'Content-Type: application/x-www-form-urlencoded';
+        $headers[] = 'Connection: keep-alive';
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $result = curl_exec($ch);
+
+        if ($result) {
+            $resultDecoded = json_decode($result);
+
+            $accessToken = isset($resultDecoded->access_token) ? $resultDecoded->access_token : '';
+            $expiresIn = isset($resultDecoded->expires_in) ? $resultDecoded->expires_in : '';
+            \Drupal::logger('goomov')->info($accessToken);
+            if ($accessToken) {
+                $tokenArray = explode(".", $accessToken);
+                $parsedJwt = base64_decode(str_pad(strtr($tokenArray[1], '-_', '+/'), strlen($tokenArray[1]) % 4, '=', STR_PAD_RIGHT));
+                $userDetailsArray = json_decode($parsedJwt, true);
+
+                if (isset($userDetailsArray['storeTerminalId'])) {
+
+                    $storeTerminalId = strtolower($userDetailsArray['storeTerminalId']);
+                    $companyTerminalId = strtolower($userDetailsArray['companyTerminalId']);
+                    $userid = strtoupper($userDetailsArray['preferred_username']);
+                    $userCurrentPointDetails = getCurrentPoints();
+                    $points = 0;
+                    if (count($userCurrentPointDetails)) {
+                        $available_points = isset($userCurrentPointDetails['data'][0]->availablePoints) ? $userCurrentPointDetails['data'][0]->availablePoints : 0;
+                        $points = (string) $available_points;
+                    }
+                    setcookie('storeid', $storeTerminalId, time() + 3600, "/");
+                    $storeData['isCookiesStoreId'] = $storeTerminalId;
+                    $storeData['isCookiescompanyTerminalId'] = $companyTerminalId;
+                    $storeData['isCookiesuserId'] = $userid;
+                    $storeData['points'] = $points;
+                }
+            }
+        }
+
+        curl_close($ch);
+
+        //Update the URL without query parameters
+        echo "<script>history.pushState(null, '', '$currentUrlWithoutParameter');</script>";
+
+        return $storeData;
+    }
+}

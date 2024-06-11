@@ -1,0 +1,160 @@
+
+fundle_store.fundle_store_controller_getStore:
+  path: '/store/redirect'
+  defaults:
+    _controller: '\Drupal\fundle_store\Controller\FundleStoreController::getStore'
+    _title: 'Store Home Page'
+  requirements:
+    _permission: 'access content'
+  options:
+     no_cache: TRUE
+      
+fundle_store.fundle_store_controller_storeHomePage:
+  path: '/mall/{store_id}/{mall_id}/home'
+  defaults:
+    _controller: '\Drupal\fundle_store\Controller\FundleStoreController::storeHomePage'
+    _title: 'Store Home Page'
+  requirements:
+    _permission: 'access content'
+  options:
+     no_cache: TRUE
+     
+fundle_store.fundle_store_controller_storePark:
+  path: '/mall/{store_id}/{mall_id}/park'
+  defaults:
+    _controller: '\Drupal\fundle_store\Controller\FundleStoreController::parkHomePage'
+    _title: 'Park'
+  requirements:
+    _permission: 'access content'
+  options:
+     no_cache: TRUE
+     
+fundle_store.fundle_store_controller_storeBook:
+  path: '/mall/{store_id}/{mall_id}/book'
+  defaults:
+    _controller: '\Drupal\fundle_store\Controller\FundleStoreController::bookHomePage'
+    _title: 'Book'
+  requirements:
+    _permission: 'access content'
+  options:
+     no_cache: TRUE
+     
+fundle_store.fundle_store_controller_storeShop:
+  path: '/mall/{store_id}/{mall_id}/shop'
+  defaults:
+    _controller: '\Drupal\fundle_store\Controller\FundleStoreController::shopHomePage'
+    _title: 'Book'
+  requirements:
+    _permission: 'access content'
+  options:
+     no_cache: TRUE
+     
+fundle_store.fundle_store_controller_storeEat:
+  path: '/mall/{store_id}/{mall_id}/eat'
+  defaults:
+    _controller: '\Drupal\fundle_store\Controller\FundleStoreController::eatHomePage'
+    _title: 'Eat'
+  requirements:
+    _permission: 'access content'
+  options:
+     no_cache: TRUE
+
+fundle_store.fundle_store_controller_welcomePageBanner:
+  path: '/mall/{store_id}/welcome-page-banner'
+  defaults:
+    _controller: '\Drupal\fundle_store\Controller\FundleStoreController::welcomePageBanner'
+    _title: 'Welcome fundle'
+  requirements:
+    _permission: 'access content'
+  options:
+     no_cache: TRUE     
+     
+#fundle_store.top_deals_controller_getAllTopDeals:
+#  path: '/mall/{store_id}/{mall_id}/topdeals'
+#  defaults:
+#    _controller: '\Drupal\fundle_store\Controller\TopDealsController::getAllTopDeals'
+#    _title: 'Top Deals'
+#  requirements:
+#    _permission: 'access content'
+#  options:
+#     no_cache: TRUE
+     
+#fundle_store.top_deals_controller_getAllTopDeals:
+#  path: '/mall/{store_id}/{mall_id}/topdeals/{filterByCategory}'
+#  defaults:
+#    _controller: '\Drupal\fundle_store\Controller\TopDealsController::getAllTopDeals'
+#    _title: 'Top Deals'
+#  requirements:
+#    _permission: 'access content'
+#  options:
+#     no_cache: TRUE     
+#lifafa_store.lifafa_store_controller_pageNotFound:
+#  path: '/store/%/page-not-found'
+#  defaults:
+#    _controller: '\Drupal\lifafa_store\Controller\LifafaStoreController::pageNotFound'
+#    _title: '404 Page Not Found'
+#  requirements:
+#    _permission: 'access content'
+#  options:
+#     no_cache: TRUE  
+#lifafa_store.lifafa_store_controller_getStoreTerminalLogo:
+#  path: '/storelogo/{id}'
+#  defaults:
+#    _controller: '\Drupal\lifafa_store\Controller\LifafaStoreController::getStoreTerminalLogo'
+#    _title: '404 Page Not Found'
+#  requirements:
+#    _permission: 'access content'   
+#  options:
+#     no_cache: TRUE  
+#lifafa_store.lifafa_store_controller_sendPerksClaimEmail:
+#  path: '/semdEmailToCustomer'
+#  defaults:
+#    _controller: '\Drupal\lifafa_store\Controller\LifafaStoreController::sendPerksClaimEmail'
+#    _title: 'Claim Now'
+#  requirements:
+#    _permission: 'access content'
+# 
+#lifafa_store.wellbeing_controller_detailPage:
+#  path: 'rewards-marketplace/{id}'
+#  defaults:
+#    _controller: '\Drupal\lifafa_store\Controller\WellbeingController::detailPage'
+#    _title: 'Wellbeing'
+#  requirements:
+#    _permission: 'access content'
+#    
+#    
+#lifafa_store.wellbeing_controller_request_booking:
+#  path: 'request-booking/{id}'
+#  defaults:
+#    _controller: '\Drupal\lifafa_store\Controller\WellbeingController::requestBooking'
+#    _title: 'Wellbeing'
+#  requirements:
+#    _permission: 'access content'
+#    
+#    
+#lifafa_store.wellbeing_controller_request_insurance_plan:
+#  path: 'store/insurance-lead/{id}'
+#  defaults:
+#    _controller: '\Drupal\lifafa_store\Controller\WellbeingController::requestInsurancePlan'
+#    _title: 'Wellbeing'
+#  requirements:
+#    _permission: 'access content'    
+#
+#lifafa_store.lifafa_store_controller_setStoreLogout:
+#  path: '/storeLogout'
+#  defaults:
+#    _controller: '\Drupal\lifafa_store\Controller\LifafaStoreController::setStoreLogout'
+#    _title: 'Store Home Page'
+#  requirements:
+#    _permission: 'access content'
+#
+#lifafa_store.lifafa_store_controller_invalidStore:
+#  path: '/store/logoutpage/{id}'
+#  defaults:
+#    _controller: '\Drupal\lifafa_store\Controller\LifafaStoreController::invalidStore'
+#    _title: 'Store Home Page'
+#  requirements:
+#    _permission: 'access content'    
+#  options:
+#     no_cache: TRUE  
+    

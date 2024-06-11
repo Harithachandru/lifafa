@@ -1,0 +1,19 @@
+{% include theme_path ~ "/templates/layout/header.html.twig" %}
+
+<section class="sec1 text-center"> 
+    <div class="container">
+    <h2>{{ field_heading | raw}}</h2>
+    <div class="icon-box-section">
+    <div class="column column-25 column-p20">
+        <div class="icon-box text-center">
+    <a href="{{ external_url | raw}}" >
+      {{ body | raw}}
+    </a>
+    </div>
+   </div>
+    </div>
+    </div>
+    </section>
+
+
+{% include theme_path ~ "/templates/layout/footer.html.twig" %}

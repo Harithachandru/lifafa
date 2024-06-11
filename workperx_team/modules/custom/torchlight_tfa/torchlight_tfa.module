@@ -1,0 +1,229 @@
+<?php
+
+/**
+ * @file
+ * This is my module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Drupal\user\Entity\User;
+use Drupal\Component\Utility\Crypt;
+use Drupal\user\UserInterface;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\CloseModalDialogCommand;
+use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Drupal\Core\Ajax\ReplaceCommand;
+use Drupal\Core\Ajax\PrependCommand;
+use Drupal\Core\Url;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
+use Drupal\Core\Form\FormBuilder;
+
+/**
+ * Implements hook_form_alter().
+ */
+function torchlight_tfa_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id == 'user_login_form') {
+    \Drupal::request()->query->remove('destination');
+    $form['#submit2'][1] = $form['#submit'][0];
+    $form['#submit'][0] = 'torchlight_tfa_login_submit';
+/*    $form['actions']['submit']['#ajax'] = [
+        'callback' => 'torchlight_tfa_login_submit',
+        'event' => 'click',         
+    ];*/
+    $form['#prefix'] = '<div id="loginformWrapper">';
+    $form['#suffix'] = '</div>';
+  }
+}
+
+function torchlight_tfa_login_submit(&$form, FormStateInterface $form_state){
+  \Drupal::destination()->set(NULL);
+  $account = User::load($form_state->get('uid'));
+  if($account instanceof \Drupal\user\UserInterface) {
+    $otp = rand(100000,999999);
+    $userEmail = $account->getEmail();
+    $parts = explode('@', $userEmail);
+    //$parts[0] = str_repeat("*", strlen($parts[0]));
+    $str_length = strlen($parts[0]);
+    $parts[0] = substr($parts[0], 0, 3).str_repeat('*', $str_length - 2).substr($parts[0], $str_length - 1, 2);
+
+    $hiddenEmail = implode('@', $parts);
+
+    $config = \Drupal::config('system.site');
+    $siteName = $config->get('name');
+    $from = $config->get('mail');
+    $to = $userEmail;
+    $params['subject'] = 'Someone is trying to login to "'.$siteName.'" as you';
+    $params['from'] = $from;
+    // if (strpos($userEmail, '.site') !== false) {
+    //   $to = 'contact@torchlightadvisors.co.uk';
+    //   $params['subject'] = 'Blocked user '.$userEmail.' is trying to login to torchlightadvisors.co.uk.com';
+    // }
+    
+    
+    
+    
+    $body = '<p style="color: #2672ec; font-size:40px;">Account Login Code</p>
+ 
+     <p style="font-size:16px;">Your validation token is: <b style="font-size: 20px;">'.$otp.'.</b> Please note, this token can only be used one time.</p>
+     <p></p>
+     <p></p>
+     <p style="font-size:16px;">Contact us immediately, if this is not you.</p>
+     <p></p>
+     <p></p>
+
+     <p style="font-size:16px;">Thanks,</p>
+
+     <p style="font-size:16px;">'.$siteName.' Admin</p>';
+
+    $params['body'] = $body;      
+    $params['headers'] = array(
+    'content-type' => 'text/html',
+    'MIME-Version' => '1.0',
+    'from' =>  $siteName.'<'.$from.'>'
+    );
+    $langcode = \Drupal::currentUser()->getPreferredLangcode();
+    $mailManager = \Drupal::service('plugin.manager.mail');
+    $result = $mailManager->mail('torchlight_tfa', 'otp_verification', $to, $langcode, $params, NULL, TRUE);
+
+    if ($result['result'] != true) {
+      $message = t('There was a problem in sending email please contact to administrator.');
+      drupal_set_message($message, 'error');
+      \Drupal::logger('mail-log')->error($message);
+    }
+    $session = \Drupal::service('session');
+    $session->set('tfa_otp', $otp);
+    $session->set('tfa_account', $account);
+    
+    $form_state->setRedirect('torchlight_tfa.otp_verification_form');
+    return;
+  } 
+}
+
+function torchlight_tfa_login_submit2(&$form, FormStateInterface $form_state){
+  $response = new AjaxResponse();
+    $session = \Drupal::service('session');
+    $session->set('email_sent', FALSE);
+    if ($form_state->hasAnyErrors()) {
+        $response->addCommand(new ReplaceCommand('#loginformWrapper', $form));
+        $status_messages = array('#type' => 'status_messages', );
+        $messages = \Drupal::service('renderer')->renderRoot($status_messages);
+        if (!empty($messages)) {
+          $response->addCommand(new PrependCommand('#loginformWrapper', $messages));
+        }
+    } else {  
+      $account = User::load($form_state->get('uid'));
+
+      if($account instanceof \Drupal\user\UserInterface) {
+          $otp = rand(100000,999999);
+          $userEmail = $account->getEmail();
+
+          $parts = explode('@', $userEmail);
+          $parts[0] = str_repeat("*", strlen($parts[0]));
+          $hiddenEmail = implode('@', $parts);
+
+          $config = \Drupal::config('system.site');
+          $siteName = $config->get('name');
+          $from = $config->get('mail');
+          $to = '';
+          $params['subject'] = $siteName.' account login OTP';
+          $params['from'] = $from;
+          
+          $body = '<p style="color: #2672ec; font-size:40px;">Account Login Code</p>
+
+           <p></p>
+
+           <p>Please use this code to login for the '.$siteName.' account '.$hiddenEmail.'.</p>
+
+           <p></p>
+
+           <p>Here is your OTP: '.$otp.'</p>
+
+           <p></p>
+           <p></p>
+
+           <p>Thanks,</p>
+
+           <p>Team '.$siteName.'</p>
+           ';
+
+          $params['body'] = $body;      
+          $params['headers'] = array(
+          'content-type' => 'text/html',
+          'MIME-Version' => '1.0',
+          'reply-to' => $from,
+          'from' =>  $siteName.'<'.$from.'>'
+          );
+          $email_sent = $session->get('email_sent');
+          if(!$email_sent) {
+            $langcode = \Drupal::currentUser()->getPreferredLangcode();
+            $mailManager = \Drupal::service('plugin.manager.mail');
+            $result = $mailManager->mail('torchlight_tfa', 'otp_verification', $to, $langcode, $params, NULL, TRUE);
+
+            if ($result['result'] != true) {
+              $message = t('There was a problem in sending email please contact to administrator.');
+              drupal_set_message($message, 'error');
+              \Drupal::logger('mail-log')->error($message);
+            }
+
+            $session->set('tfa_otp', $otp);
+            $session->set('tfa_account', $account);
+            $session->set('email_sent', TRUE);
+          }
+            
+          $options = [
+            'dialogClass' => 'otp-verification-popup',
+          ];
+          $data = [
+            'otp' => $otp,
+            'uid' => $account->id(),
+          ];
+
+          // Get the modal form using the form builder.
+          $modal_form = \Drupal::formBuilder()->getForm('Drupal\torchlight_tfa\Form\OtpVerification', $data);
+          $response->addCommand(new OpenModalDialogCommand('Verify your email', $modal_form, $options));
+
+      }else {
+        $status_messages = array('#type' => 'status_messages', );
+        $messages = \Drupal::service('renderer')->renderRoot($status_messages);
+        if (!empty($messages)) {
+          $response->addCommand(new PrependCommand('#loginformWrapper', $messages));
+        }
+        $response->addCommand(new ReplaceCommand('#loginformWrapper', $form));
+      }
+  }
+  return $response;
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function torchlight_tfa_page_attachments(array &$attachments) {
+    $attachments['#attached']['library'][] = 'core/jquery';
+    $attachments['#attached']['library'][] = 'core/drupal.dialog.ajax';
+}
+
+/**
+* Implements hook_mail().
+*/
+function torchlight_tfa_mail($key, &$message, $params) {
+   $options = array(
+     'langcode' => $message['langcode'],
+   );
+   $message['from'] = $params['from'];
+   $message['subject'] = t($params['subject'], $options);
+   $message['body'][] = $params['body'];
+   if(isset($params['headers'])) {
+      $message['headers'] += $params['headers'];
+   }
+}
+
+function torchlight_tfa_preprocess(&$variables) {
+    if(!empty($_SESSION)){
+      
+      
+       // echo $_SESSION;
+        //print_r($_SESSION['idToken']);
+    }
+}

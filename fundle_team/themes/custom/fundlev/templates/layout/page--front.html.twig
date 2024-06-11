@@ -1,0 +1,76 @@
+<header class="web header-top-nav">
+         <div class="top-nav ">
+            <div class="container" style="max-width: 1250px;">
+               <div class="logo">
+                   <a href="{{ front_page }}" title="{{ 'Home'|t }}" rel="home"><img src="{{ base_path ~ directory }}/images/Logo-newfundle.png" alt="{{ 'Home'|t }}"></a>
+               </div>
+            </div>
+         </div>
+      </header>
+
+{% if is_front %}
+
+        <section class="banner-slider web-banner">
+
+
+            {% if page.header_bottom %}
+                {{ page.header_bottom }}
+            {% endif %}
+
+
+
+    </section>
+{% endif %}
+             <section class="web sec2 text-center top-deal">
+			           <div class="container" style="max-width: 1250px;">
+					     {% if page.featured %}
+                      {{ page.featured }}
+                       {% endif %}
+					 </div>
+			  		</section>
+
+
+
+{% if page.front_content %}
+    {{ page.front_content }}
+{% endif %}
+
+
+<section class="web sec5 top-deal">
+    {{ page.discover_offers }}
+    
+<div class="how-earn">
+            <div class="redemption-tab">
+               <div class="set ">
+                  <a class="tab-link">
+                  <h5 class="text">How much can you earn</h5>
+                     <span class="a-icon"></span>
+                  </a>
+                  <div class="tab-content pt-10" style="display: none;">
+                    <div class="container" style="max-width: 1250px;">
+                {{ page.how_much_earn }}
+               </div>
+               </div>
+            </div>
+            </div>
+</div>
+</section>
+
+
+{# {% if page.content %}
+    {{ page.content }}
+{% endif %} #}
+
+{% if page.footer_top %}
+    {{ page.footer_top }}
+{% endif %}
+ <footer class="footer" style="color:#fff; text-align: center;" >
+
+
+    &copy; {{ "now"|date("Y") }} fundle.in - All Rights Reserved
+    <div class="foter-menu text-center">
+     {% if page.footer %}
+        {{ page.footer }}
+    {% endif %}
+    </div>
+ </footer>

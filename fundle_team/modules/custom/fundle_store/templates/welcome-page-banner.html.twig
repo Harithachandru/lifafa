@@ -1,0 +1,59 @@
+{# empty Twig template #}
+{#{{drupal_dump(content)}}#}
+{#<div class="banner clear">
+    <div class="container">
+        <div class="banner-slider">
+            {% if content %}
+                {% for row in content.bannerUrl %}
+                    <div class="item">
+                        <img src="{{row.bannerUrl}}" alt="fundle">#}
+                        {#   {% if fields.field_promotion_banner.content %}
+                               {{fields.field_promotion_banner.content}}
+                           {% endif %}   #} 
+{#                        <div class="banner-dsc">
+                            <div class="container container-full">
+                                <div class="title text-center">
+                                    {% if fields.field_banner_heading.content %}
+                                        <h2>{{fields.field_banner_heading.content}}</h2>
+                                    {% endif %}
+                                    {% if fields.field_banner_subheading.content %}
+                                        <div class="text-1">{{fields.field_banner_subheading.content}}</div>
+                                    {% endif %}                     
+                                </div>
+                            </div>
+                        </div>
+                    </div>        
+                {% endfor %} 
+            {% endif %}
+        </div>
+    </div>
+</div>#}
+        
+        
+<div class="container">
+    <section class="welcome-page  f-bg-2">
+        <div class="banner-top clear">
+            <div class="container">
+                <div class="banner-slider2">
+                     {% if content %}
+                {% for row in content %}
+                    <div class="item">
+                        <table cellspacing="0" cellpadding="0">
+                            <tbody><tr>
+                                    <td style="width:115px">
+                                        <div class="bn-img"><img src="{{row.bannerUrl}}" alt="logo"></div>
+                                    </td>
+                                    <td>
+                                        <div>{{row.banner_heading}}</div>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                    </div>
+                     {% endfor %} 
+            {% endif %}                    
+                </div>
+            </div>
+        </div>
+        
+    </section>
+</div>

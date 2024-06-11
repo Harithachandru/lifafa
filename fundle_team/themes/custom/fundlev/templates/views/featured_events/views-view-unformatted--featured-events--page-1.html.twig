@@ -1,0 +1,135 @@
+{# empty Twig template #}
+
+<div class="trainee-grid whats-on-grid">
+    <div class="grid-item grid-item-right dept-cinema " data-dept="Cinema">
+        <div class="category-box">
+            <table>
+                <tr>
+                    <td>
+                         {% if title %}
+        <div class="title-1">{{ title }}</div>
+    {% endif %}
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </table>
+                {% for row in rows %}
+                {{ row.content }}
+            {% endfor %}     
+  </div>
+  </div>
+</div>
+
+{#<div class="trainee-grid whats-on-grid">
+  <div class="grid-item grid-item-right dept-cinema " data-dept="Cinema">
+    {% if title %}
+        <div class="title-1">{{ title }}</div>
+    {% endif %}
+    <div class="brands-logo">
+        <div class="brands-row row flex-wrap">
+            {% for row in rows %}
+                {{ row.content }}
+            {% endfor %}
+        </div>
+    </div>
+  </div>
+</div>#}
+{#<div class="trainee-grid ">
+    {% for row in rows %}
+        {{ row.content }}
+    {% endfor %}
+</div>#}
+{#
+<div class="trainee-grid whats-on-grid">
+    <div class="grid-item grid-item-right dept-cinema " data-dept="Cinema">
+        <div class="category-box">
+            <table>
+                <tr>
+                    <td>
+                        <div class="title-1">October</div>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </table>
+            
+            <div class="category-sec">
+                <table class="btm-des">
+                    <tbody><tr>
+                            <td><div class="link-1">Vir Das</div><div class="text-12 midd-font">Comedy</div>
+                            </td>
+                            <td>
+                                <div class="text-9 text-right midd-font">Laughter Store</div><div class="text-9  text-right">From 10 Oct, 2022</div>
+                            </td>
+                        </tr>
+                    </tbody></table>
+                <div class="top-deals-img">
+                    <img src="images/fevent.jpg" alt="Lifafa">
+                </div>
+            </div>
+            <hr class="hr-8">
+            
+            
+            <div class="category-sec">
+                <table class="btm-des">
+                    <tbody><tr>
+                            <td><div class="link-1">Brahmastra</div><div class="text-12 midd-font">Movie</div>
+                            </td>
+                            <td>
+                                <div class="text-9 text-right midd-font">PVR</div><div class="text-9  text-right">From 10 Oct, 2022</div>
+                            </td>
+                        </tr>
+                    </tbody></table>								
+                <div class="top-deals-img">
+                    <img src="images/Brahmastra.jpg" alt="Lifafa">
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>		 
+    <div class="grid-item grid-item-right dept-comedy" data-dept="Comedy" >
+        <div class="category-box">
+            <table>
+                <tr>
+                    <td>
+                        <div class="title-1">November</div>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </table>
+            <div class="category-sec">
+                <table class="btm-des">
+                    <tbody><tr>
+                            <td><div class="link-1">Vir Das</div><div class="text-12 midd-font">Comedy</div>
+                            </td>
+                            <td>
+                                <div class="text-9 text-right midd-font">Laughter Store</div><div class="text-9  text-right">From 10 Oct, 2022</div>
+                            </td>
+                        </tr>
+                    </tbody></table>
+                <div class="top-deals-img">
+                    <img src="images/fevent.jpg" alt="Lifafa">
+                </div>
+            </div>
+            <hr class="hr-8">
+            <div class="category-sec">
+                <table class="btm-des">
+                    <tbody><tr>
+                            <td><div class="link-1">Brahmastra</div><div class="text-12 midd-font">Movie</div>
+                            </td>
+                            <td>
+                                <div class="text-9 text-right midd-font">PVR</div><div class="text-9  text-right">From 10 Oct, 2022</div>
+                            </td>
+                        </tr>
+                    </tbody></table>							
+                <div class="top-deals-img">
+                    <img src="images/Brahmastra.jpg" alt="Lifafa">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pt-15 pb-15 back-btn text-center"><a href="#">Back</a></div>
+</div>#}

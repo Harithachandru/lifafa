@@ -1,0 +1,34 @@
+      <section class="sec1 text-center">
+
+         <div class="container" style="max-width: 500px;">
+            <h2>Contact Us</h2>
+            <div class="top-border"></div>
+
+                     {% set elements = element.elements %}
+                            <form{{ attributes.addClass('sign-in-form') }}>
+                                {{ title_prefix }}
+                                {% if element.status_messages %}
+                                    {{ element.status_messages }}
+                                {% endif %}
+                                {{ elements.first_name }}
+
+                                {{ elements.last_name }}
+
+                                {{ elements.company_name }}
+
+                               {{ elements.email_address }}
+
+                                {{ elements.country_code }}
+                                {{ elements.phone_number}}
+                               {{ elements.message }}
+                                {{ element.form_build_id }}
+                                {{ element.form_token }}
+                                {{ element.form_id }}
+                                {{ element.actions }}
+                                {{ elements.actions }}
+
+                                {{ title_suffix }}
+                            </form>
+
+         </div>
+      </section>

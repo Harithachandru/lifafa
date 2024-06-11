@@ -1,0 +1,76 @@
+{#{{drupal_dump(mallStoreData)}}#}
+<section class="top-deals-sec">
+    <div class="container">
+        <div class="top-deals">
+            <div class="title-1">
+                {{mallStoreData.mall.title}}
+            </div>
+            <div class="category-sec top-deals-banner-sec">
+                <table class="btm-des">
+                    <tr>
+                        <td><div class="link-1">{{node.getTitle}}</div>
+                          {% set categorytype = content.field_category[0]|raw|render|striptags %}
+                      {% if categorytype == "Eat" %}
+                      <div class="text-12 midd-font">{{content.field_product_category}}</div>
+                      {% else %}
+                        <div class="text-12 midd-font">{{content.field_sub_category}}</div>
+                        {% endif %}
+                        </td>
+                        <td>
+                            <div class="text-9 text-right midd-font">{{content.field_store_floor[0]|raw}}, {{content.field_storenumber}}</div><div class="text-9  text-right">{{content.field_shop_timings}}</div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="top-deals-banner banner-top-border ">
+
+                    <a href="#"><img src="{{mallStoreData.brand.brand_detail_image}}" alt="Lifafa"> </a>
+                </div>
+            </div>
+            <div class="title-2">About</div>
+            <div class="dsc  ">
+                {% set text = content.body|render|striptags %}
+                <div class="show-read-more">{{text}}</div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="top-deals-sec">
+    <div class="container">
+        <div class="top-deals-info mall-info font-12 pb-10 pt-10" style="padding-top:0">
+            <div class="title-2 ">Contact</div>
+            <table>
+                <tbody><tr>
+                        <td>
+                            <div>Email ID: {{content.field_shop_email[0]|raw}}</div>
+                            <div>Phone No.: {{content.field_store_contact[0]|raw}}</div></td> <td style="text-align:right;" class="wp-link"><a href="#"><img src="{{ base_path ~ directory }}/images/WhatsApp.png" alt="Lifafa"> </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+                            {# {{ drupal_block('views_block:restaurant_listing-block_1', wrapper=false) }}#}
+                        {#    {{content.field_sub_category[0]|raw}}#}
+                        {% set textcategory = content.field_sub_category[0]|raw|render|striptags %}
+                      {#  {{textcategory}}#}
+                        {#{{ drupal_block('views_block:restaurant_listing-block_1', wrapper=false) }}#}
+{% if textcategory == "RESTAURANTS" %}
+    {{ drupal_block('views_block:restaurant_listing-block_1', wrapper=false) }}
+  {% else %}
+      {{ drupal_block('views_block:related_shop_deals-block_1', wrapper=false) }}
+{% endif %}
+
+
+  <section class="user-login text-center">
+    <div class="container">
+        <div class="form-row back-btn"><a href="javascript:history.go(-1)">Back</a></div>
+    </div>
+  </section>
+
+   {% set categorytype = content.field_category[0]|raw|render|striptags %}
+      {% if categorytype == "Eat" %}
+
+            <div class="form-row pb-20 text-center"><input type="submit" onclick="postOrderNowToRN();" value="Order Now" class="btn btn-primary"></div>
+
+     {% endif %}

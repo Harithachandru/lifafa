@@ -1,0 +1,29 @@
+
+     {# <header class="header-top-nav">
+         <div class="container">
+            <div class="top-nav">
+               <div class="logo">
+                <a href="{{ base_path }}" ><img src="{{ base_path ~ directory }}/images/fundle-logo.png" alt="logo">
+                </a>
+              </div>
+            </div>
+         </div>
+
+      </header>
+
+   <div class="banner-img pt-10  "><div class="container top-deal">
+              <img src="{{ base_path ~ directory }}/images/black-friday-elements-assortment.jpg" alt="logo">
+               </div>
+       <div class="container pt-15"><div class="title-1 plr-10">Launch Offers </div>
+       </div>#}
+     <section class="mall-listing tpa pt-55">
+   <div class="container">
+
+     <div class="trainee-grid">
+
+            {% for row in rows %}
+                {{ row.content }}
+            {% endfor %}
+      </div>
+     </div>
+      </section>

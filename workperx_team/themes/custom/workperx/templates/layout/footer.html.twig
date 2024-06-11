@@ -1,0 +1,19 @@
+<footer class="footer footer-4-col">
+    <div class="footer-inner ">
+        <div class="container">
+            {{page.footer_column_1}} 
+            <div class="se-cuntry pb-30">
+                <div class="cts">Countries</div>
+                    <select name="countries" id="countries" is="ms-dropdown" data-child-height="315">
+                        <option value='in' data-image-css="flag in" data-title="India" {% if countryCode == 'in'  %} selected {% endif %} >India</option>
+                        <option value='uk' data-image-css="flag gb" data-title="United Kingdom" {% if countryCode == 'uk'  %} selected {% endif %}>United Kingdom</option>
+                            
+                    </select>
+            </div>
+        </div>
+
+    </div>
+   <div class="copyright text-center">
+       (c) {{ "now"|date("Y") }} All Rights Reserved
+   </div>
+</footer>

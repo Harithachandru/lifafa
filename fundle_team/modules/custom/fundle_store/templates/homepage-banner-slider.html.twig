@@ -1,0 +1,57 @@
+{# empty Twig template #}
+{#{{drupal_dump(content)}}#}
+{#<div class="banner clear">
+    <div class="container">
+        <div class="banner-slider">
+            {% if content %}
+                {% for row in content.bannerUrl %}
+                    <div class="item">
+                        <img src="{{row}}" alt="fundle">
+                        {#   {% if fields.field_promotion_banner.content %}
+                               {{fields.field_promotion_banner.content}}
+                           {% endif %}   #} 
+                        {#<div class="banner-dsc">
+                            <div class="container container-full">
+                                <div class="title text-center">
+                                    {% if fields.field_banner_heading.content %}
+                                        <h2>{{fields.field_banner_heading.content}}</h2>
+                                    {% endif %}
+                                    {% if fields.field_banner_subheading.content %}
+                                        <div class="text-1">{{fields.field_banner_subheading.content}}</div>
+                                    {% endif %}                     
+                                </div>
+                            </div>
+                        </div>
+                    </div>        
+                {% endfor %} 
+            {% endif %}
+        </div>
+    </div>
+</div>#}
+                                 
+<div class="banner clear dot-right dot-wh">
+            <div class="container">
+                <div class="banner-slider">
+            {% if content %}
+                {% for row in content %}
+
+                    <div class="item ">
+                         <img src="{{row.bannerUrl}}" alt="fundle">
+                        <div class="">
+                            <div class="container">  
+                                <div class="fms-sec text-center pd-10" > 
+                                    {% if row.banner_heading %}
+                                       <div class="text-14 upc"> {{row.banner_heading}}</div>
+                                    {% endif %}
+                                    {% if row.nodeLaliasUrl %}
+                                        <div class="pt-5"><a href="{{row.nodeLaliasUrl}}" class="btn btn-primary btn-5_1">More Details</a>  </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                      {% endfor %} 
+            {% endif %}
+                </div>
+            </div>
+        </div>

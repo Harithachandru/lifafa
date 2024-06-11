@@ -1,0 +1,13 @@
+name: Country Path
+type: module
+description: Adds custom path prefix for multicountries sites.
+core: 8.x
+core_version_requirement: ^8 || ^9
+package: Domain
+dependencies:
+  - domain:domain (>=8.x-1.0-alpha10)
+
+# Information added by Drupal.org packaging script on 2021-03-25
+version: '8.x-1.5'
+project: 'country_path'
+datestamp: 1616690006

@@ -1,0 +1,13 @@
+<div class="col-lg-4 col-md-6 col-sm-8">
+                        <div class="blog-grid-item mt-30">
+                            <img src="{{ file_url(fields.uri.content|striptags|trim) }}" alt="">
+                            <div class="blog-grid-overlay">
+                                
+                                <a href="{{fields.view_node.content}}"><h5 class="title">{{fields.title.content|slice(0,40)}}</h5></a>
+                                <ul>
+                                    <li><i class="fal fa-calendar-alt"></i> <span>{{fields.created.content}}</span></li>
+                                    <li><i class="fal fa-heart"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>

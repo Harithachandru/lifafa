@@ -1,0 +1,47 @@
+workperx_config.workperx_urls:
+  path: '/admin/config/workperx_config/workperx_url'
+  defaults:
+    _form: '\Drupal\workperx_config\Form\WorkperxConfig'
+    _title: 'Wokrperx URLs'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+
+
+workperx_config.receive_user_data:
+  path: '/workperx_config/receive-user-data'
+  defaults:
+    _controller: '\Drupal\workperx_config\Controller\Controller::receiveUserData'
+  requirements:
+    _permission: 'access content'
+  
+workperx_config.ga_details:
+  path: '/admin/config/workperx_config/ga_details'
+  defaults:
+    _form: '\Drupal\workperx_config\Form\GADetails'
+    _title: 'Google Analytics Details'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+workperx_config.company_logo_url:
+  path: '/admin/config/workperx_config/company_logo_url'
+  defaults:
+    _form: '\Drupal\workperx_config\Form\CompanyLogoUrl'
+    _title: 'Company Logo Url'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+workperx_config.workperx_user:
+  path: '/admin/config/workperx_config/workperx_user'
+  defaults:
+    _form: '\Drupal\workperx_config\Form\WorkperxUser'
+    _title: 'Workperx User Url'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE    
+
+

@@ -1,0 +1,55 @@
+{# empty Twig template #}
+
+
+{#{% if storedata.welcom_message %}
+     <div class="steps clear">
+        <div class="container">
+            <div class="title text-center">
+                <h2>{{storedata.welcom_message}}</h2>
+            </div>
+        </div>
+     </div>
+    {% endif %} #}
+
+
+{% if storedata.banner_blocks %}
+      <div class="banner clear">
+         <div class="container">
+            <div class="banner-slider">
+{% for row in storedata.banner_blocks %}
+    <div class="item">
+        <img src="{{ row.banner_image }}" alt="Lifafa">
+        <div class="banner-dsc">
+            <div class="container container-full">
+                <div class="title text-center">
+                    <h2>{{ row.banner_heading }}</h2>
+                    <div class="text-1">{{ row.banner_subheading }}</div>
+                </div>
+            </div>
+        </div>
+       {# <div class="btn-bottom"><a  onclick="postOrderNowToRN();" class="btn btn-3">Order Now</a></div> #}
+    </div>
+{% endfor %}
+  </div>
+         </div>
+      </div>
+{% endif %}
+
+{% if storedata.store_blocks %}
+{% for row in storedata.store_blocks %}
+{#    <div class="steps clear">
+        <div class="container container-1500">
+            <div class="top-border"></div>
+            <div class="title text-center">
+                {% if row.block_title %}
+                    <h2>{{ row.block_title }}</h2>
+                {% endif %}
+                {% if row.block_subtitle %}
+                    <div class="text-1">{{ row.block_subtitle }}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div> #}
+    {{ drupal_block(row.block_stores, wrapper=false) }}
+{% endfor %}
+{% endif %}

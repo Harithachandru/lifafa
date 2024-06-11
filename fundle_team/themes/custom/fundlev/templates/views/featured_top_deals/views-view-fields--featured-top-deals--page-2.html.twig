@@ -1,0 +1,39 @@
+{#{{drupal_dump(fields.view_node.content)}}#}
+
+<div class="grid-item dept-fashion " data-dept="Fashion">
+    <div class="category-box">
+        <table>
+            <tr>
+                <td>
+                    <div class="title-1">{{fields.term_node_tid.content}}</div>
+                </td>
+                <td>
+                    <div style="text-align:right;" class="link-1 text-12"><a href="#">View All >></a></div>
+                </td>
+            </tr>
+        </table>
+        <div class="category-sec">
+            <div class="top-deals-img">
+                <div class="top-deals-brand">
+                    {% if fields.field_brand_logo.content %}
+                        {{fields.field_brand_logo.content}}
+                    {% endif %}
+                </div>                
+                {% if fields.field_features_image.content %}
+                    {{fields.field_features_image.content}}
+                {% endif %}
+            </div>
+            <table class="btm-des">
+                <tr>
+                    <td>
+                        <div class="td-title bold"> {{fields.title.content}}</div>
+                    </td>
+                    <td>
+                        <div style="text-align:right; " class="right-arrow"><a href="#"> <img src="images/right-arrows-couple.png" alt="Lifafa"></a></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <hr>
+    </div>
+</div>

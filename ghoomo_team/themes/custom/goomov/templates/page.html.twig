@@ -1,0 +1,54 @@
+{% include theme_path ~ "/templates/layout/header.html.twig" %}
+
+{% if loggedin %}
+    <section class="sec1 text-center">
+        <div class="container">
+            {# <div class="top-border"></div>#}
+            <h2>Our Products</h2>
+            <div class="text-1"></div>
+
+            <div class="icon-box-section">
+                {#<div class="row flex-wrap row-20 ">
+                    <div class="column column-25 column-p20">
+                        <div class="icon-box text-center">
+                            <a href="#">
+                                <img src="{{ base_path ~ directory }}/images/GOOMO_HOLIDAYS-ICON.png" alt="Lifafa">
+                                <div class="icon-box-title pt-20"><h4>Agent Portal</h4><h5>Agent Portal</h5></div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="column column-25 column-p20">
+                        <div class="icon-box text-center">
+                            <a href="#">
+                                <img src="{{ base_path ~ directory }}/images/ORBITGOOMO_CORPORATETOURS-ICON.png" alt="Lifafa">
+                                <div class="icon-box-title pt-20"><h4>Distributor Portal</h4><h5>Distributor Portal</h5></div>
+                            </a>
+                        </div>
+                    </div>#}
+                <div class="column column-25 column-p20">
+                    <div class="icon-box text-center ">
+                        <a href="https://store.goomo.com/flights">
+                            <img src="{{ base_path ~ directory }}/images/GOOMO_BUSINESSTRAVEL-ICON.png" alt="Lifafa">
+                            <div class="icon-box-title pt-20"><h4>Flight Bookings</h4> <h5>Book Flight</h5></div>
+                        </a>
+                    </div>
+                </div>
+                {#<div class="column column-25 column-p20">
+                    <div class="icon-box text-center ">
+                        <a href="#">
+                            <img src="{{ base_path ~ directory }}/images/ORBITGOOMO_TRADEFAIRS-ICON.png" alt="Lifafa">
+                            <div class="icon-box-title pt-20"><h4>API/XML</h4><h5>API/XML</h5></div>
+                        </a>
+                    </div>
+                </div>
+            </div>#}
+        </div>
+
+    </div>
+</section>
+{% endif %}
+
+{% if page.content %}
+       {{ page.content }}
+{% endif %}
+{% include theme_path ~ "/templates/layout/footer.html.twig" %}

@@ -1,0 +1,341 @@
+{#<section class="top-deals-sec">
+    <div class="container">
+        <div class="top-deals">
+            <div class="title-1">
+                {{node.getTitle}}
+            </div>
+            <div class="top-deals-img">
+
+
+                <div class="top-deals-brand">
+                    {{content.field_brand_logo}}
+                </div>
+
+                {{content.field_main_image}}
+                <div class="top-deals-img-dsc">
+                    <div class="dsc">Voucher Code: Fundle123</div>
+                    <div class="valid">Valid till: 01/12/2021</div>
+                </div>
+            </div>
+            <div class="title-2"> Description </div>
+            <div class="dsc">
+                {{content.field_description}}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="top-deals-sec">
+    <div class="container">
+        <div class="top-deals-info">
+            <div class="title-2"> Terms & Conditions </div>
+            <div class="dsc">
+                {{content.field_terms_and_conditions}}
+            </div>
+
+        </div>
+    </div>
+</section>
+<section class="user-login text-center">
+    <div class="container">
+        <div class="form-row"><input type="submit" value="Buy Now" class="btn btn-primary"></div>
+        <div class="form-row link">
+            Please proceed to retailer to avail the offer
+        </div>
+        <div class="form-row back-btn"><a href="javascript:history.go(-1)"> Back </a> </div>
+    </div>
+</section>#}
+
+{#<section class="top-deals-sec">
+        <div class="container">
+                      <div class="top-deals">
+                <div class="title-1">
+                {{content.field_brand_name}}
+                </div>
+                 <div class="cat-sec">
+                    <a href="#">
+                       <div class="top-deals-img">
+                          <div class="top-deals-img-dsc-top">
+                           <div class="text-16">{{content.field_header}}</div>
+                           <div class="text-12">{{content.field_discount}}</div>
+                           <div class="text-9">Valid Till {{content.field_category_section_till}}</div>
+                          </div>
+                          <div class="top-deals-img-dsc">
+                             <div class="text-12 bold">{{content.field_shop_name}}</div>
+                          </div>
+                          {{content.field_main_image}}
+                       </div>
+                    </a>
+                 </div>
+                               <div class="title-2"> {{content.field_brand_name}} </div>
+                                       <div class="dsc text-10">
+                   {{content.body}}    <a href="#">Read more.. </a>
+                </div>
+                   </div>
+                         </div>
+     </section>
+         <section class="text-center">
+          <div class="container">
+          <div class="top-deals">
+         <div class="form-row"><input type="submit" value="Buy Now" class="btn btn-250 btn-primary"></div>
+         <div class=" text-10 link">
+                                               Please proceed to retailer to avail the offer
+                                                  </div>
+           </div>
+               </div>
+               </section>
+                  <section class="my-account">
+               <div class="account-tab">
+                   <div class="container">
+                       <div class="redemption-tab">
+                           <div class="set ">
+                               <a  class="tab-link">Redemption Instructions<span class="a-icon"></span></a>
+                               <div class="tab-content text-10" style="display: none;">
+                                   {{content.field_redemption_instructions}}
+                               </div>
+                           </div>
+                           <div class="set ">
+                               <a  class="tab-link">Terms & Conditions<span class="a-icon"></span></a>
+                               <div class="tab-content text-10" style="display: none;">
+                                   {{content.field_terms_and_conditions}}
+                                   {#<ul>
+                                       <li> This offer can only be used at the Aldo store at Vegas Mall, or Aldo.in.</li>
+                                       <li> This offer is available from to be used from 1st October, 2021 to 3rd
+                                           October, 2021.</li>
+                                       <li>To avail the offer please mention the code at the cashier.</li>
+                                   </ul>
+
+
+                               </div>
+                           </div>
+                           <div class="set">
+                               <a  class="tab-link">About {{node.getTitle}}<span class="a-icon"></span></a>
+                               <div class="tab-content text-10" style="display: none;">{{content.field_description}}</div>
+                           </div>#}
+
+{# Restaurent Listing page #}
+{% if topDealData.deal.listing_type== 'Restaurant' %}
+
+<section class="top-deals-sec">
+    <div class="container">
+        <div class="top-deals">
+            <div class="title-1">
+                {{mallStoreData.mall.title}}
+            </div>
+            <div class="category-sec top-deals-banner-sec">
+                <table class="btm-des">
+                    <tr>
+                        <td><div class="link-1">{{node.getTitle}}</div><div class="text-12 midd-font">{{content.field_sub_category}}</div>
+                        </td>
+                        <td>
+                            <div class="text-9 text-right midd-font">{{topDealData.shop.field_store_floor}}, {{topDealData.shop.field_storenumber}}</div><div class="text-9  text-right">{{topDealData.shop.field_shop_timings}}</div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="top-deals-banner banner-top-border ">
+
+                    <a href="#">{{content.field_listing_summary_image}} </a>
+                </div>
+            </div>
+            <div class="title-2">About</div>
+            <div class="dsc  ">
+                {% set text = content.body|render|striptags %}
+                <div class="show-read-more">{{text}}</div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="top-deals-sec">
+    <div class="container">
+        <div class="top-deals-info mall-info font-12 pb-10 pt-10" style="padding-top:0">
+            <div class="title-2 ">Contact</div>
+            <table>
+                <tbody><tr>
+                        <td>
+                            <div>Email ID: {{topDealData.shop.field_shop_email}}</div>
+                            <div>Phone No.:{{topDealData.shop.field_store_contact}}</div></td> <td style="text-align:right;" class="wp-link"><a href="#"><img src="{{ base_path ~ directory }}/images/WhatsApp.png" alt="Lifafa"> </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{{ drupal_block('views_block:restaurant_listing-block_1', wrapper=false) }}
+{% else %}
+
+<section class="top-deals-sec">
+    <div class="container">
+        <div class="top-deals">
+            <div class="title-1">
+               {{topDealData.brand.field_brand_name}}
+            </div>
+
+            <div class="category-sec top-deals-banner-sec">
+                <table class="btm-des">
+                    <tr>
+                        <td><div class="link-1">{{content.field_header}}</div>
+                        {% if topDealData.deal.listing_type== 'Event' %}
+                        <div class="text-12 midd-font">{{content.field_product_category}}</div>
+                        {% else %}
+                        <div class="text-12 midd-font">{{content.field_sub_header}}</div>
+                        {% endif %}
+                        </td>
+                        <td>
+                            <div class="text-9 text-right midd-font">{{topDealData.shop.field_store_floor}},{{topDealData.shop.field_storenumber}}</div>
+                            {% if topDealData.deal.listing_type== 'Event' %}
+                            <div class="text-9  text-right">From {{content.field_event_start_date}}</div>
+                            {% else %}
+                            <div class="text-9  text-right">Valid Till {{content.field_event_end_date}}</div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+                <div class="top-deals-banner">
+                    {{content.field_listing_summary_image}}
+                </div>
+            </div>
+            <div class="title-2"> About </div>
+                    <div class="dsc text-10">
+                        {% set text = content.body|render|striptags %}
+                        <div class="show-read-more">{{text}}</div>
+                    </div>
+
+
+        </div>
+    </div>
+</section>
+
+
+{% if topDealData.deal.listing_type== 'Event' %}
+    <section class="top-deals-sec">
+        <div class="container">
+            <div class="top-deals-info mall-info font-12 pb-10" style="padding-top:0">
+                <div class="title-2 ">Details</div>
+                <table>
+                    <tbody><tr>
+                            {# <td>Event Id:</td> <td style="text-align:right;">0000000000</td> #}
+                        </tr>
+                        
+                        <tr>
+                            <td>Start Date:</td> <td style="text-align:right;">{{ node.field_event_start_date.value|date('d/m/Y') }}</td>
+                        </tr>
+                        {{topDealData.deal.field_sub_category}}
+                        {% if topDealData.deal.sub_category != "MOVIES" %}
+                            <tr>
+                                <td>End Date:</td> <td style="text-align:right;">{{ node.field_event_end_date.value|date('d/m/Y') }}</td>
+                            </tr>
+                            <tr>
+                                <td>Time:</td> <td style="text-align:right;">{{content.field_event_start_time}}</td>
+                            </tr>
+                        {% endif %}
+                        <tr>
+                            <td>Venue:</td> <td style="text-align:right;">{{topDealData.shop.field_store_name}}</td>
+                        </tr>
+                        {% if topDealData.deal.sub_category != "MOVIES" %}
+                            <tr>
+                                <td>Price:</td> <td style="text-align:right;">₹ {{content.field_price}}</td>
+                            </tr>
+                        {% endif %}
+
+                    </tbody></table>
+            </div>
+        </div>
+    </section>
+
+
+{% endif %}
+<section class="my-account">
+    <div class="account-tab">
+        <div class="container">
+            <div class="redemption-tab">
+                <div class="set ">
+                    <a  class="tab-link active">{{content.field_action_section_header[0]|raw}} ​<span class="a-icon"></span></a>
+                    <div class="tab-content " style="display: block;">
+                        <div class="text-10">{{content.field_section_instruction}}</div>
+                       {# <div class="midd-font text-center pt-15">
+                            Copy Code:
+                        </div>
+                        <div class="code-copy clear text-center">
+                            <div class="search search-2"><form class="top-searchbox"><input type="text" value="Fundle123"  class="gsearch" id ="myInput">
+                            <input class="submit-btn"  type="submit" onclick="myFunction()"> </form></div>
+                        </div> #}
+                        {% if content.field_action_button_type[0]|raw =='offline' %}
+                            <div class="text-center pt-10"><input type="submit" value="{{content.field_action_button_text}}​" class="btn btn-250 btn-primary"></div>
+                        {% else %}
+                            <div class="text-center pt-10"><input type="submit" value="{{content.field_action_button_text}}​" class="btn btn-250 btn-primary"></div>
+                        {% endif %}
+
+                        <div class="text-10 text-center pt-10">{{content.field_action_button_instruction}} ​​ </div>
+
+                    </div>
+                </div>
+                <div class="set ">
+                    <a  class="tab-link">Terms & Conditions<span class="a-icon"></span></a>
+                    <div class="tab-content text-10" style="display: none;">
+                        {{content.field_terms_and_conditions}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+{#<section class="text-center">
+    <div class="container">
+        <div class="top-deals">
+            <div class="form-row"><input type="submit" value="Buy Now" class="btn btn-250 btn-primary"></div>
+            <div class=" text-10 link">
+                Please proceed to retailer to avail the offer
+            </div>
+        </div>
+    </div>
+</section>
+<section class="my-account">
+    <div class="account-tab">
+        <div class="container">
+            <div class="redemption-tab">
+                <div class="set ">
+                    <a  class="tab-link">Redemption Instructions<span class="a-icon"></span></a>
+                    <div class="tab-content text-10" style="display: none;">
+                        {{content.field_redemption_instructions}}
+                    </div>
+                </div>
+                <div class="set ">
+                    <a  class="tab-link">Terms & Conditions<span class="a-icon"></span></a>
+                    <div class="tab-content text-10" style="display: none;">
+                        {{content.field_terms_and_conditions}}
+                    </div>
+                </div>
+              {#  {% set category = content.field_category %}
+                {% if category == "Shop" %}
+                     {{content.field_category}}
+                    <div class="set">
+                        <a  class="tab-link">About {{node.getTitle}}<span class="a-icon"></span></a>
+                        <div class="tab-content text-10" style="display: none;">{{content.field_description}}</div>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</section>#}
+
+
+           {% if topDealData.deal.listing_type== 'Event' %}
+                 {{ drupal_block('views_block:featured_events-block_2', wrapper=false) }}
+             {% endif %}
+
+<section class="user-login text-center">
+    <div class="container">
+        <div class="form-row back-btn"><a href="javascript:history.go(-1)">Back</a></div>
+    </div>
+</section>
+
+{% endif %}

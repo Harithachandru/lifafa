@@ -1,0 +1,10 @@
+name: Torchlight Two-factor Authentication (TFA)
+type: module
+description: Pluggable provider of second factor authentication for Drupal
+core_version_requirement: ^8 || ^9
+package: Custom
+dependencies:
+
+# Information added by Devendra Saad packaging script on 2020-06-17
+project: "torchlight_tfa"
+datestamp: 1592393829

@@ -1,0 +1,77 @@
+<?php
+
+/**
+ * @file
+ * Contains gcm_store.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function gcm_store_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the gcm_store module.
+    case 'help.page.gcm_store':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('GCM Store Module') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+function gcm_store_theme() {
+  return [
+//    'topdeals_logo_block' => [
+//    'variables' => [
+//    'content' => NULL
+//    ],
+//    ],
+//     'whatson_logo_block' => [
+//    'variables' => [
+//    'content' => NULL
+//    ],
+//    ],
+//    'comingsoon_logo_block' => [
+//    'variables' => [
+//    'content' => NULL
+//    ],
+//    ],
+//    'launchoffer_block' => [
+//    'variables' => [
+//    'content' => NULL
+//    ],
+//    ],
+//    'viewparking_charges_block' => [
+//    'variables' => [
+//    'content' => NULL,
+//    'park_type' =>NULL,
+//    ],
+//     'render element' => 'children',
+//    ],
+      
+    'gcm_store_block' => [
+    'variables' => [
+    'content' => NULL,
+    'gcm_type' => NULL,
+    'gcm_viewall' => NULL,
+    'discount_url' => NULL,
+    'store_landing_url' => NULL,
+    'current_store_id' => NULL,   
+    ],
+    'render element' => 'children',
+    ],
+      
+    ];
+
+
+}
+
+

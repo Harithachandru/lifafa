@@ -1,0 +1,20 @@
+global-styling:
+  version: 1.x
+  js: 
+#      js/jquery.countTo.js: {}
+      js/plugin.js: {}
+  dependencies:
+      - core/jquery    
+      
+  css:
+     theme:      
+#      css/main.css: {}   
+      css/app-main.css: {}   
+      css/intlTelInput.css: {}
+      
+#fonts:
+#  css:
+#    theme:
+#      '//fonts.gstatic.com': {type: external}
+#      '//fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap': {type: external}
+      

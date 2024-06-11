@@ -1,0 +1,174 @@
+<header class="header-top-nav">
+           <div class="top-nav">
+               <div class="container">
+                   <div class="row">
+                       <div class="column column-middle header-column-left">
+                           <div class="logo">
+                               <a href="{{front_page}}"><img src="{{ base_path ~ directory }}/images/Goomo_Logo.png" alt="logo"></a>
+                           </div>
+                           <div class="menu-wrap">
+                               <nav id="top-nav" class="menu">
+                                   <ul class="main-menu">
+                                       <li class="menu-item--active-trail">Products
+                                           <ul>
+                                               <li><a href="#">Agent Portal​</a></li>
+                                               <li><a href="#">Distributor portal​</a></li>
+                                               <li><a href="#">Corporate Travel</a></li>
+                                               <li><a href="#">API/XML</a></li>
+                                           </ul>
+                                       </li>
+                                       <li class="menu-item--active-trail"><a href="#">Bulk Bookings</a></li>
+                                       <li><a href="#">group packages</a></li>
+                                       {#<li><a href="#">sign up</a></li>#}
+                                   </ul>
+                               </nav>
+                           </div>
+                       </div>
+                       <div class="column column-middle header-column-right">
+                           <div  class="se-country">
+                               <form><select>
+                                       <option>India</option>
+                                       <option>India</option>
+                                       <option>India</option>
+                                   </select> </form>
+                           </div>
+                           <div  class="user-in">
+                               <ul>
+                                   {% if logged_in %}
+                                       <li><a href="https://store.goomo.team/inbom2110007s01/myaccount/">My Account</a></li>
+                                       <li><a href="{{base_url}}/user/logout/">Logout</a></li>
+                                       {% else %}    
+                                           <li><a href="{{base_url}}/user/login/">Sign in</a></li>                                           
+                                   {% endif %}    
+                                   
+                                   
+                               </ul>
+                           </div>
+                           <div class="s-btn"><img src="{{ base_path ~ directory }}/images/search-icon-m.png" alt="logo"></div>
+                       </div>
+                   </div>
+                   <div class="search-row clear">
+                       <div class="search"><form class="top-searchbox"><input type="search" name="gsearch" placeholder="Search" class="gsearch"> <input class="submit-btn" type="submit"> </form></div>
+                   </div>
+               </div>
+           </div>
+       </header>
+        <section class="sec1 text-center">
+            <div class="container">
+               {# <div class="top-border"></div>#}
+                <h2>Our Products</h2>
+                <div class="text-1"></div>
+
+                <div class="icon-box-section">  
+                    <d{#iv class="row flex-wrap row-20 ">
+                        <div class="column column-25 column-p20">
+                            <div class="icon-box text-center">
+                                <a href="#">
+                                    <img src="{{ base_path ~ directory }}/images/GOOMO_HOLIDAYS-ICON.png" alt="Lifafa">
+                                    <div class="icon-box-title pt-20"><h4>Agent Portal</h4><h5>Agent Portal</h5></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="column column-25 column-p20">
+                            <div class="icon-box text-center">
+                                <a href="#">
+                                    <img src="{{ base_path ~ directory }}/images/ORBITGOOMO_CORPORATETOURS-ICON.png" alt="Lifafa">
+                                    <div class="icon-box-title pt-20"><h4>Distributor Portal</h4><h5>Distributor Portal</h5></div>
+                                </a>  
+                            </div>
+                        </div>#}
+                        <div class="column column-25 column-p20">
+                            <div class="icon-box text-center ">
+                                <a href="https://pre-web.goomo.team/">
+                                    <img src="{{ base_path ~ directory }}/images/GOOMO_BUSINESSTRAVEL-ICON.png" alt="Lifafa">
+                                    <div class="icon-box-title pt-20"><h4>Flight Bookings</h4> <h5>Book Flight</h5></div>
+                                </a>  
+                            </div>
+                        </div>
+                        {#<div class="column column-25 column-p20">
+                            <div class="icon-box text-center ">
+                                <a href="#">
+                                    <img src="{{ base_path ~ directory }}/images/ORBITGOOMO_TRADEFAIRS-ICON.png" alt="Lifafa">
+                                    <div class="icon-box-title pt-20"><h4>API/XML</h4><h5>API/XML</h5></div>
+                                </a>  
+                            </div>
+                        </div>#}
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+<footer class="footer text-center">
+	  <div class="container">
+	   <div class="footer-logo">
+	   <a href="#"><img src="{{ base_path ~ directory }}/images/footer-logo.png" alt="logo"></a>
+	   </div>
+         <div class="footer-menu">
+            <ul>
+              <li><a href="#">Supplier enquiries</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                {#<li><a href="#">Contact Us</a></li>#}
+                <li><a href="#">Terms of Use</a></li>
+            </ul>
+         </div>
+         <div class="copyright text-center">
+            
+               ©  2021 Goomo.com - All Rights Reserved
+           
+         </div>
+		  </div>
+      </footer>
+           
+           
+           
+{# empty Twig template #}
+{% if logged_in %}
+    {% if page.mainheader %}
+       {# {{ page.mainheader }}   #} 
+    {% else %}
+        {#{% include theme_path ~ "/templates/layout/header.html.twig" %}#}
+    {% endif %}
+    
+{% else %}
+    {#{% include theme_path ~ "/templates/layout/header.html.twig" %}#}
+{% endif %}
+
+
+{% if page.header_bottom %}
+   {# {{ page.header_bottom }}#}
+{% endif %}
+
+{% if page.content %}
+    {{ page.content }}
+{% endif %}
+
+{% if page.store_content and logged_in %}
+  {# {{ page.store_content }}#}
+{% endif %}
+
+{% if page.footer_top and logged_in %}
+   {#{{ page.footer_top }}#}
+{% endif %}
+
+
+{#{% if page.bottom_slider %}
+        <div class="clients text-center">
+        {{ page.bottom_slider }}
+        </div>
+{% endif %} #}
+{% if logged_in and page.mainfooter %}       
+    {% if page.mainfooter %}
+       {# {{ page.mainfooter }}    #}
+    {% else %}
+       {# {% include theme_path ~ "/templates/layout/storefooter.html.twig" %}#}
+    {% endif %}
+    
+    
+{% else %}
+   {# {% include theme_path ~ "/templates/layout/footer.html.twig" %}#}
+{% endif %}
+    
+
+

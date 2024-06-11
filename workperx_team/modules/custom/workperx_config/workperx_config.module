@@ -1,0 +1,216 @@
+<?php
+
+/**
+ * @file
+ * Contains lifafa_config.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+include_once \Drupal::root() . '/core/themes/engines/twig/twig.engine';
+
+/**
+ * Implements hook_help().
+ */
+function lifafa_config_help($route_name, RouteMatchInterface $route_match) {
+
+	switch ($route_name) {
+
+		case 'help.page.lifafa_config':
+			$output = '';
+			$output .= '<h3>' . t('About') . '</h3>';
+			$output .= '<p>' . t('My Awesome Module') . '</p>';
+			return $output;
+
+		default:
+	}
+}
+
+/**
+ * Implements hook_theme().
+ */
+function lifafa_config_theme() {
+  return [
+		
+
+		'footer_block' => [
+			'variables' => [
+				'content' => NULL
+			],
+			'render element' => 'children',
+		],
+
+		'header_block' => [
+			'variables' => [
+				'storedata' => NULL,
+				'home_png' =>NULL,
+			],
+			'render element' => 'children',
+		],
+		
+  	];
+}
+
+//Get Domain Records Information
+function getDomainRecordsCountryCode()
+{
+	
+	$domainDetails = [];
+
+	$entity_type_manager = \Drupal::entityTypeManager();
+  	$domains = $entity_type_manager->getStorage('domain')->loadMultiple();
+
+	// // Load the domain storage service.
+	// $domainStorage = \Drupal::entityTypeManager()->getStorage('domain');
+
+	// // Retrieve all domain records.
+	// $domains = $domainStorage->loadMultiple();
+
+	// Iterate through the domains and extract the necessary information.
+	foreach ($domains as $domain) 
+	{
+		$domainDetail = [];
+		// Get the domain name.
+		$domainName = $domain->label();
+		$domainCountryCodeArray = explode(' ',$domainName);
+
+		if(count($domainCountryCodeArray) > 1)
+		{	
+			$countryCode = isset($domainCountryCodeArray[1]) ? $domainCountryCodeArray[1] : '';
+			if($countryCode)
+			{
+				$domainDetail['countryCode'] = $countryCode; 
+				$domainDetail['domainName'] = $domainName; 
+			}
+				
+		}
+		
+		if($domainDetail)
+			$domainDetails[] = $domainDetail; 
+	}
+
+	return $domainDetails;
+}
+
+function getCompanyLogo($isCookiescompanyTerminalId)
+{
+	// $isCookiesData = checkUserIsAlreadyLoggedInOrNot();
+	//$isCookiescompanyTerminalId = $isCookiesData['isCookiescompanyTerminalId'];
+	\Drupal::logger('workperx_config')->info($isCookiescompanyTerminalId);
+
+	$apiUrl = \Drupal::config('workperx_config.company_logo_url')->get('company_logo_url');
+	$url= '';
+	$url=$apiUrl.$isCookiescompanyTerminalId;
+	\Drupal::logger('workperx_config')->info($url);
+
+	$curl = curl_init();
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($curl, CURLOPT_URL, $url);
+	$response = curl_exec($curl);
+	curl_close($curl);
+		$company_logo_data = json_decode($response);
+	return $company_logo_data;
+
+}
+
+function getHeaderBlockContent($isCookiesStoreId,$deepLinkPageUrl,$access_token)
+{
+	$isLoggedIn = "false";
+	if(!empty($isCookiesStoreId))
+	 	$isLoggedIn = "true";
+	
+	$apiUrl = \Drupal::config('workperx_config.workperx_url')->get('header_block_url');
+	
+	if($deepLinkPageUrl)
+		$url=$apiUrl."&is_logged=".$isLoggedIn."&page_url=".$deepLinkPageUrl;
+	else
+		$url=$apiUrl."&is_logged=".$isLoggedIn;
+
+	$curl = curl_init();
+	$headers = [
+		'Content-Type: application/json',
+		'Authorization: Bearer ' .$access_token ,
+	];
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($curl, CURLOPT_URL, $url);
+	$response = curl_exec($curl);
+	curl_close($curl);
+	$result = (array) json_decode($response);
+	return $result;
+}
+
+function getDeviceName()
+{
+	$isDeviceName = '';
+
+	// Check if the "mobile" word exists in User-Agent 
+	$isMob = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "mobile")); 
+	
+	// Check if the "tablet" word exists in User-Agent 
+	$isTab = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "tablet")); 
+	
+	// Platform check  
+	$isWin = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "windows")); 
+	$isAndroid = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "android")); 
+	$isIPhone = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "iphone")); 
+	$isIPad = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "ipad")); 
+	$isIOS = $isIPhone || $isIPad; 
+	
+	if($isIOS) 
+		$isDeviceName= 'iOS'; 
+	elseif($isAndroid) 
+		$isDeviceName= 'android'; 
+	elseif($isWin) 
+		$isDeviceName= 'windows'; 
+	
+	return $isDeviceName;
+}
+
+function getFileUrl($fid) {
+	if (empty($fid)) {
+		return "";
+	}
+	try {
+		$file = \Drupal\file\Entity\File::load($fid);
+		$path = $file->getFileUri();
+		$mainImageurl = \Drupal\Core\Url::fromUri(file_create_url($path), ['https' => 
+			!empty(getenv('APP_ENV')) ? true : false
+		])->toString();
+		return $mainImageurl;
+	}
+	catch(Exception $ex) {
+	}
+}
+
+/**
+ * Generate a unique uid value.
+ */
+function generate_unique_uid()
+{
+	// Query the database to find the highest existing uid.
+	$query = \Drupal::database()->select('users', 'u')
+		->fields('u', ['uid'])
+		->orderBy('u.uid', 'DESC')
+		->range(0, 1);
+	$max_uid = $query->execute()->fetchField();
+
+	// Increment the highest uid value to generate the new uid.
+	$new_uid = $max_uid + 1;
+
+	return $new_uid;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave() for user entities.
+ */
+function workperx_config_user_presave(\Drupal\user\UserInterface $user)
+{
+	// Check if the user entity is being created (new user).
+	if ($user->isNew()) {
+		// Generate a unique uid value.
+		$uid = generate_unique_uid();
+		// Set the uid for the user entity.
+		$user->set('uid', $uid);
+	}
+}

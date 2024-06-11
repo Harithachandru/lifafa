@@ -1,0 +1,119 @@
+{% include theme_path ~ "/templates/layout/header.html.twig" %}
+
+{% if isMobileApp %}
+<input type="text" class="hide" id="isAppNotFound" name="isAppNotFound" value="{{isAppNotFound}}">
+<div id="download-app-modal" class="modal" style="z-index: 99999;background-color: rgba(0,0,0,0.275);">
+    <div class="certificate-content-div" style="display:flex;margin: 55% auto;padding: 20px;">
+        <div style="width:50%">
+            <img src="{{storeMobileImage}}" alt="" style="height:250px">
+        </div>
+        <div style="color:black;width:50%;background: url('{{backgroundImage}}');background-position: center;background-repeat: no-repeat;background-size: cover;border-bottom-right-radius: 12px;
+    border-top-right-radius: 12px;">
+            <div style="text-align:right" >
+                <span class="close download_back" onclick="document.getElementById('download-app-modal').style.display='none'" style="padding: 5px 10px;font-size:25px">×</span>
+            </div>
+            <div style="font-size: 17px;font-weight: 600;text-align: center;font-family: 'Roboto Condensed',sans-serif;
+    padding-top: 25px;">{{downloadLabel}}</div>
+            <p style="text-align:center;color:#fff;font-size: 12px;">{{downloadSubLabel}}</p>
+            <div style="width: 90px;display: block;margin-left: auto;margin-right: auto;margin-top: 30px;">
+                {% if downloadAppLink %}
+                <a href="{{downloadAppLink}}" target="_blank"> 
+                    <img src="{{downloadAppImage}}" >
+                </a>
+                {% endif %} 
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="container">
+    <section class="hero_section_main">
+        {% for row in  banners %}
+         {% if storeId %}
+            <div class="hero" style ="margin-top:0px;">
+          {% else %}
+             <div class="hero">
+          {% endif %}
+
+            <h4 class="text-center hero_content justify-content-center text-uppercase mt-4">{{ row.bannerHeading }}  </h4>
+            <h4 class="text-center hero_content justify-content-center text-uppercase mt-2">{{ row.bannerSubHeading }}</h4>
+                <div class="text-center d-block">
+                {% if storeId == '' %}
+                    <a href="{{signin_url}}" class="click-btn fw-bold fs-5 mb-2 justify-content-center text-uppercase">Sign-in</a>
+                {% endif %}
+                </div>
+                <div class="text-center d-block">
+                {% if storeId == '' %}
+                    <a href="{{signup_url}}" class="click-btn fw-bold fs-5 mb-2 justify-content-center text-uppercase">Sign-up</a>
+                {% endif %}
+                </div>
+                    <div class="d-block text-center mt-3">
+                <img src="{{row.imageUrl}}" alt="logo" class="img-fluid hero-img">
+            </div>
+            </div>
+        {% endfor %}
+    </section>
+</div>
+<div class="container">
+<div class="steps clear">
+  <div class="top-border"></div>
+  <div class="our-cutomers ptb-0">
+      <div class="text-1 text-center pb-20 ">{{ourCustomerTitle}}</div>
+      <div class="logo-slider hide"> 
+        {% for imageUrl in customerImages %}
+          <div class="item">
+            <img src="{{ imageUrl }}" alt="logo">
+          </div>
+        {% endfor %}
+      </div>
+  </div>
+</div>
+    <div class="row justify-content-center">              
+        {% for row in  ourServices %}
+           <div class="col-md-4 mt-3 mb-3">
+             <div class="card">
+              <div class="card_img_text">
+                <img src="{{row.imageUrl}}" alt="logo">
+                <h4 class="top-heading-txt">{{row.title}}</h4>
+              </div>
+              <p class="top-text">{{row.subTitle}}</p>
+              <li class="card_text" style="list-style:none;">
+                 {{row.body | raw}}
+              </li>
+            </div>
+           </div>
+        {% endfor %}
+     </div>
+   </div>
+     
+    <div class="steps clear">
+      <section class="container" >
+        <div class="top-border mt-3"></div>
+         <div class="our-cutomers ptb-0">
+          <div class="text-1 text-center pb-20 ">{{ourPerksCatalogueTitle}}</div>
+            <div class="content-row">
+                {% set counter = 1 %}
+                {% for row in  ourPerksCatalogues %}
+                    <div class="col-33 text-center {% if counter > 3 %} pt-20 {% endif %} ">
+                        <img src="{{row.imageUrl}}" alt="logo">
+                    </div>
+                    {% set counter = counter + 1 %}
+                {% endfor %}
+           </div>
+           <div class="ptb-30 text-center ">
+             {% if storeId %}
+                <a href="{{store_home_url}}" class="click-btn mt-4 mb-2">View All</a>
+             {% else %}
+                <a href="{{signin_url}}" class="click-btn mt-4 mb-2">View All</a>
+             {% endif %}
+          </div>
+        </div>
+      </section>
+    </div>
+  <section class="container">
+      {{ page.footer_top}}
+      {% include theme_path ~ "/templates/layout/footer.html.twig" %}
+   </section>
+   
+   

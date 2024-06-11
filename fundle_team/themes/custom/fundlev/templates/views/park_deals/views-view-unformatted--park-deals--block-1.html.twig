@@ -1,0 +1,38 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ *
+ * @see template_preprocess_views_view_unformatted()
+ *
+ * @ingroup themeable
+ */
+#}
+{#{{drupal_dump(view.field.title)}}#}
+<section class="top-deal-sec">
+    <div class="container">
+        <div class="top-deal">
+            <table class="pb-5">
+                <tr>
+                    <td class="title-1">Top Deals</td>
+                    <td style="text-align:right;" class="link-1 link-btn"><a href="/mall/{{storeId}}/{{mallId}}/topdeals/">View All</a></td>
+                </tr>
+            </table>
+            <div class="deals-slider">          
+                {% for row in rows %}
+                    {{ row.content }}
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</section>

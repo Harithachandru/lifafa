@@ -1,0 +1,20 @@
+fundle_config.fundle_config_form:
+  path: '/discover-offer'
+  defaults:
+    _title: 'Lifafa Award'
+    _form: '\Drupal\fundle_config\Form\DiscoverOffer'
+  requirements:
+    _access: 'TRUE'
+    _permission: employee award access
+  options:
+    no_cache: 'TRUE'
+#
+#torchlight_tfa.get_store:
+#  path: '/store/{id}/home'
+#  defaults:
+#    _title: 'Store Home Page'
+#    _controller: '\Drupal\torchlight_tfa\Controller\VerifyOtp::getStorePage'
+#  requirements:
+#    _access: 'TRUE'
+#  options:
+#    no_cache: 'TRUE'

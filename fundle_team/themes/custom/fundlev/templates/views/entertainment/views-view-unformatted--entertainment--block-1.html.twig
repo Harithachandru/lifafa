@@ -1,0 +1,20 @@
+ <section class="top-deal-sec">
+         <div class="container">
+         <div class="top-deal">
+            <table>
+               <tr>
+                  <td class="title-1">Cinema</td>
+                  <td style="text-align:right;" class="link-1"><a href="#">View All</a></td>
+               </tr>
+			   <tr>
+                  <td class="link-1" colspan="2" style="padding-bottom:2px;">Now Showing</td>
+                                 </tr>
+            </table>
+             <div class="deals-slider">
+               {% for row in rows %}
+                    {{ row.content }}
+                {% endfor %}
+             </div>
+             </div>
+             </div>
+  </section>

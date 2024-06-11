@@ -1,0 +1,363 @@
+{# empty Twig template #}
+<header class="header-top-nav">
+    <div class="top-nav">
+        <div class="container">
+            <div class="row">
+                <div class="column column-middle header-column-left">
+                    <div class="logo">
+                        <a href="{{front_page}}"><img src="{{ base_path ~ directory }}/images/Goomo_Logo.png" alt="logo"></a>
+                    </div>
+                    <div class="menu-wrap">
+                        <nav id="top-nav" class="menu">
+                            <ul class="main-menu">
+                                <li class="menu-item--active-trail">Products
+                                    <ul>
+                                        <li><a href="#">Agent Portal​</a></li>
+                                        <li><a href="#">Distributor portal​</a></li>
+                                        <li><a href="#">Corporate Travel</a></li>
+                                        <li><a href="#">API/XML</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item--active-trail"><a href="#">Bulk Bookings</a></li>
+                                <li><a href="#">group packages</a></li>
+                                {#<li><a href="#">sign up</a></li>#}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="column column-middle header-column-right">
+                    <div  class="se-country">
+                        <form><select>
+                                <option>India</option>
+                                <option>India</option>
+                                <option>India</option>
+                            </select> </form>
+                    </div>
+                    <div  class="user-in">
+                        <ul>
+                            {% if logged_in %}
+                                <li><a href="https://store.goomo.team/inbom2110007s01/myaccount/">My Account</a></li>
+                                <li><a href="{{base_url}}/user/logout/">Logout</a></li>
+                                {% else %}    
+                                <li><a href="{{base_url}}/user/login/">Sign in</a></li>                                           
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="s-btn"><img src="{{ base_path ~ directory }}/images/search-icon-m.png" alt="logo"></div>
+                </div>
+            </div>
+            <div class="search-row clear">
+                <div class="search"><form class="top-searchbox"><input type="search" name="gsearch" placeholder="Search" class="gsearch"> <input class="submit-btn" type="submit"> </form></div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="banner">
+    <div class="banner-img">
+        <img src="{{ base_path ~ directory }}/images/banner1.jpg" alt="logo">
+    </div>
+    <div class="banner-text text-center">
+        <div class="container">
+            <h2>Book travel at whole sale prices</h2>
+            <div class="text-1">Get up to INR 25,000 as sign-up bonus</div>
+        </div>
+    </div>
+</div>
+<section class="sec1 text-center">
+    <div class="container">
+        <div class="top-border"></div>
+        <h2>Our Products</h2>
+        <div class="text-1">Select from a suite of products suited to your needs</div>
+
+        <div class="icon-box-section">  
+            <div class="row flex-wrap row-20 ">
+                <div class="column column-25 column-p20">
+                    <div class="icon-box text-center">
+                        <a href="#">
+                            <img src="{{ base_path ~ directory }}/images/GOOMO_HOLIDAYS-ICON.png" alt="Lifafa">
+                            <div class="icon-box-title pt-20"><h4>Agent Portal</h4><h5>For Travel Agents and individuals will large volume of monthly bookings</h5></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="column column-25 column-p20">
+                    <div class="icon-box text-center">
+                        <a href="#">
+                            <img src="{{ base_path ~ directory }}/images/ORBITGOOMO_CORPORATETOURS-ICON.png" alt="Lifafa">
+                            <div class="icon-box-title pt-20"><h4>Distributor Portal</h4><h5>For distributors with networks with travel inventor</h5></div>
+                        </a>  
+                    </div>
+                </div>
+                <div class="column column-25 column-p20">
+                    <div class="icon-box text-center ">
+                        <a href="#">
+                            <img src="{{ base_path ~ directory }}/images/GOOMO_BUSINESSTRAVEL-ICON.png" alt="Lifafa">
+                            <div class="icon-box-title pt-20"><h4>Corporate Travel</h4> <h5>Private Fares, self booking tool, policy limits and a lot more</h5></div>
+                        </a>  
+                    </div>
+                </div>
+                <div class="column column-25 column-p20">
+                    <div class="icon-box text-center ">
+                        <a href="#">
+                            <img src="{{ base_path ~ directory }}/images/ORBITGOOMO_TRADEFAIRS-ICON.png" alt="Lifafa">
+                            <div class="icon-box-title pt-20"><h4>API/XML</h4><h5>Get some of the best content from South East Asia and Middle East all in one place</h5></div>
+                        </a>  
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<footer class="footer text-center">
+    <div class="container">
+        <div class="footer-logo">
+            <a href="#"><img src="{{ base_path ~ directory }}/images/footer-logo.png" alt="logo"></a>
+        </div>
+        <div class="footer-menu">
+            <ul>
+                <li><a href="#">Supplier enquiries</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                {#<li><a href="#">Contact Us</a></li>#}
+                <li><a href="#">Terms of Use</a></li>
+            </ul>
+        </div>
+        <div class="copyright text-center">
+
+            ©  2021 Goomo.com - All Rights Reserved
+
+        </div>
+    </div>
+</footer>
+
+
+{#<header class="header-top-nav">
+         <div class="top-nav ">
+            <div class="menu-left">
+               <div class="logo">
+                  <a href="{{front_page}}"><img src="{{logopath}}" alt="logo"></a>
+               </div>
+               <div class="menu-wrap">
+                   {{ page.primary_menu }}                  
+               </div>
+            </div>
+            <div class="menu-right">
+                <div  class="user-in">
+                    <ul>
+                        <li><a href="{{base_url}}/user/login" title="Sign in">Sign in</a></li>
+                        <li><a href="{{base_url}}/book-demo" title="Sign up">Sign up</a></li>
+                    </ul>
+                </div>
+                                                   <div class="s-btn">
+    <img src="{{ base_path ~ directory }}/images/search-icon-m.png" alt="logo">
+</div>
+</div>
+
+                {% if page.header %}
+                    {{ page.header }}
+                {% endif %}
+                {#<div class="s-btn"><img src="{{directory}}/images/search-icon-m.png" alt="logo"></div>
+                <div class="search">
+                    <form class="top-searchbox">
+                        <input type="search" name="gsearch" placeholder="Search" class="gsearch">
+                        <input class="submit-btn" type="submit"> 
+                    </form>
+                </div>#//
+            
+         </div>
+
+      </header>#}
+{#{% include theme_path ~ "/templates/layout/header.html.twig" %}#}
+
+{#
+<header class="header-top-nav">
+         <div class="top-nav ">
+            <div class="menu-left">
+               <div class="logo">                  
+                  <a href="{{front_page}}"><img src="{{logopath}}" alt="logo"></a>
+               </div>
+               <div class="menu-wrap">
+                   {{ page.primary_menu }}
+                   
+               </div>
+            </div>
+            <div class="menu-right">
+               <div  class="user-in">
+                                <ul>
+                                        <li><a href="#">Sign in</a></li>
+                                        <li><a href="#">Sign up</a></li>
+                                </ul>
+                           </div>
+               <div class="search"><form class="top-searchbox"><input type="search" name="gsearch" placeholder="Search" class="gsearch"> <input class="submit-btn" type="submit"> </form></div>
+            </div>
+         </div>
+
+      </header>#}
+
+
+{#<header class="header-top-nav">
+         <div class="top-nav ">
+            <div class="menu-left">
+               <div class="logo">
+                  <a href="{{front_page}}"><img src="{{logopath}}" alt="logo"></a>
+               </div>
+               <div class="menu-wrap">
+                  {{ page.primary_menu }}
+               </div>
+            </div>
+            <div class="menu-right">
+               <div  class="user-in">
+                                <ul>
+                                        <li><a href="#">Sign in</a></li>
+                                        <li><a href="#">Sign up</a></li>
+                                </ul>
+                           </div>
+               <div class="search"><form class="top-searchbox"><input type="search" name="gsearch" placeholder="Search" class="gsearch"> <input class="submit-btn" type="submit"> </form></div>
+            </div>
+         </div>
+
+      </header>#}
+
+
+
+{#<header class="header-top-nav">
+    <div class="top-nav nav-mobile">
+        <div class="logo text-center">
+            <a href="{{front_page}}"><img src="{{logopath}}" alt="logo"></a>
+        </div>
+        <div class="menu-wrap">            
+            {{ page.primary_menu }}
+           
+        </div>
+
+        <a href="#" class="user-in"></a>
+         {% if page.header %}
+             {{ page.header }}
+         {% endif%}
+        <form class="searchbox">
+            <input type="search" placeholder="Search......" name="search" class="searchbox-input" onkeyup="buttonUp();" required>
+            <input type="submit" class="searchbox-submit" value="">
+            <span class="searchbox-icon"> </span>
+        </form>
+
+    </div> 
+    <div class="top-nav nav-desktop">
+        <div class="menu-left">
+            <div class="logo">                
+                <a href="{{front_page}}"><img src="{{logopath}}" alt="logo"></a>
+            </div>
+            <div class="menu-wrap">
+                <nav id="top-nav" class="menu">                    
+                    {{ page.primary_menu }}
+                </nav>                                
+            </div>
+        </div>
+        <div class="menu-right">
+            <div  class="user-in">
+                <ul>
+                    <li><a href="#">Sign in</a></li>
+                    <li><a href="#">Sign up</a></li>
+                </ul>
+            </div>
+
+
+            <div class="search">
+                {% if page.header %}
+                    {{ page.header }}
+                {% endif %}
+                <input type="search" name="gsearch" placeholder="Search" class="gsearch"> <input class="submit-btn" type="submit">
+            </div>
+        </div>
+    </div>
+</header>#}
+{#
+{% if is_front and page.header_bottom %}
+    <div class="banner">
+        {{ page.header_bottom }}
+    </div>
+{% endif %}
+
+
+{% if is_front and page.step_content %}
+    <div class="steps clear">
+        {{ page.step_content }}
+    </div>
+{% endif %}
+
+{% if is_front and page.feature_content %}
+    <div class="steps clear">
+        {{ page.feature_content }}
+    </div>
+{% endif %}
+
+{% if is_front and page.customer_content %}
+    <div class="steps clear">
+        {{ page.customer_content }}
+    </div>
+{% endif %}
+
+
+<div class="steps clear">
+    <div class="top-border"></div>
+    <div class="title text-center">
+        <h2>Our Customers</h2>
+    </div>
+    <div class="our-customers clear">
+        <div class="container ">
+            <div class="fb-row">
+                <div class="fb-col-5">
+                    <div class="customer">
+                        <div class="customers-icon ">
+                            <img src="{{directory}}/images/customer.png" alt="Lifafa">
+                        </div>
+                        <div class="customers-ov ">
+                            <div data-from="50" data-to="100"
+                                 data-speed="5000" data-refresh-interval="25" class="customers-count">100+</div>
+                            <div class="customers-text">Happy customers</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fb-col-5">
+                    <div class="customer">
+                        <div class="customers-icon ">
+                            <img src="{{directory}}/images/customer.png" alt="Lifafa">
+                        </div>
+                        <div class="customers-ov ">
+                            <div data-from="10000" data-to="200000"
+                                 data-speed="5000" data-refresh-interval="25" class="customers-count">200,000<span>+</span></div>
+                            <div class="customers-text">Happy users</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                        <div class="text-1 text-center">Contact us now to arrange a <a href="{{base_url}}/contact-us" class="link-1">demo</a></div>
+        </div>
+    </div>
+</div>
+
+
+{% if is_front and page.bottom_slider %}
+    <div class="clients text-center">
+        {{ page.bottom_slider }}
+    </div>
+{% endif %} #}
+
+
+{#{% include theme_path ~ "/templates/layout/footer.html.twig" %}#}
+{#<footer class="footer full-width">
+    <div class="footer-inner text-center">
+        {% if page.footer_menu %}
+            {{ page.footer_menu }}
+        {% endif %}
+
+    </div>
+    <div class="copyright text-center">
+        <div class="container">            
+            &copy; {{ "now"|date("Y") }} Lifafa.com - All Rights Reserved
+        </div>
+    </div>
+</footer>#}
+{#<script src="js/jquery.min.js"></script>
+<script src="js/plugin.js"></script> #}  

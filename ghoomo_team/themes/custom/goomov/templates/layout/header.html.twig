@@ -1,0 +1,103 @@
+{% if storeId or token_storeid %}
+{% if header_block_data %}
+ {% for row in header_block_data  %}
+  {% if row.header_title == store_name  %}
+   <header class="logged-header-top-nav">
+    {% if not row.header_home_icon and row.header_user_profile_menu != 1  %}
+    <div class="logged-top-nav " style = "padding-bottom : 33px; ">
+    {% else %}
+      <div class="logged-top-nav " >
+    {% endif %}  
+    <div class="link-hone">
+     {% if row.header_home_icon %}
+        {% set storeid = '' %}
+        {% if storeId %}
+            {% set storeid = storeId %}
+        {% elseif token_storeid %}
+            {% set storeid = token_storeid %}
+        {% endif %}  
+          <a href="{{row.header_home_icon}}"><img src="{{ base_path ~ directory }}/images/house-black.png" alt="logo"></a>
+      {% endif %}  
+    </div>
+      {% if row.header_logo %}
+        <div class="logo-hone-center">
+          {% set logo_url = logopath %}
+             {% if store_logo %}
+                 {% set logo_url = store_logo %}
+             {% endif %}  
+          <a href="{{row.header_logo}}"><img src="{{logo_url}}" alt="logo"></a>
+        </div>
+       {% endif %}  
+       <div class="menu-right">
+           {% if row.header_user_profile_menu %}
+         <div  class="logged-user-in">
+            <!-- <div class="points-in">
+                <div class="points-av text-center">
+                <img src="{{wl_png}}">{{ available_point }}</div>
+                <div class="points-ct">Available points</div>
+             </div>	 -->
+             <ul>
+                {% set storeid = '' %}
+                {% if storeId %}
+                    {% set storeid = storeId %}
+                {% elseif token_storeid %}
+                    {% set storeid = token_storeid %}
+                {% endif %} 
+
+                {% if row.header_my_account_url %}
+                 <li><a href="{{ row.header_my_account_url }}">My account</a></li>
+                {% endif %} 
+
+                {% if row.header_my_store_url %}
+                  <li><a href="{{ row.header_my_store_url }}">My store</a></li>
+                {% endif %} 
+
+                {% if row.header_logout_url %}
+                  <li><a href="{{ row.header_logout_url }}" id="logout-button">Logout</a></li>
+                {% endif %}  
+             </ul>
+           </div>
+           {% endif %} 
+      </div> 
+     </div>
+    </header>
+   {% endif %}
+  {% endfor %}
+ {% endif %}
+
+
+{% else %}
+<header class="header-top-nav vvff">
+    <div class="top-nav">
+        <div class="container">
+            <div class="row">
+                <div class="column column-middle header-column-left">
+                    <div class="logo">
+                       {% set logo_url = logopath %}
+                    {% if store_logo %}
+                        {% set logo_url = store_logo %}
+                    {% endif %}    
+                        <a href="{{ url('<front>')}}"> <img src="{{logo_url}}" alt="logo"></a>
+                    </div>
+                    {% if not storeId %}
+                    <div class="menu-wrap">
+                        {{page.header}}
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="column column-middle header-column-right">
+                        {{page.featuretop}}
+                        {% if  storeId %}
+                        <div  class="user-in">
+                            <ul>
+                                <li><a href="{{store_base_url}}{{storeId}}/myaccount">My account</a></li>
+                                <li><a href="{{base_url}}/user/logout/" id ="logout-button">Logout</a></li>
+                            </ul>
+                        </div>
+                     {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+ {% endif %}

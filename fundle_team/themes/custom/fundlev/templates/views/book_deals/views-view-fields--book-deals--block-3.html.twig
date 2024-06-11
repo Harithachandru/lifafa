@@ -1,0 +1,14 @@
+<div class="item ">
+    <div class="deals-box ">
+        <a href="{{fields.view_node.content}}">
+            {% if fields.field_brand_thumbnail.content %}
+                <div class="deals-img ">
+                    {{fields.field_brand_thumbnail.content}}
+                </div>
+            {% endif %}
+           {% if fields.field_sub_header.content %}
+            <div class="text-1 eq-2" style="height: 60px;">{{fields.field_sub_header.content}}</div>
+            {% endif %}
+        </a>
+    </div>
+</div>

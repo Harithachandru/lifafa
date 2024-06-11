@@ -1,0 +1,21 @@
+{% include theme_path ~ "/templates/layout/header.html.twig" %}
+
+<div class="container mt-25 mb-25">
+    <div class="download-app ptb-10 ">
+        <div class="text-center pb-10  text-1 ">Download the App</div>
+
+        {% for row in  downloadApps %}
+        <div class="image-row">
+            <a href="{{row.androidURL}}">
+                <img alt="img" data-entity-type="file" data-entity-uuid="87c73398-e619-434b-97ab-37f41efcec94" src="{{ row.androidImage }}" />
+            </a> 
+            <a href="{{row.iosURL}}">
+                <img alt="img" data-entity-type="file" data-entity-uuid="c92050ac-4c66-4550-9a64-2fc7bfbaaae6" src="{{row.iosImage}}" />
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% include theme_path ~ "/templates/layout/footer.html.twig" %}

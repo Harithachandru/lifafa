@@ -1,0 +1,33 @@
+<div class="container">
+    <section class="welcome-page  f-bg-2">
+        <div class="banner-top clear">
+            <div class="container">
+                <div class="banner-slider2">
+                     {% if content %}
+                {% for row in content %}
+                    <div class="item">
+                        <table cellspacing="0" cellpadding="0">
+                            <tbody><tr>
+                                    <td style="width:115px">
+                                        <div class="bn-img"><img src="{{row.bannerUrl}}" alt="logo"></div>
+                                    </td>
+                                    <td>
+                                        <div>{{row.banner_heading}}</div>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                    </div>
+                     {% endfor %} 
+            {% endif %}                    
+                </div>
+            </div>
+        </div>
+        
+    </section>
+</div>
+{#{% if storedata.store_blocks %}
+{% for row in storedata.store_blocks %}
+
+    {{ drupal_block(row.block_stores, wrapper=false) }}
+{% endfor %}
+{% endif %}#}

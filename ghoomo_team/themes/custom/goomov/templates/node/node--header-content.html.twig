@@ -1,0 +1,55 @@
+{# div class="banner banner-mb">
+   <div class="banner-img">
+        {{content.field_product_banner}}
+    </div> #}
+    <div class="bn-sec-1 text-center">
+        <div class="container">
+            <div class="title ">
+                 <h3><span>{{node.getTitle}}</span></h3>
+
+                    </div>
+                    <div class="text-2">
+                        {{content.field_banner_description}}
+                    </div>
+            {{ drupal_block('views_block:products_offers-block_2', wrapper=false) }}
+
+            <div class="btn-row text-center">
+               <!-- {% if not storeId %} -->
+                  {% if store_id %}
+                   <a href="{{store_base_url}}{{store_id}}/myaccount" class="btn btn-primary">Login</a>
+                  {% else %}
+                   <a href="" class="btn btn-primary">Login</a>
+                  {% endif %}
+               <!-- {% endif %} -->
+
+            </div>
+        </div>
+		   </div>
+         </div>
+      </div>
+
+            <section class="sec1 text-center">
+           {{content.body}}
+            {{ drupal_block('views_block:location_view-block_1', wrapper=false) }}
+            </section>
+
+      {#<div class="loyalty-form clear">
+         <div class="row flex-wrap">
+            <div class="column-50 img-100 ">
+                <img src="{{ base_path ~ directory }}/images/shutterstock_102736505.jpg" alt="Lifafa">
+            </div>
+            <div class="column-50 ">
+               <div class="wallet-form ">
+                  <div class="title">
+                     <h2>Contact Us</h2>
+
+                       {{ drupal_entity('webform', 'contact') }}
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>#}
+
+
+
+

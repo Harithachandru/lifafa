@@ -1,0 +1,30 @@
+{# empty Twig template #}
+
+
+{#{% if storedata.welcom_message %}   
+     <div class="steps clear">
+        <div class="container">
+            <div class="title text-center">
+                <h2>{{storedata.welcom_message}}</h2>                
+            </div>
+        </div>
+     </div>        
+    {% endif %} #}           
+{% if storedata.store_blocks %}
+{% for row in storedata.store_blocks %}                
+{#    <div class="steps clear">
+        <div class="container container-1500">
+            <div class="top-border"></div>
+            <div class="title text-center">
+                {% if row.block_title %}
+                    <h2>{{ row.block_title }}</h2>
+                {% endif %}
+                {% if row.block_subtitle %}
+                    <div class="text-1">{{ row.block_subtitle }}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div> #}                               
+    {{ drupal_block(row.block_stores, wrapper=false) }}
+{% endfor %} 
+{% endif %}

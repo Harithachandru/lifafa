@@ -1,0 +1,39 @@
+goomo_config.goomo_admin_config:
+  path: '/admin/config/goomo_config/goomoconfig'
+  defaults:
+    _form: '\Drupal\goomo_config\Form\LifafaConfig'
+    _title: 'Ghoomo Config'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+
+goomo_config.goomo_admin_user:
+  path: '/admin/config/goomo_user/goomouser'
+  defaults:
+    _form: '\Drupal\goomo_config\Form\GoomoUser'
+    _title: 'GoomoUser'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+    no_cache: 'TRUE'
+    
+goomo_config.ghoomo_controller_logout:
+  path: '/user/logout'
+  defaults:
+    _controller: '\Drupal\goomo_config\Controller\GhoomoController::logout'
+    _title: 'Logout'
+  requirements:
+    _permission: 'access content'
+
+
+goomo_config.ghoomo_controller_send_NotificationToRN:
+  path: '/sendnotificationtorn'
+  defaults:
+    _controller: '\Drupal\goomo_config\Controller\GhoomoController::sendNotificationToRN'
+    _title: 'Send Notification To RN'
+  requirements:
+    _permission: 'access content'    
+  options:
+     no_cache: TRUE 

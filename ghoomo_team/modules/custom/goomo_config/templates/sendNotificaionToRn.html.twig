@@ -1,0 +1,53 @@
+
+<style>
+.spinner-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(51, 51, 51, 0.3);
+    z-index: 99999;
+}
+
+.spinner-loader {
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+.spinner-border{
+    display: inline-block;
+    width: 3rem;
+    height: 3rem;
+    border: 0.25em solid #2B577C; 
+    border-right-color: transparent;
+    vertical-align:text-bottom;
+    border-radius:50%;
+     
+}
+.d-flex{
+     display:-webkit-box!important;
+     display: flex!important;
+}
+.justify-content-center{
+    -webkit-box-pack: center!important;
+    justify-content: center!important;
+
+}
+@keyframes spin { 
+    0% { transform: rotate(0deg); } 
+    100% { transform: rotate(360deg); } 
+}
+
+</style>
+<div id="isSendNotificaionToRNPage">
+
+  <div class="spinner-overlay hide" id="spinnerDiv">
+    <div class="spinner-border d-flex justify-content-center spinner-loader ">&nbsp;</div>
+    </div>
+    
+
+</div>

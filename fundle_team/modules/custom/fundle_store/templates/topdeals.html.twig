@@ -1,0 +1,71 @@
+<section class="user-login text-center pb-5">
+    <div class="container">
+        <div class="user-icon">
+            <img src="{{ base_path ~ directory }}/images/gift-card-bl.png" alt="Lifafa">
+        </div>
+        <h2>Top Deals</h2>
+    </div>
+</section>
+<section class="mall-listing tpa ">
+    <div class="container">
+        <form action="" class="trainee-filters">
+            <div class="trainee-filter filter row flex-wrap">
+                <button id="rf-view-all" class="view-all active" value="*">View by Category</button>
+                <fieldset class="custom-input">
+                    <select name="filtercategory" id="filtercategory" >
+                        <option value="*">Select Category</option>
+                        <option value="/fashion">fashion</option>
+                        <option value="/electronics">electronics</option>
+                    </select>
+                </fieldset>
+            </div>
+        </form>
+        <div class="search-filters clear" >
+            <div class="search">
+                <form class="top-searchbox"><input type="search" name="gsearch" placeholder="Search Brand" class="gsearch"> <input class="submit-btn" type="submit"> </form>
+            </div>
+        </div> 
+        <div class="trainee-grid">
+            {% if storedata %}
+                {% for row in storedata %}                
+                    {#{{drupal_dump(row)}}#}
+                    <div class="grid-item dept-fashion " data-dept="Fashion">
+                        <div class="category-box">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="title-1">{{row.category}}</div>
+                                    </td>
+                                    <td>
+                                        <div style="text-align:right;" class="link-1 text-12"><a href="/mall/{{row.store_id}}/{{row.mall_id}}/topdeals/?search={{row.category | lower }}">View All >></a></div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="category-sec">
+                                <div class="top-deals-img">
+                                    <div class="top-deals-brand">
+                                        <img src="{{row.brandLogo}}" alt="Lifafa">
+
+                                    </div>
+                                    <img src="{{row.featuresImage}}" alt="Lifafa">
+                                </div>
+                                <table class="btm-des">
+                                    <tr>
+                                        <td>
+                                            <div class="td-title bold">{{row.title}}</div>
+                                        </td>
+                                        <td>
+                                            <div style="text-align:right; " class="right-arrow"><a href="#"> <img src="{{ base_path ~ directory }}/images/right-arrows-couple.png" alt="Lifafa"></a></div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}        
+            <div class=" pb-15 back-btn text-center"><a href="javascript:history.go(-1)">Back</a></div>
+        </div>
+    </div>
+</section>

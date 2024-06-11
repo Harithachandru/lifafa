@@ -1,0 +1,25 @@
+
+      <header class="header-top-nav">
+         <div class="container">
+            <div class="top-nav">
+               <div class="logo">
+                <a href="{{ base_path }}" >
+                 <img src="{{ base_path ~ directory }}/images/fundle-logo.png" alt="logo">
+               </a></div>
+  </div>
+  </div>
+  </header>
+  <div class="banner-img pt-10  "><div class="container top-deal">
+                 {{content.field_banner}}
+               </div>
+	  </div>
+
+	      <div class="container pt-15"><div class="title-1 plr-10">{{node.getTitle}}</div> </div>
+             {{content.body}}
+       <section class="member-benefits ">
+         <div class="container">
+         <div class="text-10 text-box pt-15 pb-10 loyalty-points-accordion">
+         {{content.field_description}}
+        </div>
+       </div>
+      </section>

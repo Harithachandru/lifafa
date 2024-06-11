@@ -1,0 +1,65 @@
+<section class="user-login text-center pb-10">
+         <div class="container">
+            <div class="user-icon user-icon-bg3">
+               <img src="{{ base_path ~ directory }}/images/parked-car.png" alt="Lifafa">
+            </div>
+            <h2>My Vehicles</h2>
+           </div>
+      </section>
+      <section class="mall-listing tpa ">
+         <div class="container">
+         <form action="" class="trainee-filters">
+            <div class="trainee-filter filter row flex-wrap">
+			    <div class="view-all tab-link active" data-tab="1">Self Drive</div>
+				<div class="view-all tab-link " data-tab="2">Valet</div>
+
+            </div>
+         </form>
+<div id="tab-1" class="tab-cont active">
+<div class=" vouchers-info border-none">
+<div class="link-1 pb-5">{{content.field_header}}</div>
+        {{content.body}}
+        {{content.field_additional_charges}}
+
+  </div>
+<div class=" vouchers-info">
+<div class="link-1 pb-5">{{content.field_header2}}</div>
+       {{content.field_body2}}
+        {{content.field_additional_charges2}}
+  </div>
+ <div class=" vouchers-info ">
+     {{content.field_notes}}
+  </div>
+  <div class=" vouchers-info">
+    {{content.field_description}}
+  </div>
+
+		</div>
+	 	<div id="tab-2" class="tab-cont ">
+<div class=" vouchers-info border-none">
+<div class="link-1 pb-5">{{content.field_header}}</div>
+       {{content.body}}
+   </div>
+
+ <div class=" vouchers-info ">
+  {{content.field_notes}}
+  </div>
+  <div class=" vouchers-info">
+    {{content.field_description}}
+  </div>
+
+
+		</div>
+
+
+      </section>
+
+<section class="pt-15 pb-20">
+	  <div class="container">
+	  <div class="form-row back-btn text-center"><a href="javascript:history.go(-1)">Back</a></div>
+	  </div>
+	  </section>
+      <script src="js/jquery.min.js"></script>
+      <script src="js/plugin.js"></script>
+
+      <script>

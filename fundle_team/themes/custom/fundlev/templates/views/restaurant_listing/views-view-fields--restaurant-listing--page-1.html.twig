@@ -1,0 +1,116 @@
+{#{{drupal_dump(fields)}}#}
+{#
+
+<div class="trainee-grid">#}
+{#
+<div class="container trainee-filters"><div class="title-1 pt-10 pb-10">Featured Restaurants</div> </div>
+<section class="mall-listing tpa ">
+    <div class="container">
+
+        <form action="" class="trainee-filters">
+            <div class="trainee-filter filter row flex-wrap filter-bg3">
+                <button id="rf-view-all" class="view-all active" value="*">View by Category</button>
+                <div class="custom-input">
+                    <select name="dept" id="">
+                        <option value="*">Select Category</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+        <div class="search-filters clear" >
+            <div class="search">
+                <form class="top-searchbox"><input type="search" name="gsearch" placeholder="Search Brand" class="gsearch"> <span class="submit-btn"> </span></form>
+            </div>
+        </div>
+
+
+
+        <div class="trainee-grid">
+            <div class="grid-item dept-clarks " data-dept="Clarks">
+                <div class="category-box">
+                    <div class="title-1">Restaurant</div>
+                    <div class="category-sec top-deals-banner-sec">
+                        <table class="btm-des border-bottom">
+                            <tr>
+                                <td><div class="link-1">Social</div><div class="text-12 midd-font">Continental</div>
+                                </td>
+                                <td>
+                                    <div class="text-9 text-right midd-font">Social, 2nd Floor, F-111, 112</div><div class="text-9  text-right">11:00 AM - 10:00 PM</div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="top-deals-banner">
+                            <a href="#"><img src="images/26691-1.jpg" alt="Lifafa"> </a>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="grid-item dept-krispy-kreme  " data-dept="Krispy Kreme" >
+                <div class="category-box">
+                    <div class="title-1">Food Court</div>
+                    <div class="category-sec top-deals-banner-sec">
+                        <table class="btm-des border-bottom">
+                            <tr>
+                                <td><div class="link-1">Wow Momo</div><div class="text-12 midd-font">Asian</div>
+                                </td>
+                                <td>
+                                    <div class="text-9 text-right midd-font">Wow Momo, 4th Floor, F-111, 112</div><div class="text-9  text-right">11:00 AM - 10:00 PM</div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="top-deals-banner">
+                            <a href="#"><img src="images/Group-2551.jpg" alt="Lifafa"> </a>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+
+                <div class="category-box">
+                    <div class="category-sec top-deals-banner-sec">
+                        <table class="btm-des border-bottom">
+                            <tr>
+                                <td><div class="link-1">Burger King</div><div class="text-12 midd-font">Fast Food</div>
+                                </td>
+                                <td>
+                                    <div class="text-9 text-right midd-font">Burger King, 4th Floor, F-111, 112</div><div class="text-9  text-right">11:00 AM - 10:00 PM</div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="top-deals-banner">
+                            <a href="#"><img src="images/Group-2553.jpg" alt="Lifafa"> </a>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class=" pb-15 back-btn text-center"><a href="#">Back</a></div>
+    </div>
+</section>#}
+
+
+
+
+
+
+        <div class="category-sec top-deals-banner-sec">
+            <table class="btm-des border-bottom">
+                <tr>
+                    <td><div class="link-1">{{fields.title.content}}</div><div class="text-12 midd-font">{{fields.field_product_category.content}}</div>
+                    </td>
+                    <td>
+                        <div class="text-9 text-right midd-font">{{fields.field_store_floor.content}},{{fields.field_storenumber.content}}</div><div class="text-9  text-right">{{fields.field_shop_timings.content}}</div>
+                    </td>
+                </tr>
+            </table>
+            <div class="top-deals-banner">
+                <a href="{{fields.view_node.content}}">{{fields.field_brand_listing_image.content}} </a>
+            </div>
+        </div>
+
+
+

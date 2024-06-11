@@ -1,0 +1,124 @@
+{#{{drupal_dump(fields.field_brand_name)}}#}
+{#
+
+<div class="trainee-grid">#}
+    <div class="grid-item dept-clarks " data-dept="Clarks">
+        <div class="category-box">
+            <table>
+                <tr>
+                    <td>
+                        <div class="text-12 bold">{{fields.field_brand_name.content}}</div>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </table>
+            <div class="category-sec top-deals-banner-sec">
+                <table class="btm-des">
+                    <tr>
+                        <td><div class="link-1">{{fields.field_header.content}}</div><div class="text-12 midd-font">{{fields.field_sub_header.content}}</div>
+                        </td>
+                        <td>
+                            <div class="text-9 text-right midd-font">{{fields.field_store_floor.content}},{{fields.field_storenumber.content}}</div>
+
+                                <div class="text-9  text-right">Valid Till {{fields.field_event_end_date.content}}</div>
+
+                            {#<div class="text-9  text-right">Valid Till Feb 28</div>#}
+                        </td>
+                    </tr>
+                </table>
+                <div class="top-deals-banner">
+                    <a href="{{fields.view_node.content}}">{{fields.field_listing_detail_image.content}} </a>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+
+{#    <div class=" pb-15 back-btn text-center"><a href="#">Back</a></div>
+</div>#}
+
+
+{#
+<div class="grid-item dept-fashion " data-dept="Fashion">
+    <div class="category-box">
+        <table>
+            <tr>
+                <td>
+
+                    <div class="title-1">{{fields.field_brand_name.content}}</div>
+                    <div class="text-12 bold color-y pt-5">{{fields.title.content}}</div>
+
+                </td>
+                <td>
+                    <div style="text-align:right;" class="link-1 text-12"><a href="/mall/{{fields.field_store_id.content}}/{{fields.field_mall_id.content}}/topdeals?filterby={{fields.field_catogery.content | lower }}">View All >></a></div>
+                </td>
+            </tr>
+        </table>
+
+
+
+        <div class="category-sec">
+            <a href="{{fields.view_node.content}}">
+                <div class="top-deals-img">
+
+                    <div class="top-deals-img-dsc-top">
+                        <div class="text-16">{{fields.field_header.content}}</div>
+                        <div class="text-12">{{fields.field_discount.content}}</div>
+                        {% if fields.field_category_section_till.content %}
+                        <div class="text-9">Valid Till {{fields.field_category_section_till.content}}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="top-deals-img-dsc">
+                        <div class="text-12 bold">{{fields.field_brand_name.content}}</div>
+                    </div>
+                    <div class="top-deals-img-dsc">
+                        <div class="text-12 bold">{{fields.field_shop_name.content}}</div>
+                    </div>
+                    {{fields.field_features_image.content}}
+                </div>
+            </a>
+        </div>
+
+        <hr>
+    </div>
+</div>#}
+
+{#<div class="grid-item dept-fashion" data-dept="Fashion">
+    <div class="category-box">
+        <table>
+            <tr>
+                <td>
+                    <div class="title-1">{{fields.field_catogery.content}}</div>
+                </td>
+                <td>
+                    <div style="text-align:right;" class="link-1 text-12"><a href="/mall/{{fields.field_store_id.content}}/{{fields.field_mall_id.content}}/topdeals?filterby={{fields.field_catogery.content | lower }}">View All >></a></div>
+                </td>
+            </tr>
+        </table>
+        <div class="category-sec">
+            <div class="top-deals-img">
+                <div class="top-deals-brand">
+                    <img src="{{fields.field_brand_logo.content}}" alt="Lifafa">
+                    {{fields.field_brand_logo.content}}
+
+                </div>
+                <img src="{{fields.field_features_image.content}}" alt="Lifafa">
+                {{fields.field_features_image.content}}
+            </div>
+            <table class="btm-des">
+                <tr>
+                    <td>
+                        <div class="td-title bold">{{fields.title.content}}</div>
+                    </td>
+                    <td>
+                        <div style="text-align:right; " class="right-arrow"><a href="{{fields.view_node.content}}"> <img src="{{ base_path ~ directory }}/images/right-arrows-couple.png" alt="Lifafa"></a></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <hr>
+    </div>
+</div>#}

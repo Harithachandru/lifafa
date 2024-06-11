@@ -1,0 +1,5 @@
+name: "goomo_config"
+type: module
+description: "custom Module"
+package: "Custom"
+core_version_requirement: ^8 || ^9

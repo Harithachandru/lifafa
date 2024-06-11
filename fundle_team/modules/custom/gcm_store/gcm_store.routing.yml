@@ -1,0 +1,9 @@
+gcm_store.gcm_admin_config_form:
+  path: '/admin/config/gcm_store/storeconfig'
+  defaults:
+    _form: '\Drupal\gcm_store\Form\GcmConfig'
+    _title: 'Gcm Store Configuration'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE

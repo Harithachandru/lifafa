@@ -1,0 +1,10 @@
+ <div class="col-lg-4 col-md-6 col-sm-9">
+                    <div class="single-news mt-30">
+                        <img src="{{ file_url(fields.uri.content|striptags|trim) }}" alt="">
+                        <div class="single-news-overlay">
+                            
+                             <h5 class="title"><a href="{{fields.view_node.content}}">{{fields.title.content|slice(0,40)}}</a></h5>
+                            <a href="{{fields.view_node.content}}"><i class="fal fa-long-arrow-right"></i></a>
+                        </div>
+                    </div> <!-- single news -->
+ </div>

@@ -1,0 +1,95 @@
+<?php
+
+/**
+ * @file
+ * Contains fundle_config.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function fundle_config_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the fundle_config module.
+    case 'help.page.fundle_config':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('My Awesome Module') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+//function fundle_config_theme() {
+//  return [
+//    'fundle_config' => [
+//      'render element' => 'children',
+//    ],
+//  ];
+//}
+
+/**
+ * Implements hook_theme().
+ */
+//function fundle_config_theme() {
+//  return [
+//    'default_block' => [
+//      'variables' => [
+//        'content' => NULL
+//      ],
+//      'render element' => 'children',
+//    ],
+//  ];
+//}
+
+/**
+ * Implements hook_theme().
+ */
+function fundle_config_theme() {
+  return [
+    'topdeals_logo_block' => [
+    'variables' => [
+    'content' => NULL
+    ],
+    ],
+     'whatson_logo_block' => [
+    'variables' => [
+    'content' => NULL
+    ],
+    ],
+    'comingsoon_logo_block' => [
+    'variables' => [
+    'content' => NULL
+    ],
+    ],
+    'launchoffer_block' => [
+    'variables' => [
+    'content' => NULL
+    ],
+    ],
+    'member_special_block' => [
+    'variables' => [
+    'content' => NULL,
+    'member_special' =>NULL,
+    ],
+     'render element' => 'children',
+    ],
+    'viewparking_charges_block' => [
+    'variables' => [
+    'content' => NULL,
+    'park_type' =>NULL,
+    ],
+     'render element' => 'children',
+    ],
+    ];
+
+
+}
+
+

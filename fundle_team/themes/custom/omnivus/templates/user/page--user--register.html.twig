@@ -1,0 +1,88 @@
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+    
+<div class="page-user-login gva-body-page body-page">
+   <div class="bg"></div>
+   <div role="main" class="main main-page">
+      <div class="branding text-center">
+                       <div>
+    
+      {{page.logo}}
+    
+  </div>
+
+               </div>
+               <div class="help show">
+            <div class="container">
+               <div class="content-inner">
+                    <div>
+    
+<div data-drupal-messages-fallback class="hidden"></div>
+
+  </div>
+
+               </div>
+            </div>
+         </div>
+            <div class="clearfix"></div>
+      <div id="content" class="content content-full">
+                     <div class="content-main">
+                 {# Action Links #}
+                        {% if action_links %}
+                            {% block action_links %}
+                                <ul class="action-links">{{ action_links }}</ul>
+                            {% endblock %}
+                        {% endif %}
+
+                        {# Help #}
+                        {% if page.help %}
+                            {% block help %}
+                                {{ page.help }}
+                            {% endblock %}
+                        {% endif %}
+
+                        {# Content #}
+                        {% block content %}
+                            <a id="main-content"></a>
+                            {{ page.content }}
+                        {% endblock %}
+
+
+
+
+                  </div>
+  </div>
+
+  </div>
+
+            </div>
+               </div>
+   </div>
+</div>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

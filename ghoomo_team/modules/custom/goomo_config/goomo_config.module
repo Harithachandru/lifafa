@@ -1,0 +1,790 @@
+<?php
+
+/**
+ * @file
+ * Contains lifafa_config.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+
+use Drupal\views\ViewExecutable;
+use Drupal\views\Plugin\views\query\QueryPluginBase;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\Entity\Node;
+use Drupal\Component\Datetime;
+use Drupal\Component\Datetime\DateTimePlus;
+use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\goomo_config\Controller\GhoomoController;
+
+include_once \Drupal::root() . '/core/themes/engines/twig/twig.engine';
+
+
+
+/**
+ * Implements hook_help().
+ */
+
+
+/**
+ * Implements hook_theme().
+ */
+//function lifafa_config_theme() {
+//  return [
+//    'lifafa_config' => [
+//      'render element' => 'children',
+//    ],
+//  ];
+//}
+
+/**
+ * Implements hook_theme().
+ */
+//function lifafa_config_theme() {
+//  return [
+//    'default_block' => [
+//      'variables' => [
+//        'content' => NULL
+//      ],
+//      'render element' => 'children',
+//    ],
+//  ];
+//}
+
+/**
+ * Implements hook_theme().
+ */
+function goomo_config_theme()
+{
+  return [
+    'india_flag_block' => [
+      'variables' => [
+        'content' => NULL,
+        'country_code' => NULL
+      ],
+    ],
+
+    'uk_flag_block' => [
+      'variables' => [
+        'content' => NULL
+      ],
+    ],
+    'user_icon_block' => [
+      'variables' => [
+        'content' => NULL,
+        'usericon' => NULL,
+        'available_point' => NULL
+      ],
+    ],
+
+    'sendNotificaionToRn' => ['variables' => [],]
+
+  ];
+}
+
+function getStoreHeader($storeId)
+{
+  \Drupal::service('page_cache_kill_switch')->trigger();
+  global $base_url;
+  global $base_path;
+  $result['store_header'] = '';
+  if (empty($storeId)) {
+    return;
+  }
+  $data['store_id'] = $storeId;
+  $id = $data['store_id'];
+
+  $nodes = \Drupal::entityTypeManager()->getStorage('node')
+    ->loadByProperties(['type' => 'customer_store', 'field_store_id' => $storeId, 'status' => 1]);
+  if ($node = reset($nodes)) {
+    if ($node->hasField('field_link_header')) {
+      // Get the entity reference field value.
+      $store_references = $node->get('field_link_header')->referencedEntities();
+      // Extract the labels of referenced entities.
+      foreach ($store_references as $store_reference) {
+        $store_name = $store_reference->label();
+      }
+    }
+    $data['store_name'] = $store_name;
+    $logoId = $node->field_store_logo->target_id;
+    $feviconId = $node->field_store_fevicon->target_id;
+    $file = \Drupal\file\Entity\File::load($logoId);
+
+    if (!empty($file)) {
+      $path = $file->getFileUri();
+      $url = \Drupal\Core\Url::fromUri(file_create_url($path), [
+        'https' =>
+        !empty(getenv('APP_ENV')) ? true : false
+      ])->toString();
+      $data['store_logo'] = $url;
+    }
+
+    if (!empty($feviconId)) {
+      $fevicon = \Drupal\file\Entity\File::load($feviconId);
+      $path2 = $fevicon->getFileUri();
+      $url2 = \Drupal\Core\Url::fromUri(file_create_url($path2), [
+        'https' =>
+        !empty(getenv('APP_ENV')) ? true : false
+      ])->toString();
+      $data['store_fevicon'] = $url2;
+    }
+  }
+
+  //Non Logged  Header Block content
+  $header_block = \Drupal::entityTypeManager()->getStorage('node')
+    ->loadByProperties(['type' => 'header_block', 'title' => $store_name, 'status' => 1]);
+
+  if (!empty($header_block)) {
+    $header_block = reset($header_block);
+    $header_block_title = $header_block->label();
+
+    if ($header_block->hasField('field_non_logged_in_header_items')) {
+      $paragraph_items = $header_block->get('field_non_logged_in_header_items')->getValue();
+
+      foreach ($paragraph_items as $paragraph_item) {
+        $paragraph = \Drupal\paragraphs\Entity\Paragraph::load($paragraph_item['target_id']);
+        $signup_url = $paragraph->field_signup_url->value;
+        $signup_url = str_replace('#storeId#', $storeId, $signup_url);
+        $signin_url = $paragraph->field_signin_url->value;
+        $signin_url = str_replace('#storeId#', $storeId, $signin_url);
+        $home_icon_url = $paragraph->field_home_icon_url->value;
+        $home_icon_url = str_replace('#storeId#', $storeId, $home_icon_url);
+        $logo_url = $paragraph->field_logo_url->value;
+        $logo_url = str_replace('#storeId#', $storeId, $logo_url);
+        $header_home_icon = $home_icon_url;
+        $header_logo = $logo_url;
+        $header_user_profile_menu = $paragraph->get('field_user_profile_menu')->value;
+        $header_signin_label = $paragraph->get('field_signin_label')->value;
+        $header_signup_label = $paragraph->get('field_signup_label')->value;
+        $header_signin_url = $signin_url;
+        $header_signup_url = $signup_url;
+      }
+    }
+  }
+  $data['header_home_icon'] = $header_home_icon;
+  $data['header_logo'] = $header_logo;
+  $data['header_user_profile_menu'] = $header_user_profile_menu;
+  $data['header_signin_label'] = $header_signin_label;
+  $data['header_signup_label'] = $header_signup_label;
+  $data['header_signin_url'] = $header_signin_url;
+  $data['header_signup_url'] = $header_signup_url;
+
+
+  $store_Url = getStoreUrl();
+  $data['store_url'] = $store_Url;
+  $base_link = $base_url;
+  $data['base_url'] = $base_link;
+  $data['store_url'] = $store_Url;
+  $background_userpng = $base_url . $base_path . drupal_get_path('theme', 'goomov') . "/images/user.png";
+  $house_blackpng = $base_url . $base_path . drupal_get_path('theme', 'goomov') . "/images/house-black.png";
+  $ghoomo_logo = $base_url . $base_path . drupal_get_path('theme', 'goomov') . "/images/Ghoomo_Logo.png";
+  $data['ghoomo_logo'] = $ghoomo_logo;
+  $data['user_png'] = $background_userpng;
+  $data['house_png'] = $house_blackpng;
+
+
+  return twig_render_template(
+    drupal_get_path('module', 'goomo_config') . '/templates/header.html.twig',
+    [
+      'id' => "{$data['store_id']}",
+      'store_logo' => "{$data['store_logo']}",
+      'fevicon' => "{$data['store_fevicon']}",
+      'store_base_url' => "{$data['store_url']}",
+      'base_url' => "{$data['base_url']}",
+      'user_png' => "{$data['user_png']}",
+      'house_png' => "{$data['house_png']}",
+      'ghoomo_logo' => "{$data['ghoomo_logo']}",
+      'header_home_icon' => "{$data['header_home_icon']}",
+      'header_logo' => "{$data['header_logo']}",
+      'header_user_profile_menu' => "{$data['header_user_profile_menu']}",
+      'header_signin_label' => "{$data['header_signin_label']}",
+      'header_signup_label' => "{$data['header_signup_label']}",
+      'header_signin_url' => "{$data['header_signin_url']}",
+      'header_signup_url' => "{$data['header_signup_url']}"
+
+    ]
+  );
+}
+function getLoggedStoreHeader($storeId, $isRNView, $device, $isFrom)
+{
+  \Drupal::service('page_cache_kill_switch')->trigger();
+  global $base_url;
+  global $base_path;
+  global $base_secure_url;
+
+  $result['store_header'] = '';
+  if (empty($storeId)) {
+    return;
+  }
+  $store_Url = getStoreUrl();
+  $data['store_url'] = $store_Url;
+
+  $data['store_id'] = $storeId;
+  $id = $data['store_id'];
+  $base_link = $base_url;
+  $data['base_url'] = $base_link;
+
+  $isFromPas = 0;
+  if ($isFrom == 'pas')
+    $isFromPas = 1;
+
+  $isPasWidth = '';
+  if ($isFromPas == 1) {
+    $isPasWidth = "position: fixed; max-width: 499px; width: 100%; background: #fff;";
+    if ($device == "iOS" || $device == "Android") {
+      $istopNav = "padding: 10px 0px 0px 10px;";
+    }
+  }
+
+  $nodes = \Drupal::entityTypeManager()->getStorage('node')
+    ->loadByProperties(['type' => 'customer_store', 'field_store_id' => $storeId, 'status' => 1]);
+  if ($node = reset($nodes)) {
+    if ($node->hasField('field_link_header')) {
+      $store_references = $node->get('field_link_header')->referencedEntities();
+      foreach ($store_references as $store_reference) {
+        $store_name = $store_reference->label();
+      }
+    }
+    $data['store_name'] = $store_name;
+    $logoId = $node->field_store_logo->target_id;
+    $feviconId = $node->field_store_fevicon->target_id;
+    $file = \Drupal\file\Entity\File::load($logoId);
+
+    if (!empty($file)) {
+      $path = $file->getFileUri();
+      $url = \Drupal\Core\Url::fromUri(file_create_url($path), [
+        'https' =>
+        !empty(getenv('APP_ENV')) ? true : false
+      ])->toString();
+      $data['store_logo'] = $url;
+    }
+
+    if (!empty($feviconId)) {
+      $fevicon = \Drupal\file\Entity\File::load($feviconId);
+      $path2 = $fevicon->getFileUri();
+      $url2 = \Drupal\Core\Url::fromUri(file_create_url($path2), [
+        'https' =>
+        !empty(getenv('APP_ENV')) ? true : false
+      ])->toString();
+      $data['store_fevicon'] = $url2;
+    }
+  }
+  $userCurrentPointDetails = getCurrentPoints();
+  $points = 0;
+  if (count($userCurrentPointDetails)) {
+    $available_points = isset($userCurrentPointDetails['data'][0]->availablePoints) ? $userCurrentPointDetails['data'][0]->availablePoints : 0;
+    $points = (string) $available_points;
+  }
+  $data['current_points'] = $points;
+  $available_point = $data['current_points'];
+  $wallet_png = $base_url . $base_path . drupal_get_path('theme', 'goomov') . "/images/wallet.png";
+  $background_userpng = \Drupal\Core\Url::fromUri(file_create_url($base_secure_url . $base_path . drupal_get_path('theme', 'goomov') . "/images/user.png"), [
+    'https' =>
+    !empty(getenv('APP_ENV')) ? true : false
+  ])->toString();
+  $house_blackpng = \Drupal\Core\Url::fromUri(file_create_url($base_secure_url . $base_path . drupal_get_path('theme', 'goomov') . "/images/house-black.png"), [
+    'https' =>
+    !empty(getenv('APP_ENV')) ? true : false
+  ])->toString();
+  $ghoomo_logo = \Drupal\Core\Url::fromUri(file_create_url($base_secure_url . $base_path . drupal_get_path('theme', 'goomov') . "/images/Ghoomo_Logo.png"), [
+    'https' =>
+    !empty(getenv('APP_ENV')) ? true : false
+  ])->toString();
+  $back_buttonpng = \Drupal\Core\Url::fromUri(file_create_url($base_secure_url . $base_path . drupal_get_path('theme', 'goomov') . "/images/backBtn.png"), [
+    'https' =>
+    !empty(getenv('APP_ENV')) ? true : false
+  ])->toString();
+
+  $data['ghoomo_logo'] = $ghoomo_logo;
+  $data['wl_png'] = $wallet_png;
+  $data['user_png'] = $background_userpng;
+  $data['house_png'] = $house_blackpng;
+  $data['back_button'] = $back_buttonpng;
+
+
+  $isIOSDevice = 0;
+  if ($device == 'iOS')
+    $isIOSDevice = 1;
+
+  $data['isRNView'] = $isRNView;
+  $data['isIOSDevice'] = $isIOSDevice;
+  $data['back_btn_redirection_url'] = $base_secure_url . '/sendnotificationtorn?isIOS=1';
+
+
+  //Logged  Header Block content
+  $header_block = \Drupal::entityTypeManager()->getStorage('node')
+    ->loadByProperties(['type' => 'header_block', 'title' => $store_name, 'status' => 1]);
+
+  if (!empty($header_block)) {
+    $header_block = reset($header_block);
+    $header_block_title = $header_block->label();
+
+    if ($header_block->hasField('field_logged_in_header_items')) {
+      $paragraph_items = $header_block->get('field_logged_in_header_items')->getValue();
+
+      foreach ($paragraph_items as $paragraph_item) {
+
+        $paragraph = \Drupal\paragraphs\Entity\Paragraph::load($paragraph_item['target_id']);
+        $my_account = $paragraph->field_my_account_url->value;
+        $my_account = str_replace('#storeId#', $storeId, $my_account);
+        $my_store = $paragraph->field_my_store_url->value;
+        $my_store = str_replace('#storeId#', $storeId, $my_store);
+        $home_icon_url = $paragraph->field_home_icon_url->value;
+        $home_icon_url = str_replace('#storeId#', $storeId, $home_icon_url);
+        $logo_url = $paragraph->field_logo_url->value;
+        $logo_url = str_replace('#storeId#', $storeId, $logo_url);
+
+        $header_home_icon = $home_icon_url;
+        $header_logo = $logo_url;
+        $header_user_profile_menu = $paragraph->get('field_user_profile_menu')->value;
+        $header_my_store_url = $my_store;
+        $header_my_account_url = $my_account;
+        $header_logout_url = $paragraph->get('field_logout_url')->value;
+        $header_sub_header = $paragraph->get('field_sub_header')->value;
+      }
+    }
+  }
+  $data['header_home_icon'] = $header_home_icon;
+  $data['header_logo'] = $header_logo;
+  $data['header_user_profile_menu'] = $header_user_profile_menu;
+  $data['header_my_store_url'] = $header_my_store_url;
+  $data['header_my_account_url'] = $header_my_account_url;
+  $data['header_logout_url'] = $header_logout_url;
+  $data['header_sub_header'] = $header_sub_header;
+  $data['store_home_baseurl'] = $isRNView ? $base_secure_url . '/sendnotificationtorn' : $header_home_icon;
+  $data['store_logo_url'] = $isRNView ? $base_secure_url . '/sendnotificationtorn' : $header_logo;
+  return twig_render_template(
+    drupal_get_path('module', 'goomo_config') . '/templates/logged-header.html.twig',
+    [
+      'id' => "{$data['store_id']}",
+      'store_logo' => "{$data['store_logo']}",
+      'fevicon' => "{$data['store_fevicon']}",
+      'store_base_url' => "{$data['store_url']}",
+      'base_url' => "{$data['base_url']}",
+      'wl_png' => "{$data['wl_png']}",
+      'user_png' => "{$data['user_png']}",
+      'house_png' => "{$data['house_png']}",
+      'ghoomo_logo' => "{$data['ghoomo_logo']}",
+      'available_point' => "{$data['current_points']}",
+      'header_home_icon' => "{$data['header_home_icon']}",
+      'header_logo' => "{$data['header_logo']}",
+      'header_user_profile_menu' => "{$data['header_user_profile_menu']}",
+      'header_my_store_url' => "{$data['header_my_store_url']}",
+      'header_my_account_url' => "{$data['header_my_account_url']}",
+      'header_logout_url' => "{$data['header_logout_url']}",
+      'header_sub_header' => "{$data['header_sub_header']}",
+      'isRNView' => "{$data['isRNView']}",
+      'isIOSDevice' => "{$data['isIOSDevice']}",
+      'back_button' => "{$data['back_button']}",
+      'back_btn_redirection_url' => "{$data['back_btn_redirection_url']}",
+      'store_home_baseurl' => "{$data['store_home_baseurl']}",
+      'store_logo_url' => "{$data['store_logo_url']}",
+      'isPasWidth' => "{$isPasWidth}",
+      'istopNav' => "{$istopNav}"
+    ]
+  );
+}
+
+function getStoreFooter($storeId)
+{
+  \Drupal::service('page_cache_kill_switch')->trigger();
+
+  global $base_url;
+  global $base_path;
+  $result['store_footer'] = '';
+  if (empty($storeId)) {
+    return;
+  }
+  $data['store_id'] = $storeId;
+  $id = $data['store_id'];
+
+  $base_link = $base_url;
+  $data['base_url'] = $base_link;
+
+  $footer_logo = $base_url . $base_path . drupal_get_path('theme', 'goomov') . "/images/mologo.png";
+  $data['footer_logo'] = $footer_logo;
+
+  return twig_render_template(
+    drupal_get_path('module', 'goomo_config') . '/templates/footer.html.twig',
+    [
+      'id' => "{$data['store_id']}",
+      'footer_logo' => "{$data['footer_logo']}",
+      'base_url' => "{$data['base_url']}",
+    ]
+  );
+}
+
+function getLoggedStoreFooter($storeId)
+{
+  \Drupal::service('page_cache_kill_switch')->trigger();
+
+  global $base_url;
+  global $base_path;
+  $result['store_footer'] = '';
+  if (empty($storeId)) {
+    return;
+  }
+  $data['store_id'] = $storeId;
+  $id = $data['store_id'];
+
+  $base_link = $base_url;
+  $data['base_url'] = $base_link;
+
+  $footer_logo = $base_url . $base_path . drupal_get_path('theme', 'goomov') . "/images/mologo.png";
+  $data['footer_logo'] = $footer_logo;
+
+  return twig_render_template(
+    drupal_get_path('module', 'goomo_config') . '/templates/logged-footer.html.twig',
+    [
+      'id' => "{$data['store_id']}",
+      'footer_logo' => "{$data['footer_logo']}",
+      'base_url' => "{$data['base_url']}",
+    ]
+  );
+}
+
+function getStoreUrl()
+{
+  global $base_url;
+  $store_url = \Drupal::config('goomo_config.lifafaconfig')->get('store_url');
+  $url = parse_url($base_url, PHP_URL_HOST);
+  $storeUrl = $store_url;
+  return $storeUrl;
+}
+
+
+function goomo_config_views_query_alter(ViewExecutable $view, QueryPluginBase $query)
+{
+  if (($view->id() == 'products_offers') && $view->current_display == 'block_1') {
+
+    $node = \Drupal::routeMatch()->getParameter('node');
+    $nid = $node->ID();
+    foreach ($query->where as &$condition_group) {
+      foreach ($condition_group['conditions'] as &$condition) {
+        $field = 'node__field_category.field_category_target_id';
+        $value = $nid;
+        $operator = '=';
+        $query->where[1]['conditions'][2] = [
+          "field"    => $field,
+          "value"    => $value,
+          "operator" => $operator,
+        ];
+      }
+    }
+  }
+  if (($view->id() == 'products_offers') && $view->current_display == 'block_2') {
+
+    $node = \Drupal::routeMatch()->getParameter('node');
+    $nid = $node->ID();
+    foreach ($query->where as &$condition_group) {
+      foreach ($condition_group['conditions'] as &$condition) {
+        $field = 'node__field_category.field_category_target_id';
+        $value = $nid;
+        $operator = '=';
+        $query->where[1]['conditions'][2] = [
+          "field"    => $field,
+          "value"    => $value,
+          "operator" => $operator,
+        ];
+      }
+    }
+  }
+  if (($view->id() == 'location_view') && $view->current_display == 'block_1') {
+
+    $node = \Drupal::routeMatch()->getParameter('node');
+    $nid = $node->ID();
+    foreach ($query->where as &$condition_group) {
+      foreach ($condition_group['conditions'] as &$condition) {
+        $field = 'node__field_category.field_category_target_id';
+        $value = $nid;
+        $operator = '=';
+        $query->where[1]['conditions'][2] = [
+          "field"    => $field,
+          "value"    => $value,
+          "operator" => $operator,
+        ];
+      }
+    }
+  }
+}
+
+function getCurrentPoints()
+{
+
+  if (isset(getallheaders()['Authorization'])) {
+    $headers = ["Authorization:" . " " . str_replace("bearer", "Bearer", getallheaders()['Authorization'])];
+    $tokenArray = explode(".", getallheaders()['Authorization']);
+
+    if (!isset($tokenArray[1])) {
+      return null;
+    }
+    $parsedJwt = base64_decode($tokenArray[1]);
+    if (!$parsedJwt) {
+      return null;
+    }
+
+    $userDetailsArray = json_decode($parsedJwt, true);
+    if (!$userDetailsArray) {
+      return null;
+    }
+
+    $cid = $userDetailsArray['companyTerminalId'];
+    $userid = strtoupper($userDetailsArray['preferred_username']);
+    $storeid = $userDetailsArray['storeTerminalId'];
+  }
+
+  $url = \Drupal::config('goomo_user.goomouser')->get('api_url');
+  $url = str_replace('#userid#', $userid, $url);
+  $url = str_replace('#companyid#', $cid, $url);
+  $url = str_replace('#currentStore#', $storeid, $url);
+
+  $curl = curl_init();
+
+  curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($curl, CURLOPT_URL, $url);
+  curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+  $response = curl_exec($curl);
+
+  if ($response === false)
+    $response = curl_error($curl);
+  curl_close($curl);
+
+  $result = (array) json_decode($response);
+
+  return $result;
+}
+function getFileUrl($fid)
+{
+  if (empty($fid)) {
+    return "";
+  }
+  try {
+    $file = \Drupal\file\Entity\File::load($fid);
+    $path = $file->getFileUri();
+    $mainImageurl = \Drupal\Core\Url::fromUri(file_create_url($path), [
+      'https' =>
+      !empty(getenv('APP_ENV')) ? true : false
+    ])->toString();
+    return $mainImageurl;
+  } catch (Exception $ex) {
+  }
+}
+function getfevicon($storeId)
+{
+  \Drupal::service('page_cache_kill_switch')->trigger();
+  if (empty($storeId)) {
+    return;
+  }
+
+  $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['type' => 'customer_store', 'field_store_id' => $storeId, 'status' => 1]);
+  if ($node = reset($nodes)) {
+    $feviconId = $node->field_store_fevicon->target_id;
+    if (!empty($feviconId)) {
+      $fevicon = \Drupal\file\Entity\File::load($feviconId);
+      $path2 = $fevicon->getFileUri();
+      $url2 = \Drupal\Core\Url::fromUri(file_create_url($path2), [
+        'https' =>
+        !empty(getenv('APP_ENV')) ? true : false
+      ])->toString();
+      $data = $url2;
+    }
+  }
+  return $data;
+}
+
+function getauthToken()
+{
+  \Drupal::service('page_cache_kill_switch')->trigger();
+  $userData = [];
+  $request = \Drupal::request();
+  $cookies = $request->cookies;
+  // Retrieve the value of the 'auth_token' cookie.
+  $idToken = '';
+  $internal_auth_token = $cookies->get('Auth_Token');
+
+  if ($internal_auth_token) {
+    $idToken = $internal_auth_token;
+    $tokenArray = explode(".", $idToken);
+    if (!isset($tokenArray[1])) {
+      return $userData;
+    }
+    $parsedJwt = base64_decode(str_pad(strtr($tokenArray[1], '-_', '+/'), strlen($tokenArray[1]) % 4, '=', STR_PAD_RIGHT));
+    if (!$parsedJwt) {
+      return $userData;
+    }
+    $userDetailsArray = json_decode($parsedJwt, true);
+    if (!$userDetailsArray) {
+      return $userData;
+    }
+    $userData['storeId'] = strtolower($userDetailsArray["storeTerminalId"]);
+  } else {
+    // If idToken is empty, try to retrieve 'External_Store_Id' from cookies.
+    $storeId = $cookies->get('External_Store_Id');
+
+    if ($storeId)
+      $userData['storeId'] = strtolower($storeId);
+  }
+  //\Drupal::logger('goomo_config')->info($storeId);
+  return $userData;
+}
+
+function getLoggedHeaderBlockContent($storeId)
+{
+  // Header Block content
+  $headerBlockData = [];
+  $request = \Drupal::request();
+  $cookies = $request->cookies;
+  $cookies_storeId = $cookies->get('storeid');
+  $userdata = getauthToken();
+  $token_storeId = $userdata['storeId'];
+  $storeId = '';
+  if (!empty($cookies_storeId)) {
+    $storeId = $cookies_storeId;
+  } else {
+    $storeId = $token_storeId;
+  }
+  // \Drupal::logger('goomo_config')->info($storeId);
+
+  if ($node_type = \Drupal::entityTypeManager()->getStorage('node_type')->load('header_block')) {
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'header_block')
+      ->execute();
+    $header_block_titles = [];
+    $index = 0;
+    $countryCode = '';
+    $countryCode = $cookies->get('countrycode');
+    foreach ($query as $node_id) {
+      $node = \Drupal\node\Entity\Node::load($node_id);
+      $header_block_titles[] = $node->title->value;
+      $paragraph_blocks = $node->field_logged_in_header_items->getValue();
+      if (!empty($paragraph_blocks)) {
+        foreach ($paragraph_blocks as $element) {
+          $p = \Drupal\paragraphs\Entity\Paragraph::load($element['target_id']);
+          // str replace for storeid
+          $my_account = $p->field_my_account_url->value;
+          $my_account = str_replace('#storeId#', $storeId, $my_account);
+          $my_store = $p->field_my_store_url->value;
+          $my_store = str_replace('#storeId#', $storeId, $my_store);
+          $home_icon_url = $p->field_home_icon_url->value;
+          $home_icon_url = str_replace('#storeId#', $storeId, $home_icon_url);
+          $home_icon_url = str_replace('#countryCode#', $countryCode, $home_icon_url);
+
+          $logo_url = $p->field_logo_url->value;
+          $logo_url = str_replace('#storeId#', $storeId, $logo_url);
+          $logo_url = str_replace('#countryCode#', $countryCode, $logo_url);
+
+          $logout_url = $p->field_logout_url->value;
+          $logout_url = str_replace('#countryCode#', $countryCode, $logout_url);
+          $headerBlockData[] = [
+            'header_title' => $header_block_titles[$index],
+            'header_home_icon' => $home_icon_url,
+            'header_logo' => $logo_url,
+            'header_user_profile_menu' => $p->field_user_profile_menu->value,
+            'header_my_store_url' => $my_store,
+            'header_my_account_url' => $my_account,
+            'header_logout_url' => $logout_url,
+            'header_sub_header' => $p->field_sub_header->value,
+          ];
+          $index = $index + 1;
+        }
+      }
+    }
+  }
+  return $headerBlockData;
+}
+
+function getNonLoggedHeaderBlockContent($storeId)
+{
+  // NonLogged Header Block content
+  $nonLoggedHeaderBlockData = [];
+  $request = \Drupal::request();
+  $cookies = $request->cookies;
+  $cookies_storeId = $cookies->get('storeid');
+  $userdata = getauthToken();
+  $token_storeId = $userdata['storeId'];
+  if (!empty($cookies_storeId)) {
+    $storeId = $cookies_storeId;
+  } else {
+    $storeId = $token_storeId;
+  }
+  $countryCode = '';
+  $countryCode = $cookies->get('countrycode');
+  if ($node_type = \Drupal::entityTypeManager()->getStorage('node_type')->load('header_block')) {
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'header_block')
+      ->execute();
+    $header_block_titles = [];
+    $index = 0;
+    foreach ($query as $node_id) {
+      $node = \Drupal\node\Entity\Node::load($node_id);
+      $header_block_titles[] = $node->title->value;
+      $paragraph_blocks = $node->field_non_logged_in_header_items->getValue();
+      if (!empty($paragraph_blocks)) {
+        foreach ($paragraph_blocks as $element) {
+          $p = \Drupal\paragraphs\Entity\Paragraph::load($element['target_id']);
+          // str replace for storeid
+          $signup_url = $p->field_signup_url->value;
+          $signup_url = str_replace('#storeId#', $storeId, $signup_url);
+          $signin_url = $p->field_signin_url->value;
+          $signin_url = str_replace('#storeId#', $storeId, $signin_url);
+          $home_icon_url = $p->field_home_icon_url->value;
+          $home_icon_url = str_replace('#storeId#', $storeId, $home_icon_url);
+          $home_icon_url = str_replace('#countryCode#', $countryCode, $home_icon_url);
+
+          $logo_url = $p->field_logo_url->value;
+          $logo_url = str_replace('#storeId#', $storeId, $logo_url);
+          $logo_url = str_replace('#countryCode#', $countryCode, $logo_url);
+
+          $nonLoggedHeaderBlockData[] = [
+            'header_title' => $header_block_titles[$index],
+            'header_home_icon' => $home_icon_url,
+            'header_logo' => $logo_url,
+            'header_user_profile_menu' => $p->field_user_profile_menu->value,
+            'header_signin_label' => $p->field_signin_label->value,
+            'header_signup_label' => $p->field_signup_label->value,
+            'header_signin_url' => $signin_url,
+            'header_signup_url' => $signup_url,
+          ];
+          $index = $index + 1;
+        }
+      }
+    }
+  }
+  return $nonLoggedHeaderBlockData;
+}
+
+
+/**
+ * Generate a unique uid value.
+ */
+function generate_unique_uid()
+{
+  // Query the database to find the highest existing uid.
+  $query = \Drupal::database()->select('users', 'u')
+    ->fields('u', ['uid'])
+    ->orderBy('u.uid', 'DESC')
+    ->range(0, 1);
+  $max_uid = $query->execute()->fetchField();
+
+  // Increment the highest uid value to generate the new uid.
+  $new_uid = $max_uid + 1;
+
+  return $new_uid;
+}
+
+
+/**
+ * Implements hook_ENTITY_TYPE_presave() for user entities.
+ */
+function goomo_config_user_presave(\Drupal\user\UserInterface $user)
+{
+  // Check if the user entity is being created (new user).
+  if ($user->isNew()) {
+    // Generate a unique uid value.
+    $uid = generate_unique_uid();
+    // Set the uid for the user entity.
+    $user->set('uid', $uid);
+  }
+}

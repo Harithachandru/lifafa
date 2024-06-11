@@ -1,0 +1,28 @@
+gcm_style:
+  version: 1.x
+#  js: 
+#      js/jquery.countTo.js: {}      
+#      js/jquery.flexslider.js: {}
+#      js/plugin.js: {}
+#  dependencies:
+#    - core/jquery
+#    - core/jquery.ui
+#    - core/jquery.once
+#    - core/drupal.ajax
+#    - core/drupal.dialog
+#    - core/system
+#    - core/drupal
+#    - core/drupalSettings
+#    - core/drupal.dialog.ajax    
+      
+  css:
+     theme:      
+      css/gcm-store.css: {}
+#      css/login-main.css: {}
+      
+#fonts:
+#  css:
+#    theme:
+#      '//fonts.gstatic.com': {type: external}
+#      '//fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap': {type: external}
+      

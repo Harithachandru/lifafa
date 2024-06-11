@@ -1,0 +1,34 @@
+## YAML Template.
+---
+name: 'Fundle'
+core: 8.x
+type: theme
+screenshot: screenshot.png
+description: 'this is custom drupal theme for fundle'
+
+libraries:
+  - fundlev/global-styling
+  - fundlev/fonts
+
+
+
+regions:
+  header: Header
+  header_bottom: 'Header bottom'
+  primary_menu: 'Primary menu'
+  secondary_menu: 'Secondary menu'
+  main_menu: 'Main menu'
+  slideshow: 'Slideshow'
+  help: Help
+  front_content: 'Front Content'
+  discover_offers: 'Discover Offers'
+  how_much_earn: 'How Much Earn'
+  page_top: 'Page top'
+  page_bottom: 'Page bottom'
+  messages: 'Messages'
+  featured: 'Featured'
+  breadcrumb: Breadcrumb
+  content: 'Content'
+  sidebar_first: 'Sidebar first'
+  footer_top: 'Footer Top'
+  footer: 'Footer'

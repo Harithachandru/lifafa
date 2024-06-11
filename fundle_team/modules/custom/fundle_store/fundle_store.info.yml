@@ -1,0 +1,5 @@
+name: 'Fundle Store'
+type: module
+description: 'this is Fundle store custom module'
+core: 8.x
+package: 'Custom'

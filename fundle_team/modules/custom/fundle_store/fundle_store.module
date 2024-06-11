@@ -1,0 +1,1089 @@
+<?php
+
+/**
+ * @file
+ * Contains fundle_store.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+
+use Drupal\views\ViewExecutable;
+use Drupal\views\Plugin\views\query\QueryPluginBase;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\Entity\Node;
+use Drupal\Component\Datetime;
+use Drupal\Component\Datetime\DateTimePlus;
+//use Drupal\fundle_store\Controller\LifafaStoreController;
+
+/**
+ * Implements hook_help().
+ */
+function fundle_store_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the fundle_store module.
+    case 'help.page.fundle_store':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('this is fundle store custom module') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+//function fundle_store_theme() {
+//  return [
+//    'fundle_store' => [
+//      'render element' => 'children',
+//    ],
+//  ];
+//}
+
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function fundle_store_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+
+  $view_ids = ['featured_top_deals'];
+  if ($form_id == 'views_exposed_form' && in_array($form_state->get('view')->id(), $view_ids)) {
+    $form['filterby']['#prefix'] = "<div class='trainee-filter filter row flex-wrap'><span id='rf-view-all' class='view-all active' value='*'>View by Category</span><div class='custom-input'>";
+    $form['filterby']['#suffix'] = "</div></div>";
+
+    $form['search_brand']['#prefix'] = "<div class='search-filters clear' ><div class='search'>";
+    $form['search_brand']['#attributes']['placeholder'][] = 'search brand';
+    $form['search_brand']['#attributes']['class'][] = 'gsearch';
+    $form['search_brand']['#suffix'] = "<span class='submit-btn'> </span></div></div>";
+    $form['search_brand']['#theme_wrappers'] = array();
+    $form['#attributes']['class'][] = 'trainee-filters';
+
+   $child_term_options =  getActiveCategoryList();
+  // $child_term_options =  getCategoryChildOptions();
+   
+   $form['filterby']['#options'] = $child_term_options;
+
+  }
+   $view_ids = ['featured_events'];
+  if ($form_id == 'views_exposed_form' && in_array($form_state->get('view')->id(), $view_ids)) {
+    $form['filterby']['#prefix'] = "<div class='trainee-filter filter filter-bg2 row flex-wrap'><span id='rf-view-all' class='view-all active' value='*'>View by Category</span><div class='custom-input'>";
+    $form['filterby']['#suffix'] = "</div></div>";
+
+    $form['search_brand']['#prefix'] = "<div class='search-filters clear' ><div class='search'>";
+   // $form['search_brand']['#attributes']['placeholder'][] = 'search event';
+    $form['search_brand']['#attributes']['class'][] = 'gsearch';
+    $form['search_brand']['#suffix'] = "<span class='submit-btn'> </span></div></div>";
+    $form['search_brand']['#theme_wrappers'] = array();
+    $form['#attributes']['class'][] = 'trainee-filters';
+
+   $child_term_options =  getCategoryOptions('Book');
+   $form['filterby']['#options'] = $child_term_options;
+
+//     if (isset($form['filterby']['#options'])) {
+//    foreach ($form['filterby']['#options'] as $key => $value) {
+//      // Limit to numeric keys to exclude the 'All' option.
+//        //$nodes='';
+//      if (is_numeric($key)) {
+//        // Start database query.
+//
+//        $query = \Drupal::database()->select('taxonomy_term_field_data', 'ti');
+//        $query->fields('ti');
+//        $query->fields('ti', ['tid']);
+//
+//        $query->condition('ti.name', $value);
+//        $query->condition('ti.name', ['COMEDY', 'MOVIES', 'OTHERS'], 'IN');
+//        $nodes = $query->execute()->fetchAssoc();
+//        if (!$nodes) {
+//          unset($form['filterby']['#options'][$key]);
+//        }
+//      }
+//    }
+//  }
+
+
+  }
+
+  $view_ids = ['brand_listing'];
+  if ($form_id == 'views_exposed_form' && in_array($form_state->get('view')->id(), $view_ids)) {
+    $form['filterby']['#prefix'] = "<div class='trainee-filter filter row flex-wrap'><span id='rf-view-all' class='view-all active' value='*'>View by Category</span><div class='custom-input'>";
+    $form['filterby']['#suffix'] = "</div></div>";
+
+    $form['search_brand']['#prefix'] = "<div class='search-filters clear' ><div class='search'>";
+    $form['search_brand']['#attributes']['placeholder'][] = 'Search brand';
+    $form['search_brand']['#attributes']['class'][] = 'gsearch';
+    $form['search_brand']['#suffix'] = "<span class='submit-btn'> </span></div></div>";
+    $form['search_brand']['#theme_wrappers'] = array();
+    $form['#attributes']['class'][] = 'trainee-filters';
+    $child_term_options =  getCategoryChildOptions();
+    $form['filterby']['#options'] = $child_term_options;
+  }
+ $view_ids = ['launch_offers'];
+  if ($form_id == 'views_exposed_form' && in_array($form_state->get('view')->id(), $view_ids)) {
+
+
+
+    $form['filterby']['#type'] = 'select';
+    $form['filterby']['#options'] = getMallOptions();
+    $form['filterby']['#size'] = 1;
+    $form['filterby']['#prefix'] = "<div class='trainee-filter filter row flex-wrap filter-bg3' ><span id='rf-view-all' class='view-all active' value='*'>Select Mall</span><div class='custom-input'>";
+    //$form['filterby']['#prefix'] = "<div class='trainee-filter filter row flex-wrap'><span id='rf-view-all' class='view-all ' value='*'>Select All</span><div class='custom-input active'>";
+    $form['filterby']['#suffix'] = "</div></div>";
+    $form['#attributes']['class'][] = 'trainee-filters';
+
+    }
+
+    $view_ids = ['discover_offers'];
+  if ($form_id == 'views_exposed_form' && in_array($form_state->get('view')->id(), $view_ids)) {
+//        $form['filterby']['#type'] = 'select';
+//        $form['filterby']['#options'] = getMallOptions();
+//
+//           // 'callback' => '::createOwnAwards',
+//           // 'wrapper' => 'award_name'
+//        $form['filterby']['#size'] = 1;
+//        $form['filterby']['#prefix'] = "<div class='container' style='max-width: 1250px;'><div class='tab-navigation'>";
+//        $form['filterby']['#suffix'] = "</div></div>";
+//        $form['#attributes']['class'][] = 'trainee-filters';
+//        $form['#attributes']['id'][] = 'select-box';
+//       $form['filterby']['#ajax'] = ['event' => 'change','callback' => '::getMallData','wrapper' => 'award_name'];
+    }
+
+  $view_ids = ['restaurant_listing'];
+  if ($form_id == 'views_exposed_form' && in_array($form_state->get('view')->id(), $view_ids)) {
+    $form['filterby']['#prefix'] = "<div class='trainee-filter filter row flex-wrap'><span id='rf-view-all' class='view-all active' value='*'>View by Category</span><div class='custom-input'>";
+    $form['filterby']['#suffix'] = "</div></div>";
+
+    $form['search_brand']['#prefix'] = "<div class='search-filters clear' ><div class='search'>";
+   $form['search_brand']['#attributes']['placeholder'][] = 'Search brand';
+    $form['search_brand']['#attributes']['class'][] = 'gsearch';
+    $form['search_brand']['#suffix'] = "<span class='submit-btn'> </span></div></div>";
+    $form['search_brand']['#theme_wrappers'] = array();
+    $form['#attributes']['class'][] = 'trainee-filters';
+
+   $child_term_options =  getCategoryOptions('Eat');
+   $form['filterby']['#options'] = $child_term_options;
+
+  //dump($form);
+//    if (isset($form['filterby']['#options'])) {
+//    foreach ($form['filterby']['#options'] as $key => $value) {
+//      // Limit to numeric keys to exclude the 'All' option.
+//        //$nodes='';
+//      if (is_numeric($key)) {
+//        // Start database query.
+//
+//        $query = \Drupal::database()->select('taxonomy_term_field_data', 'ti');
+//        $query->fields('ti');
+//        $query->fields('ti', ['tid']);
+//
+//        $query->condition('ti.name', $value);
+//        $query->condition('ti.name', ['RESTAURANTS', 'FOOD COURT', 'OTHERS'], 'IN');
+//        $nodes = $query->execute()->fetchAssoc();
+//        if (!$nodes) {
+//          unset($form['filterby']['#options'][$key]);
+//        }
+//      }
+//    }
+//  }
+
+ }
+
+
+}
+
+//function MYMODULE_form_views_exposed_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+//  $view_ids = ['YOUR_VIEW_ID'];
+//  if ($form_id == 'views_exposed_form' && in_array($form_state->get('view')->id(), $view_ids)) {
+//    $form['field_new_used']['#attributes']['disabled'] = 'disabled';
+//  }
+//}
+
+function fundle_store_theme($existing, $type, $theme, $path) {
+
+//    $theme['store_page'] = [
+//      //'variables' => ['name' => NULL],
+//      'template' => 'storepage'
+//    ];
+//
+//    return $theme;
+//
+    return [
+    'mallpage' => [
+      'variables' => ['storedata' => NULL],
+    ],
+    'parkpage' => [
+      'variables' => ['storedata' => NULL],
+    ],
+
+        'shoppage' => [
+      'variables' => ['storedata' => NULL],
+    ],
+
+        'bookpage' => [
+      'variables' => ['storedata' => NULL],
+    ],
+
+        'eatpage' => [
+      'variables' => ['storedata' => NULL],
+    ],
+
+    'topdeals' => [
+      'variables' => ['storedata' => NULL],
+    ],
+
+        'my_park_block' => [
+      'variables' => ['content' => NULL],
+            'render element' => 'children',
+    ],
+    'homepage_banner_slider' => [
+      'variables' => ['content' => NULL],
+    ],
+        'welcome_page_banner' => [
+      'variables' => ['content' => NULL],
+    ],
+
+     'welcomebanner' => [
+      'variables' => ['content' => NULL],
+    ],
+
+    'points_detail_block' => [
+    'variables' => ['content' => NULL],
+    'render element' => 'children',
+    ],
+
+    'views_exposed_form__featured_top_deals__page_12' => [
+      'render element' => 'form',
+    ],
+     'views_exposed_form__featured_events__page_12' => [
+      'render element' => 'form',
+    ],
+
+    'page_not_found' => [
+      'variables' => ['storedata' => NULL],
+    ],
+
+    'sendCustomerEmail' => [
+      'variables' => ['given_name' => NULL,'title' => NULL,'dynamic_key2' => NULL],
+    ],
+
+    'storelogoutpage' => [
+      'variables' => ['storedata' => NULL],
+    ],
+  ];
+
+
+  }
+
+function getLogoutUrl(){
+    global $base_url;
+    $logoutUrl = $base_url.'/user/logout';
+    $current = \Drupal::currentUser();
+    if (!empty($current->id())) {
+        $storeId = getStoreIdFromSession();
+        $logoutUrl = $base_url.'/user/logout?destination='.$storeId.'/home/';
+    }
+    return $logoutUrl;
+}
+
+
+  // Read some temporary data
+  function getStoreUrl() {
+      global $base_url;
+      $store_url = \Drupal::config('lifafa_config.lifafaconfig')->get('store_url');
+      $sid = getStoreIdFromSession();
+      $url = parse_url($base_url, PHP_URL_HOST);
+      $storeUrl = $store_url.$sid.'/myaccount ';
+      return $storeUrl;
+  }
+
+  function getStoreHomeUrl() {
+      global $base_url;
+      $store_url = \Drupal::config('lifafa_config.lifafaconfig')->get('store_url');
+      $sid = getStoreIdFromSession();
+      $url = parse_url($base_url, PHP_URL_HOST);
+      $storeUrl = $base_url.'/store/'.$sid.'/home ';
+      return $storeUrl;
+  }
+
+  function getGCMUrl() {
+      global $base_url;
+      $store_url = \Drupal::config('lifafa_config.lifafaconfig')->get('store_url');
+      $sid = getStoreIdFromSession();
+      $url = parse_url($base_url, PHP_URL_HOST);
+      //$storeUrl = $store_url.$sid.'-01/gcm';
+      $storeUrl = $store_url.$sid;
+      if(empty($sid)){
+          $storeUrl='';
+      }
+      return $storeUrl;
+  }
+
+  function getStoreBaseUrl() {
+      global $base_url;
+      $store_url = \Drupal::config('lifafa_config.lifafaconfig')->get('store_url');
+      //$sid = getStoreIdFromSession();
+      //$url = parse_url($base_url, PHP_URL_HOST);
+      //$storeUrl = $store_url.$sid.'-01/gcm';
+      $storeUrl = $store_url;
+
+      return $storeUrl;
+  }
+
+  function getSelectStoreId(){
+      $currentStore='';
+      if (\Drupal::currentUser()->isAnonymous()) {
+       $node = \Drupal::routeMatch()->getParameter('node');
+
+       if(!empty($node) && $node->getType()=='customer_store'){
+            if ($node instanceof \Drupal\node\NodeInterface) {
+               $currentStore =  $node->field_store_id->value;
+            }
+       }
+   }else{
+       return getStoreIdFromSession();
+   }
+   return $currentStore;
+  }
+
+  function getStoreIdFromSession(){
+      $tempstore = \Drupal::service('user.private_tempstore')->get('lifafa_store');
+      $sid = $tempstore->get('storeTerminalId');
+      return $sid;
+  }
+
+  function getStoreUserData(){
+      $tempstore = \Drupal::service('user.private_tempstore')->get('lifafa_store');
+      $sid = $tempstore->get('userData');
+      return $sid;
+  }
+
+    function getCurrentStoreUrl() {
+      global $base_url;
+      $store_url = \Drupal::config('lifafa_config.lifafaconfig')->get('store_url');
+      $sid = getStoreIdFromSession();
+      $url = parse_url($base_url, PHP_URL_HOST);
+      $storeUrl='';
+      if(!empty($sid)){
+          $storeUrl = $base_url.'/store/'.$sid;
+      }
+
+      return $storeUrl;
+  }
+
+  /**
+ * Implements hook_form_alter().
+ */
+function fundle_store_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+
+ //   dump($form);
+  if ($form_id == 'views_exposed_form' && ($form['#id'] = 'views-exposed-form-featured-top-deals-page-1' || $form['#id'] = 'views-exposed-form-partner-offers-page-1' )) {
+      $form['filterby']['#options']['All'] = 'Select Category';
+      $form['actions']['reset']['#access'] = FALSE;
+  }
+
+elseif ($form_id == 'views_exposed_form' && ($form['#id'] = 'views-exposed-form-launch-offers-page-1' || $form['#id'] = 'views-exposed-form-partner-offers-page-1' )) {
+      $form['filterby']['#options']['All'] = 'ALL';
+      $form['actions']['reset']['#access'] = FALSE;
+  }
+
+
+  elseif ($form_id == 'views_exposed_form' && ($form['#id'] = 'views-exposed-form-featured-events-page-1' || $form['#id'] = 'views-exposed-form-partner-offers-page-1' )) {
+
+      $form['filterby']['#options']['All'] = 'Select Category';
+      $form['actions']['reset']['#access'] = FALSE;
+  }
+elseif ($form_id == 'views_exposed_form' && ($form['#id'] = 'views-exposed-form-featured-events-page-2' || $form['#id'] = 'views-exposed-form-partner-offers-page-2' )) {
+
+      $form['filterby']['#options']['All'] = 'Select Category';
+      $form['actions']['reset']['#access'] = FALSE;
+  }
+
+   elseif ($form_id == 'node_top_deal_edit_form' ) {
+      $form['field_product_category']['widget']['#multiple'] = true;
+  }
+}
+/**
+ * Implements hook_views_query_alter().
+ */
+function fundle_store_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+
+//   if (($view->id() == 'mall_banner_slider2' || $view->id() == 'partner_offers') && $view->current_display=='block_1') {
+//    // Traverse through the 'where' part of the query.
+//    foreach ($query->where as &$condition_group) {
+//      foreach ($condition_group['conditions'] as &$condition) {
+//          dump($condition);
+//
+//        if ($condition['field'] == 'node__field_store.field_store_target_id = :node__field_store_field_store_target_id' || $condition['field'] == 'node__field_store.field_store_target_id = :node__field_store_field_store_target_id1') {
+//           $storeId = getStoreIdFromSession();
+//         $data = Drupal\fundle_store\Controller\LifafaStoreController::getStoreData($storeId);
+//         $field = 'node__field_store.field_store_target_id';
+//         $value = $data['id'];
+//         $operator = '=';
+//       // unset($query->where[0]['conditions'][2]);
+//        $query->where[0]['conditions'][0] = [
+//        "field"    => $field,
+//        "value"    => $value,
+//        "operator" => $operator,
+//        ];
+//        }
+//      }
+//    }
+//  }
+
+    if ($view->id() == 'shop_deals' && $view->current_display=='block_2') {
+
+    foreach ($query->where as &$condition_group) {
+      foreach ($condition_group['conditions'] as &$condition) {
+           //$storeId = getStoreIdFromSession();
+           //$storeId;
+        // $data = Drupal\fundle_store\Controller\LifafaStoreController::getStoreData($storeId);
+         // dump($query->where);
+
+        $current_path = \Drupal::service('path.current')->getPath();
+        $arr = explode('/', $current_path);
+        $storeId = $arr[2];
+       $mallId = $arr[3];
+
+       //print_r($current_path);die;
+     // dump($query->where);die;
+
+//        $field = 'node__field_mall_id.field_mall_id_value';
+//        $value = $mallId;
+//        $operator = 'LIKE';
+//        $query->where[1]['conditions'][2] = [
+//        "field"    => $field,
+//        "value"    => $value,
+//        "operator" => $operator,
+//        ];
+// dump($query->where);
+// echo "------------";
+         $field = 'node_field_data_node__field_mall__node__field_mall_id.field_mall_id_value';
+         $value = $mallId;
+         $operator = 'LIKE';
+        $query->where[1]['conditions'][2] = [
+        "field"    => $field,
+        "value"    => $value,
+        "operator" => $operator,
+        ];
+
+//        dump($query->where);
+
+
+      }
+    }
+  }
+
+
+    if ($view->id() == 'brand_listing' && $view->current_display=='page_1') {
+
+    foreach ($query->where as &$condition_group) {
+      foreach ($condition_group['conditions'] as &$condition) {
+           //$storeId = getStoreIdFromSession();
+           //$storeId;
+        // $data = Drupal\fundle_store\Controller\LifafaStoreController::getStoreData($storeId);
+         // dump($query->where);
+
+        $current_path = \Drupal::service('path.current')->getPath();
+        $arr = explode('/', $current_path);
+        $storeId = $arr[2];
+       $mallId = $arr[3];
+
+       //print_r($current_path);die;
+     // dump($query->where);die;
+
+//        $field = 'node__field_mall_id.field_mall_id_value';
+//        $value = $mallId;
+//        $operator = 'LIKE';
+//        $query->where[1]['conditions'][2] = [
+//        "field"    => $field,
+//        "value"    => $value,
+//        "operator" => $operator,
+//        ];
+// dump($query->where);
+// echo "------------";
+         $field = 'node_field_data_node__field_mall__node__field_mall_id.field_mall_id_value';
+         $value = $mallId;
+         $operator = 'LIKE';
+        $query->where[1]['conditions'][2] = [
+        "field"    => $field,
+        "value"    => $value,
+        "operator" => $operator,
+        ];
+
+//        dump($query->where);
+
+
+      }
+    }
+  }
+
+  if ($view->id() == 'featured_top_deals' && $view->current_display=='page_1') {
+
+    foreach ($query->where as &$condition_group) {
+      foreach ($condition_group['conditions'] as &$condition) {
+           //$storeId = getStoreIdFromSession();
+           //$storeId;
+        // $data = Drupal\fundle_store\Controller\LifafaStoreController::getStoreData($storeId);
+         // dump($query->where);
+
+        $current_path = \Drupal::service('path.current')->getPath();
+        $arr = explode('/', $current_path);
+        $storeId = $arr[2];
+        $mallId = $arr[3];
+
+        $field = 'node__field_mall_id.field_mall_id_value';
+        $value = $mallId;
+        $operator = 'LIKE';
+        $query->where[1]['conditions'][2] = [
+        "field"    => $field,
+        "value"    => $value,
+        "operator" => $operator,
+        ];
+
+         $field = 'node__field_store_id.field_store_id_value';
+         $value = $storeId;
+         $operator = 'LIKE';
+        $query->where[1]['conditions'][3] = [
+        "field"    => $field,
+        "value"    => $value,
+        "operator" => $operator,
+        ];
+
+
+      }
+    }
+  }
+
+  if ($view->id() == 'featured_events' &&  $view->current_display=='block_2') {
+
+
+
+    foreach ($query->where as &$condition_group) {
+      foreach ($condition_group['conditions'] as &$condition) {
+           //$storeId = getStoreIdFromSession();
+           //$storeId;
+        // $data = Drupal\fundle_store\Controller\LifafaStoreController::getStoreData($storeId);
+
+
+//        $current_path = \Drupal::service('path.current')->getPath();
+//        $arr = explode('/', $current_path);
+//        print_r($arr);
+
+           $path = \Drupal::request()->getpathInfo();
+         $arr  = explode('/',$path);
+       // print_r($arg);
+       $storeId = $arr[2];
+       $mallId = $arr[3];
+
+        $field = 'node__field_mall_id.field_mall_id_value';
+        $value = $mallId;
+        $operator = 'LIKE';
+        $query->where[1]['conditions'][2] = [
+        "field"    => $field,
+        "value"    => $value,
+        "operator" => $operator,
+        ];
+
+         $field = 'node__field_store_id.field_store_id_value';
+         $value = $storeId;
+         $operator = 'LIKE';
+        $query->where[1]['conditions'][3] = [
+        "field"    => $field,
+        "value"    => $value,
+        "operator" => $operator,
+        ];
+
+
+      }
+    }
+  }
+
+  if ($view->id() == 'featured_events' && $view->current_display=='page_1') {
+
+    foreach ($query->where as &$condition_group) {
+      foreach ($condition_group['conditions'] as &$condition) {
+           //$storeId = getStoreIdFromSession();
+           //$storeId;
+        // $data = Drupal\fundle_store\Controller\LifafaStoreController::getStoreData($storeId);
+       //   dump($query->where);
+
+        $current_path = \Drupal::service('path.current')->getPath();
+        $arr = explode('/', $current_path);
+        $storeId = $arr[2];
+        $mallId = $arr[3];
+
+        $field = 'node__field_mall_id.field_mall_id_value';
+        $value = $mallId;
+        $operator = 'LIKE';
+        $query->where[1]['conditions'][2] = [
+        "field"    => $field,
+        "value"    => $value,
+        "operator" => $operator,
+        ];
+
+         $field = 'node__field_store_id.field_store_id_value';
+         $value = $storeId;
+         $operator = 'LIKE';
+        $query->where[1]['conditions'][3] = [
+        "field"    => $field,
+        "value"    => $value,
+        "operator" => $operator,
+        ];
+
+
+      }
+    }
+  }
+  //dump($query->where);die;
+
+if ($view->id() == 'featured_events' && $view->current_display=='page_2') {
+
+    foreach ($query->where as &$condition_group) {
+      foreach ($condition_group['conditions'] as &$condition) {
+           //$storeId = getStoreIdFromSession();
+           //$storeId;
+        // $data = Drupal\fundle_store\Controller\LifafaStoreController::getStoreData($storeId);
+       //   dump($query->where);
+
+        $current_path = \Drupal::service('path.current')->getPath();
+        $arr = explode('/', $current_path);
+        $storeId = $arr[2];
+        $mallId = $arr[3];
+
+        $field = 'node__field_mall_id.field_mall_id_value';
+        $value = $mallId;
+        $operator = 'LIKE';
+        $query->where[1]['conditions'][2] = [
+        "field"    => $field,
+        "value"    => $value,
+        "operator" => $operator,
+        ];
+
+         $field = 'node__field_store_id.field_store_id_value';
+         $value = $storeId;
+         $operator = 'LIKE';
+        $query->where[1]['conditions'][3] = [
+        "field"    => $field,
+        "value"    => $value,
+        "operator" => $operator,
+        ];
+
+
+      }
+    }
+  }
+  if (($view->id() == 'perk_listing' || $view->id() == 'partner_offers') && $view->current_display=='block_2') {
+    foreach ($query->where as &$condition_group) {
+      foreach ($condition_group['conditions'] as &$condition) {
+           $storeId = getStoreIdFromSession();
+           $storeId;
+         $data = Drupal\fundle_store\Controller\LifafaStoreController::getStoreData($storeId);
+         $field = 'node__field_store.field_store_target_id';
+         $value = $data['id'];
+         $operator = '=';
+        $query->where[1]['conditions'][2] = [
+        "field"    => $field,
+        "value"    => $value,
+        "operator" => $operator,
+        ];
+      }
+    }
+  }
+
+  if (($view->id() == 'member_benefits' ) && $view->current_display=='block_1') {
+
+       $node = \Drupal::routeMatch()->getParameter('node');
+       $storeId =  $node->field_store_id->value;
+
+    foreach ($query->where as &$condition_group) {
+      foreach ($condition_group['conditions'] as &$condition) {
+
+           //$storeId = getStoreIdFromSession();
+
+         $data = Drupal\fundle_store\Controller\LifafaStoreController::getStoreData($storeId);
+         $field = 'node__field_store.field_store_target_id';
+         $value = $data['id'];
+         $operator = '=';
+        $query->where[1]['conditions'][2] = [
+        "field"    => $field,
+        "value"    => $value,
+        "operator" => $operator,
+        ];
+      }
+    }
+  }
+
+  if ($view->id() == 'restaurant_listing' && $view->current_display=='page_1') {
+
+    foreach ($query->where as &$condition_group) {
+      foreach ($condition_group['conditions'] as &$condition) {
+           //$storeId = getStoreIdFromSession();
+           //$storeId;
+        // $data = Drupal\fundle_store\Controller\LifafaStoreController::getStoreData($storeId);
+         // dump($query->where);
+
+        $current_path = \Drupal::service('path.current')->getPath();
+        $arr = explode('/', $current_path);
+        $storeId = $arr[2];
+        $mallId = $arr[3];
+
+     //   dump($current_path);
+
+        $field = 'node_field_data_node__field_mall__node__field_mall_id.field_mall_id_value';
+        $value = $mallId;
+        $operator = 'LIKE';
+        $query->where[1]['conditions'][2] = [
+        "field"    => $field,
+        "value"    => $value,
+        "operator" => $operator,
+        ];
+    //  echo   $_REQUEST['filterby'];
+//dump($query->where);
+//        $filterVal = ['75','74','82'];
+//         if(!empty($_REQUEST['filterby']) && $_REQUEST['filterby']!='All'){
+//             $filterVal = $_REQUEST['filterby'];
+//         }
+//         $field = 'node__field_sub_category.field_sub_category_target_id';
+//         $value = $storeId;
+//         $operator = 'IN';
+//        $query->where[1]['conditions'][3] = [
+//        "field"    => $field,
+//        "value"    => $filterVal,
+//        "operator" => $operator,
+//        ];
+
+
+     //dump($query->where);
+//
+//    $or_statement = new Condition('OR');
+//    $or_statement->condition('field_country', '12', '=');
+//    $query->addWhere(0, $or_statement);
+
+
+
+      }
+    }
+  }
+
+  if (($view->id() == 'eat_deals' ) && ($view->current_display=='block_2' || $view->current_display=='block_4')) {
+
+       $node = \Drupal::routeMatch()->getParameter('node');
+       $storeId =  $node->field_store_id->value;
+
+    foreach ($query->where as &$condition_group) {
+      foreach ($condition_group['conditions'] as &$condition) {
+
+          $current_path = \Drupal::service('path.current')->getPath();
+        $arr = explode('/', $current_path);
+        $storeId = $arr[2];
+        $mallId = $arr[3];
+
+         $field = 'node_field_data_node__field_mall__node__field_mall_id.field_mall_id_value';
+         $value = $mallId;
+         $operator = '=';
+        $query->where[1]['conditions'][2] = [
+        "field"    => $field,
+        "value"    => $value,
+        "operator" => $operator,
+        ];
+      }
+    }
+  }
+
+
+}
+
+function getFileUrl($fid){
+    if(empty($fid)){return "";}
+    try{
+        $file = \Drupal\file\Entity\File::load($fid);
+        $path = $file->getFileUri();
+        $mainImageurl = \Drupal\Core\Url::fromUri(file_create_url($path),['https' => 
+				!empty(getenv('APP_ENV')) ? true : false
+			])->toString();
+        return $mainImageurl;
+    } catch (Exception $ex) {
+
+    }
+}
+
+/**
+* Implements hook_mail().
+*/
+function fundle_store_mail($key, &$message, $params) {
+ $options = array(
+   'langcode' => $message['langcode'],
+ );
+
+ switch ($key) {
+   case 'thanks_customer_perk':
+     $message['headers'] = [
+        'content-type' => 'text/html'
+      ];
+     $message['from'] = \Drupal::config('system.site')->get('mail');
+     $message['subject'] = t('Perk Request | @title', array('@title' => $params['node_title']), $options);
+     $message['body'][] = $params['message'];
+     break;
+
+   case 'fundle_team_perk':
+     $message['from'] = \Drupal::config('system.site')->get('mail');
+     $message['subject'] = t('Perk Request | @title ', array('@title' => $params['node_title']), $options);
+     $message['body'][] = $params['message'];
+     break;
+
+ }
+}
+
+/**
+ * Implements hook_cron().
+ *
+ * every hours
+ */
+function fundle_store_cron() {
+
+    try{
+
+
+
+        $query = \Drupal::entityQuery('node')
+        ->condition('type', 'top_deal');
+
+        $group = $query->orConditionGroup()
+        ->condition('status', 1)
+        ->condition('field_promote_category_section', 1)
+        ->condition('field_promote_mall_home_page', 1);
+
+
+        // The ID of the node.
+        $nids = $query->condition($group)->execute();
+        if(empty($nids)){ return false;}
+
+        $nodes = Node::loadMultiple($nids);
+
+        if(!empty($nodes)){
+            foreach ($nodes as $node) {
+
+                $nid='';
+                $nid = $node->ID();
+                $mallHomePageEndDate='';
+                $categoryPageEndDate='';
+                $activeDealPageEndDate='';
+                $currentTime='';
+
+//                if($nid!=220){
+//                   continue;
+//                }
+//
+                //update Mall landing page display status
+
+               $mallHomePageEndDate = (!empty($node->field_mall_home_page_till->value))?$node->field_mall_home_page_till->value:'';
+               $mallHomePageEndDate = date('Y-m-d H:i:s',$mallHomePageEndDate);
+
+                //update Category Listing page display status
+                $categoryPageEndDate = (!empty($node->field_category_section_till->value))?$node->field_category_section_till->value:'';
+                $categoryPageEndDate = date('Y-m-d H:i:s',$categoryPageEndDate);
+
+                //update deal expiration display status
+                $activeDealPageEndDate = (!empty($node->field_active_till->value))?$node->field_active_till->value:'';
+                $activeDealPageEndDate = date('Y-m-d H:i:s',$activeDealPageEndDate);
+
+
+               date_default_timezone_set('Asia/Kolkata');
+               //echo date('Y-m-d H:i:s');
+               //echo "<br>";
+               $currentTime =  strtotime(date('Y-m-d H:i:s'));
+               //echo "<br>";
+
+
+               $mallHomePageEndDate =  strtotime($mallHomePageEndDate);
+
+                if($mallHomePageEndDate<=$currentTime){
+                    $node->set("field_promote_mall_home_page", 0);
+                }
+
+                $statistics = \Drupal::service('statistics.storage.node')
+                ->fetchView($nid);
+                $totalCount = 0;
+                if(!empty($statistics)){
+                    $totalCount  = $statistics->getTotalCount();
+                }
+
+//                //unpublished deals based on view limit reached
+                $numberOfValidView = (!empty($node->field_number_of_views->value))?$node->field_number_of_views->value:'';
+                if($totalCount>=$numberOfValidView){
+                    $node->set("status", 0);
+                }
+
+
+                $categoryPageEndDate =  strtotime($categoryPageEndDate);
+                if(!empty($categoryPageEndDate) && $categoryPageEndDate<=$currentTime){
+                    $node->set("field_promote_category_section", 0);
+                }
+
+
+                $activeDealPageEndDate =  strtotime($activeDealPageEndDate);
+                if(!empty($activeDealPageEndDate) && $activeDealPageEndDate<=$currentTime){
+                    $node->set("status", 0);
+                }
+                $node->save();
+                $str.=$nid;
+
+            }
+            //echo $str;die;
+        }
+    } catch (Exception $ex) {
+        echo $ex->getMessages();
+
+    }
+
+}
+
+function getCategoryOptions($parentName=''){
+    $query = \Drupal::database()->select('taxonomy_term_field_data', 'ti');
+    $query->fields('ti', ['tid']);
+    $query->condition('ti.name', [$parentName], 'IN');
+    $nodes = $query->execute()->fetchAssoc();
+    $vocabulary_id = 'Category';
+    $parent_id = $nodes['tid'];
+
+    $child_terms = \Drupal::entityTypeManager()
+      ->getStorage('taxonomy_term')
+      ->loadTree($vocabulary_id,$parent_id,1,true);
+   // dump($child_terms);
+    // Next build an options array of the child terms.
+    $child_term_options = [];
+    // Maybe you want an Any option
+    $child_term_options['All'] = 'Select Category';
+    foreach ($child_terms as $term) {
+      $child_term_options[$term->get('tid')->value] = $term->get('name')->value;
+    }
+    // Next update your filter options with only the child terms:
+   return  $child_term_options;
+
+}
+
+function getMallOptions(){
+    $query = \Drupal::entityQuery('node')
+    ->condition('type', 'mall')
+   // ->condition('field_mall', 16)
+    ->condition('status', 1);
+    // The ID of the node.
+    $nids = $query->execute();
+    $child_term_options = [];
+    if(empty($nids)){ return $child_term_options;}
+    $nodes = Node::loadMultiple($nids);
+
+    // Maybe you want an Any option
+   // $child_term_options[''] = 'ALL';
+    if(!empty($nodes)){
+        foreach ($nodes as $node) {
+            $child_term_options[$node->nid->value] = $node->title->value;
+        }
+    }
+        return $child_term_options;
+ }
+ 
+ function getMallListOptions(){
+    $query = \Drupal::entityQuery('node')
+    ->condition('type', 'mall')
+    ->condition('status', 1);
+    // The ID of the node.
+    $nids = $query->execute();
+    $child_term_options = [];
+    if(empty($nids)){ return $child_term_options;}
+    $nodes = Node::loadMultiple($nids);
+
+    // Maybe you want an Any option
+    //$child_term_options[''] = 'ALL';
+    if(!empty($nodes)){
+        foreach ($nodes as $node) {
+            $child_term_options[$node->nid->value] = $node->title->value;
+        }
+    }
+        return $child_term_options;
+ }
+ 
+        
+
+ function getActiveCategoryList(){
+    
+    $child_term_options=[];
+    $current_path = \Drupal::service('path.current')->getPath();
+    $arr = explode('/', $current_path);
+    $storeId = $arr[2];
+    $mallId = $arr[3];
+        
+    $query = \Drupal::entityQuery('node')
+    // $query->fields('ti', ['nid'])           
+    ->condition('type', 'top_deal')
+    //->condition('field_mall_id', $storeId)
+    ->condition('field_mall_id', $mallId)
+    ->condition('field_store_id', $storeId)
+    ->condition('field_promote_category_section', 1)
+    ->condition('status', 1);
+     $nids = $query->execute();
+    
+    $child_term_options['All'] = 'Select Category';
+    if(!empty($nids)){
+        $nodes = Node::loadMultiple($nids);    
+        $assignCategory = [];
+        //dump($nodes);die;
+        foreach($nodes as $node){
+           $assignCategory[] =  $node->field_sub_category->target_id;
+         //  $assignCategory = array_unique($assignCategory);          
+        }    
+        
+        $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadMultiple($assignCategory);
+        foreach($terms as $term) {
+          $name = $term->get('name')->value; ;
+          $tid = $term->get('tid')->value; ;
+           $child_term_options[$tid] = $name;
+        }    
+        
+        if(!empty($child_term_options)){
+            $child_term_options = array_unique($child_term_options); 
+            //asort($child_term_options,SORT_STRING);
+        }
+    }    
+    return $child_term_options;    
+ }      
+ function getCategoryChildOptions(){
+        $query = \Drupal::database()->select('taxonomy_term_field_data', 'ti');
+        $query->fields('ti', ['tid']);
+        //$query->condition('ti.name', [$parentName], 'IN');
+        $nodes = $query->execute()->fetchAssoc();
+        $vocabulary_id = 'Category';
+        $parent_id = $nodes['tid'];
+
+        $child_terms = \Drupal::entityTypeManager()
+          ->getStorage('taxonomy_term')
+          ->loadTree($vocabulary_id,0,1);
+
+        $child_term_options = [];
+        // Maybe you want an Any option
+        $child_term_options['All'] = 'Select Category';
+
+        foreach ($child_terms as $term) {
+
+            $parentName = $term->name;
+            $query = \Drupal::database()->select('taxonomy_term_field_data', 'ti');
+            $query->fields('ti', ['tid']);
+            $query->condition('ti.name', [$parentName], 'IN');
+            $nodes = $query->execute()->fetchAssoc();
+            $vocabulary_id = 'Category';
+            $parent_id = $nodes['tid'];
+
+            $child_terms = \Drupal::entityTypeManager()
+              ->getStorage('taxonomy_term')
+              ->loadTree($vocabulary_id,$parent_id,1,true);
+            foreach ($child_terms as $term) {
+              $child_term_options[$term->get('tid')->value] = $term->get('name')->value;
+            }
+        }
+        // Next update your filter options with only the child terms:
+        return  $child_term_options;
+
+}

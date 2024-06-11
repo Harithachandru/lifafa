@@ -1,0 +1,34 @@
+
+     {% include theme_path ~ "/templates/header.html.twig" %}
+    
+
+       {# Action Links #}
+    {% if action_links %}
+        {% block action_links %}
+            <ul class="action-links">{{ action_links }}</ul>
+        {% endblock %}
+    {% endif %}
+
+    {# Help #}
+    {% if page.help %}
+        {% block help %}
+            {{ page.help }}
+        {% endblock %}
+    {% endif %}
+
+    {# Content #}
+    {% block content %}
+        <a id="main-content"></a>
+        {{ page.content }}
+    {% endblock %}
+    
+    
+
+    
+  
+   
+
+  
+
+    <!-- Main Footer -->
+  {% include theme_path ~ "/templates/footer.html.twig" %}

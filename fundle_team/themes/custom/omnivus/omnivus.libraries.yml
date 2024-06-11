@@ -1,0 +1,53 @@
+global-styling:
+  css:
+    theme:
+      assets/css/bootstrap.min.css: {}
+      assets/css/all.css: {}
+      assets/css/magnific-popup.css: {}
+      assets/css/nice-select.css: {}
+      assets/css/animate.min.css: {}
+      assets/css/slick.css: {}
+      assets/css/default.css: {}
+      assets/css/style.css: {}
+      assets/css/custom.css: {}
+      assets/css/user.css: {}
+
+      
+
+
+global-scripts:
+  version: 1.0
+  js:
+    assets/js/vendor/modernizr-3.6.0.min.js: {}
+    assets/js/vendor/jquery-1.12.4.min.js: {}
+    assets/js/bootstrap.min.js: {}
+    assets/js/popper.min.js: {}
+    assets/js/slick.min.js: {}
+    assets/js/isotope.pkgd.min.js: {}
+    assets/js/imagesloaded.pkgd.min.js: {}
+    assets/js/jquery.magnific-popup.min.js: {}
+    assets/js/jquery.counterup.min.js: {}
+    assets/js/circle-progress.min.js: {}
+    assets/js/ajax-contact.js: {}
+    assets/js/jquery.syotimer.min.js: {}
+    assets/js/jquery.nice-select.min.js: {}
+    assets/js/wow.min.js: {}
+    assets/js/waypoints.min.js: {}
+    assets/js/main.js: {}
+
+
+
+header-js:
+  header: true
+  js:
+    assets/js/jquery-3.3.1.min.js: {}   
+    
+
+
+
+
+
+  
+    
+
+  

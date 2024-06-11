@@ -1,0 +1,6 @@
+workperx_config.workperx_urls:
+  title: 'Workperx Config'
+  route_name: workperx_config.workperx_urls
+  description: 'A description for the menu entry'
+  parent: system.admin
+  weight: 99

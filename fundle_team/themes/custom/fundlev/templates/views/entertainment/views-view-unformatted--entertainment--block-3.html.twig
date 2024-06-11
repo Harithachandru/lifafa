@@ -1,0 +1,18 @@
+ <section class="top-deal-sec">
+ <div class="container">
+     <div class="top-deal">
+            <table class="pb-5">
+               <tr>
+                  <td class="title-1">Coming Soon</td>
+                  <td style="text-align:right;" class="link-1 link-btn"><a href="/mall/{{storeId}}/{{mallId}}/comingsoon-list/">View All</a></td>
+               </tr>
+            </table>
+             <div class="deals-slider">
+               {% for row in rows %}
+                    {{ row.content }}
+                {% endfor %}
+             </div>
+
+     </div>
+    </div>
+</section>

@@ -1,0 +1,717 @@
+<?php
+use Drupal\node\Entity\Node;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\Core\Url;
+use Drupal\Core\Routing\CurrentRouteMatch;
+
+///*
+// * To change this license header, choose License Headers in Project Properties.
+// * To change this template file, choose Tools | Templates
+// * and open the template in the editor.
+// */
+
+/**
+ * Implement hook_preprocess_page()
+ *
+ */
+function workperx_theme_suggestions_page_alter(array &$suggestions, array $variables)
+{
+	// Add content type suggestions.
+	if ($node = \Drupal::request()->attributes->get('node')) {
+		
+		// if ($node->getType() == 'page') {
+			if (!empty($node->field_page_name->value)) {
+				$suggestions[] = 'page__' . $node->field_page_name->value;
+			}
+		// }
+	}
+
+	
+}
+
+function workperx_preprocess_page(&$variables) 
+{
+
+	\Drupal::service('page_cache_kill_switch')->trigger();
+	$theme = \Drupal::theme()->getActiveTheme()->getName();
+	$is_front = \Drupal::service('path.matcher')->isFrontPage();
+
+	$isLoggedOut = \Drupal::request()->query->get('isLoggedOut');
+	if($isLoggedOut)
+	{
+		unset($_COOKIE['storeid']);
+		setcookie('storeid', '', time() - 3600, '/');
+	}
+
+	//Get Opened Device Name
+	$isDeviceName = getDeviceName();
+	$isIOSDevice = ($isDeviceName == 'iOS') ? 1 : 0;
+	$isAndroidDevice = ($isDeviceName == 'android') ? 1 : 0;
+	$isMobileApp = ($isIOSDevice || $isAndroidDevice) ? 1 : 0;
+
+	//Check Workperx User is Already Logged in Or not
+	$isNotLoggedIn = \Drupal::request()->query->get('isNotLoggedIn');
+
+	// get the current URL without query parameters
+	$currentUrlWithoutParameter = strtok($_SERVER["REQUEST_URI"], '?');
+	if($isNotLoggedIn)
+		echo "<script>history.pushState(null, '', '$currentUrlWithoutParameter');</script>";
+	
+	$cReferer = \Drupal::request()->query->get('c_referer');
+	$deepLinkPageUrl = \Drupal::request()->query->get('page_url');
+	if(strpos($deepLinkPageUrl, '%') !== false) 
+		$deepLinkPageUrl = str_replace('%', '%25', $deepLinkPageUrl);
+
+	// Deeplink -> Redirect to non logged in page if redirect_to_page_url_without_login=true
+	if((strpos($deepLinkPageUrl, 'redirect_to_page_url_without_login=true') !== false) && $isMobileApp == 0)
+	{
+		header("Location: ".$deepLinkPageUrl, TRUE, 301);
+		exit;
+	}
+
+	$cReferer = \Drupal::request()->query->get('c_referer');
+	if($cReferer == 'deeplink')
+	{
+		if((strpos($deepLinkPageUrl, 'redirect_to_page_url_without_login=true') !== false) && $isMobileApp == 1)
+		{
+			header("Location: ".$deepLinkPageUrl, TRUE, 301);
+			exit;
+		}
+	}
+	
+
+	$isCookiesStoreId= '';
+	if(!$isNotLoggedIn && $is_front)
+	{
+		// if($isAppNotFound !=1)
+			$isCookiesData = checkUserIsAlreadyLoggedInOrNot();
+
+		$isCookiesStoreId = isset($isCookiesData['isCookiesStoreId']) ? $isCookiesData['isCookiesStoreId'] : '';
+		$points = isset($isCookiesData['points']) ? $isCookiesData['points'] : '';
+		$wallet_name = isset($isCookiesData['wallet_name']) ? $isCookiesData['wallet_name'] : '';
+		$tier_name = isset($isCookiesData['tierName']) ? $isCookiesData['tierName'] : '';
+		$file_path = isset($isCookiesData['filePath']) ? $isCookiesData['filePath'] : '';
+		$isCookiescompanyTerminalId = isset($isCookiesData['isCookiescompanyTerminalId']) ? $isCookiesData['isCookiescompanyTerminalId'] : '';
+		
+		//Get Company Logo  
+		$companyData = getCompanyLogo($isCookiescompanyTerminalId);
+		$company_logo = $companyData;
+		if($company_logo)
+			$companylogo  = $company_logo;
+		else
+			$companylogo = '/' . drupal_get_path('theme', $theme) . '/images/logo.png';
+			
+		$variables['companylogo'] = $companylogo;
+			
+		//Redirect To User Based on Deeplink redirection 
+		if($deepLinkPageUrl && $isMobileApp == 0)
+		{
+			header("Location: ".$deepLinkPageUrl, TRUE, 301);
+			exit;
+		}
+
+	}
+
+	//Get Header Block Content 
+	$access_token = isset($isCookiesData['accessToken']) ? $isCookiesData['accessToken'] : '';
+	$header_data = getHeaderBlockContent($isCookiesStoreId,$deepLinkPageUrl,$access_token);
+	if (isset($header_data['store_header'])) 
+	{
+		$header_content = $header_data['store_header'];
+	}
+	$variables['header_data'] = $header_content;
+
+	$cookiesCountryCode =  '';
+	$countryCode = \Drupal::request()->cookies->get('countrycode');
+	
+	$variables['countryCode'] = $cookiesCountryCode; 
+
+	$variables['logopath'] = '/' . drupal_get_path('theme', $theme) . '/images/logo.png';
+	$variables['homeLogoPath'] = '/' . drupal_get_path('theme', $theme) . '/images/house-black.png';
+	$variables['background_banner_image'] = '/' . drupal_get_path('theme', $theme) . '/images/bannerbg.png';
+	$variables['theme_path'] = drupal_get_path('theme', $theme);
+    
+	
+	//Get Login URL From Drupal Config.
+	$signupUrl = \Drupal::config('workperx_config.workperx_url')->get('signup_url');
+	$signinUrl = \Drupal::config('workperx_config.workperx_url')->get('signin_url');
+	$store_myaccount_url = \Drupal::config('workperx_config.workperx_url')->get('store_myaccount_url');
+	$store_home_url = \Drupal::config('workperx_config.workperx_url')->get('store_home_url');
+	$logout_url = \Drupal::config('workperx_config.workperx_url')->get('logout_url');
+	
+	$storeId = isset($_COOKIE['storeid']) ? $_COOKIE['storeid'] : $isCookiesStoreId;
+	$name = isset($isCookiesData['user_name']) ? $isCookiesData['user_name'] : '';
+
+	if(strpos($signinUrl, 'page_url') !== false) 
+	{
+		$deepLinkPageUrl = \Drupal::request()->query->get('page_url');
+		if(strpos($deepLinkPageUrl, '%') !== false) 
+			$deepLinkPageUrl = str_replace('%', '%25', $deepLinkPageUrl);
+
+		if($deepLinkPageUrl)
+			$signinUrl = str_replace('#page_url#', $deepLinkPageUrl, $signinUrl);
+		else
+			$signinUrl = str_replace('&page_url=#page_url#', '', $signinUrl);
+	}
+
+	$variables['name'] = $name;
+	$variables['signin_url'] = $signinUrl;
+	$variables['signup_url'] = $signupUrl;
+	$variables['storeId'] = $storeId;
+	$variables['store_myaccount_url'] = $store_myaccount_url;
+	$variables['store_home_url'] = $store_home_url;
+	$variables['logoutUrl'] = $logout_url;
+	$variables['available_point'] = $points;
+	$variables['walletName'] = $wallet_name;
+	$variables['tier_name'] = $tier_name;
+	$variables['file_path'] = $file_path;
+	//\Drupal::logger('workperx')->info($wallet_name);
+	//\Drupal::logger('workperx')->info($points);
+
+    
+	//For Banner
+	$bannerNodes = \Drupal::entityTypeManager()
+			->getStorage('node')
+			->loadByProperties(['type' => 'banners']);
+	
+
+	$banners = [];
+	if(!empty($bannerNodes))
+	{
+		
+		foreach($bannerNodes as $node) 
+		{
+			$banner = [];
+			$bannerHeading = $node->field_banner_heading->value;
+			$bannerSubHeading = $node->field_banner_sub_heading->value;
+			$imageId = $node->field_image->target_id;
+			$url = '';
+			if(!empty($imageId)){
+				$url = getImageUrlPath($imageId);
+			}
+			
+			$banner['bannerHeading'] = $bannerHeading;
+			$banner['bannerSubHeading'] = $bannerSubHeading;
+			$banner['imageUrl'] = $url;
+
+			$banners[] = $banner;
+
+		}
+		
+		$variables['banners'] = $banners;
+	}
+
+	
+
+	//For Our Customers
+	$customerNodes = \Drupal::entityTypeManager()
+	->getStorage('node')
+	->loadByProperties(['type' => 'customer_logos', 'status' => 1]);
+	$images = [];
+	foreach ($customerNodes as $node) {
+	  $imageIds = $node->field_customer_logo->getValue();
+	  $title = $node->title->value;
+	  foreach ($imageIds as $imageId) {
+		if (!empty($imageId['target_id'])) {
+		  $imageUrl = getImageUrlPath($imageId['target_id']);
+		  $images[] = $imageUrl;
+		}
+	  }
+	}
+	$variables['ourCustomerTitle'] = $title;
+	$variables['customerImages'] = $images;
+
+	//For Our Services
+	$ourServicesNodes = \Drupal::entityTypeManager()
+			->getStorage('node')
+			->loadByProperties(['type' => 'our_services']);
+	
+
+	$ourServices = [];
+	if(!empty($ourServicesNodes))
+	{
+		//To get Content Type
+		$servicesContentType = \Drupal::entityTypeManager()->getStorage('node_type')->load('our_services');
+		if ($servicesContentType) {
+			$servicesTitle = $servicesContentType->label();
+		}
+
+		foreach($ourServicesNodes as $node) 
+		{
+			$ourService = [];
+			$imageId = $node->field_image->target_id;
+			$body = $node->body->value;
+			$subTitle = $node->field_sub_title->value;
+			$title = $node->title->value;
+
+			$url = '';
+			if(!empty($imageId)){
+				$url = getImageUrlPath($imageId);
+			}
+			
+			$ourService['title'] = $title;
+			$ourService['body'] = $body;
+			$ourService['subTitle'] = $subTitle;
+			$ourService['imageUrl'] = $url;
+			$ourServices[] = $ourService;
+
+		}
+		$variables['ourServices'] = $ourServices;
+		$variables['servicesTitle'] = $servicesTitle;
+	}
+
+	//For Our Perks Catalogue
+	$ourPerksCatalogueNodes = \Drupal::entityTypeManager()
+			->getStorage('node')
+			->loadByProperties(['type' => 'our_perks_catalogue']);
+
+	$ourPerksCatalogues = [];
+	if(!empty($ourPerksCatalogueNodes))
+	{
+		//To get Content Type
+		$ourPerksCatalogueContentType = \Drupal::entityTypeManager()->getStorage('node_type')->load('our_perks_catalogue');
+		if ($ourPerksCatalogueContentType) {
+			$ourPerksCatalogueTitle = $ourPerksCatalogueContentType->label();
+		}
+
+		foreach($ourPerksCatalogueNodes as $node) 
+		{
+			$ourCustomer = [];
+			$imageId = $node->field_image->target_id;
+
+			$url = '';
+			if(!empty($imageId)){
+				$url = getImageUrlPath($imageId);
+			}
+			
+			$ourCustomer['imageUrl'] = $url;
+			$ourPerksCatalogues[] = $ourCustomer;
+
+		}
+		$variables['ourPerksCatalogues'] = $ourPerksCatalogues;
+		$variables['ourPerksCatalogueTitle'] = $ourPerksCatalogueTitle;
+	}
+
+	//For App
+	$downloadAppNodes = \Drupal::entityTypeManager()
+			->getStorage('node')
+			->loadByProperties(['type' => 'download_app']);
+	
+	//Get Opened Device Name
+	$isDeviceName = getDeviceName();
+	$isIOSDevice = ($isDeviceName == 'iOS') ? 1 : 0;
+	$isAndroidDevice = ($isDeviceName == 'android') ? 1 : 0;
+	$isMobileApp = ($isIOSDevice || $isAndroidDevice) ? 1 : 0;
+	$cReferer = \Drupal::request()->query->get('c_referer');
+
+	$variables['isAppNotFound'] = ($cReferer == 'deeplink') ? 1 : 0;
+
+	$variables['isMobileApp'] = $isMobileApp;
+	$variables['downloadLabel'] = '';
+	$variables['downloadSubLabel'] = '';
+	$variables['downloadAppLink'] = '';
+	$variables['downloadAppImage'] = '';
+	$variables['storeMobileImage'] = '';
+	$variables['backgroundImage'] = '';
+
+	$downloadApps = [];
+	if(!empty($downloadAppNodes))
+	{
+		// $downloadApp = [];
+		foreach($downloadAppNodes as $node) 
+		{
+			$downloadApp = [];
+			
+
+			$androidImageId = isset($node->field_android_image->target_id) ? $node->field_android_image->target_id : '';
+			$androidImage = '';
+			if (!empty($androidImageId)) {
+				$androidImage = getFileUrl($androidImageId);
+			}
+
+			$iosImageId = isset($node->field_ios_image->target_id) ? $node->field_ios_image->target_id : '';
+			$iosImage = '';
+			if (!empty($iosImageId)) {
+				$iosImage = getFileUrl($iosImageId);
+			}
+
+			$storeMobileImageId = isset($node->field_store_mobile_image->target_id) ? $node->field_store_mobile_image->target_id : '';
+			$storeMobileImage = '';
+			if (!empty($storeMobileImageId)) {
+				$storeMobileImage = getFileUrl($storeMobileImageId);
+			}
+
+			$backgroundImageId = isset($node->field_background_image->target_id) ? $node->field_background_image->target_id : '';
+			$backgroundImage = '';
+			if (!empty($backgroundImageId)) {
+				$backgroundImage = getFileUrl($backgroundImageId);
+			}
+
+			$downloadLabel = isset($node->field_label->value) ? $node->field_label->value : '';
+			$downloadSubLabel = isset($node->field_sub_label->value) ? $node->field_sub_label->value : '';
+			$androidLink = isset($node->field_android_url->value) ? $node->field_android_url->value : '';
+			$iosLink = isset($node->field_ios_url->value) ? $node->field_ios_url->value : '';
+
+			if($isAndroidDevice)
+			{
+				$variables['downloadAppLink'] = $androidLink;
+				$variables['downloadAppImage'] = $androidImage;
+			}
+			elseif($isIOSDevice)
+			{
+				$variables['downloadAppLink'] = $iosLink;
+				$variables['downloadAppImage'] = $iosImage;
+			}
+
+			$variables['downloadLabel'] = $downloadLabel;
+			$variables['downloadSubLabel'] = $downloadSubLabel;
+			$variables['storeMobileImage'] = $storeMobileImage;
+			$variables['backgroundImage'] = $backgroundImage;
+
+			// $downloadApp['androidURL'] = $androidURL;
+			// $downloadApp['androidImage'] = $androidImage;
+			// $downloadApp['iosImage'] = $iosImage;
+			// $downloadApp['iosURL'] = $iosURL;
+
+			// $downloadApps[] = $downloadApp;
+
+		}
+		// print_r($downloadApps);
+		
+		//$variables['downloadApps'] = $downloadApps;
+	}
+}
+
+function workperx_preprocess_node(&$variables) 
+{
+	
+	$theme = \Drupal::theme()->getActiveTheme()->getName();
+
+	$variables['theme_path'] = drupal_get_path('theme', $theme);
+	if ($node = \Drupal::request()->attributes->get('node')) {
+		
+		$customerData = [];
+		if ($node->getType() == 'customers') {
+			
+			$logoId = $node->field_image->target_id;
+			$imageUrl = '';
+			if(!empty($logoId)){
+				$file = \Drupal\file\Entity\File::load($logoId);
+				$path = $file->getFileUri();
+				$imageUrl = \Drupal\Core\Url::fromUri(file_create_url($path), ['https' => 
+					!empty(getenv('APP_ENV')) ? true : false
+				])->toString();
+			}
+
+			$customerData['title'] = $node->title->value;
+			$customerData['imageUrl'] = $imageUrl;
+			$variables['our_customers'] = $customerData;
+			
+		}
+	}
+
+}
+
+function workperx_preprocess(&$variables) 
+{
+
+  global $base_root;
+  $variables['base_root'] = $base_root;
+  $variables['base_path'] = base_path();
+
+  	//Set Cookies for country code
+	$countrycode = isset($_COOKIE['countrycode']) ? $_COOKIE['countrycode'] : '';
+	if(!$countrycode)
+	{
+		setcookie('countrycode', 'in' ,'','/');
+		$countrycode = 'in';
+	}
+
+
+	$indexPage = "$_SERVER[HTTP_HOST]/";
+	$fullUrl = "$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+	if($indexPage == $fullUrl)
+	{
+		$env = Settings::get('env');
+		
+		if ($env === 'local')
+			$redirectionLink = "http://$_SERVER[HTTP_HOST]/$countrycode";
+		else	
+			$redirectionLink = "https://$_SERVER[HTTP_HOST]/$countrycode";
+
+		header("Location: ".$redirectionLink);
+		exit;
+	}
+
+	$page = \Drupal::request()->getRequestUri();
+	$lifafaContactusUrl = \Drupal::config('workperx_config.workperx_url')->get('lifafa_contact_us_url');
+
+	// Check if the requested path matches the URL that needs to be redirected.
+	if ($page === '/in/contact-us') {
+	  header("Location: $lifafaContactusUrl", TRUE, 301);
+      exit;
+	}
+}
+
+function workperx_preprocess_views_view_unformatted(&$variables) {
+
+  $view = $variables['view'];
+  if (($view->id()=='entertainment' || $view->id()=='featured_top_deals' || $view->id()=='park_deals' || $view->id()=='book_deals' || $view->id()=='shop_deals' || $view->id()=='eat_deals' || $view->id()=='featured_events') && ($view->current_display=='block_1' || $view->current_display=='block_3' || $view->current_display=='block_2' || $view->current_display=='block_4') ) {
+
+      $current_path = \Drupal::service('path.current')->getPath();
+      $arr = explode('/', $current_path);
+      $storeId = $arr[2];
+      $mallId = $arr[3];
+     // dump($current_path);
+    $variables['storeId'] = $storeId;
+    $variables['mallId'] = $mallId;
+  }
+}
+
+function workperx_preprocess_image(&$variables)
+{
+  if (isset($variables['attributes']['width'])) {
+    unset($variables['attributes']['width']);
+  }
+  if (isset($variables['attributes']['height'])) {
+    unset($variables['attributes']['height']);
+  }
+  if (isset($variables['attributes']['typeof'])) {
+    unset($variables['attributes']['typeof']);
+  }
+}
+
+function getImageUrlPath($nodeId)
+{
+	$file = \Drupal\file\Entity\File::load($nodeId);
+	$path = $file->getFileUri();
+	$url = \Drupal\Core\Url::fromUri(file_create_url($path), ['https' => 
+		!empty(getenv('APP_ENV')) ? true : false
+	])->toString();
+
+	return $url;
+}
+
+function checkUserIsAlreadyLoggedInOrNot()
+{
+	global $base_secure_url;
+
+	$isCookiesStoreId = '';
+
+	$countrycode = isset($_COOKIE['countrycode']) ? $_COOKIE['countrycode'] : '';
+	//Getting parameter values from config file
+	$configStoreId = \Drupal::config('workperx_config.workperx_url')->get('storeId');
+	$lauthUrl = \Drupal::config('workperx_config.workperx_url')->get('lauth_url');
+	$clientId = \Drupal::config('workperx_config.workperx_url')->get('client_id');
+	$redirectUri = \Drupal::config('workperx_config.workperx_url')->get('redirect_uri');
+	// $redirectUri = $redirectUri."/".$countrycode;
+	$getTokenUrl = \Drupal::config('workperx_config.workperx_url')->get('get_token_url');
+
+	// $nonLoggedRedirectUri = $redirectUri.'?isNotLoggedIn=1';
+	// $nonLoggedRedirectUri = urlencode($nonLoggedRedirectUri);
+	// $lauthUrl = $lauthUrl.''.$nonLoggedRedirectUri;
+
+	$deepLinkPageUrl = \Drupal::request()->query->get('page_url');
+	$cReferer = \Drupal::request()->query->get('c_referer');
+	$redirectToPageUrlWithoutLogin = \Drupal::request()->query->get('redirect_to_page_url_without_login');
+
+	if(strpos($lauthUrl, 'redirect_uri') !== false) 
+	{
+		if(strpos($deepLinkPageUrl, '%') !== false) 
+			$deepLinkPageUrl = str_replace('%', '%25', $deepLinkPageUrl);
+		
+		if($redirectToPageUrlWithoutLogin)
+			$pageUrl = urlencode($base_secure_url.'?c_referer='.$cReferer.'&page_url='.$deepLinkPageUrl.'&redirect_to_page_url_without_login='.$redirectToPageUrlWithoutLogin);
+		else
+			$pageUrl = urlencode($base_secure_url.'?c_referer='.$cReferer.'&page_url='.$deepLinkPageUrl);
+
+		if($deepLinkPageUrl)
+			$lauthUrl = str_replace('#redirect_uri#', $pageUrl, $lauthUrl);
+		else
+			$lauthUrl = str_replace('#redirect_uri#', $base_secure_url, $lauthUrl);
+	}
+
+	if(strpos($lauthUrl, 'non_logged_redirect_uri') !== false) 
+	{
+		if($redirectToPageUrlWithoutLogin)
+			$pageUrl = urlencode($base_secure_url.'?isNotLoggedIn=1&page_url='.$deepLinkPageUrl.'&c_referer='.$cReferer.'&redirect_to_page_url_without_login='.$redirectToPageUrlWithoutLogin);
+		else
+			$pageUrl = urlencode($base_secure_url.'?isNotLoggedIn=1&page_url='.$deepLinkPageUrl.'&c_referer='.$cReferer);
+
+		$nonLoggedRedirectionUrl = urlencode($base_secure_url.'?isNotLoggedIn=1');
+
+		if($deepLinkPageUrl)
+			$lauthUrl = str_replace('#non_logged_redirect_uri#', $pageUrl, $lauthUrl);
+		else
+			$lauthUrl = str_replace('#non_logged_redirect_uri#', $nonLoggedRedirectionUrl, $lauthUrl);
+	}
+
+	// get the current URL without query parameters
+	$currentUrlWithoutParameter = strtok($_SERVER["REQUEST_URI"], '?');
+
+	//Check already cookies set or not
+	$storeId = isset($_COOKIE['storeid']) ? $_COOKIE['storeid'] : 0;
+
+	// if(!$storeId)
+	// {
+
+		$code = \Drupal::request()->query->get('code');
+
+		if(!$code)
+		{ 
+			$response = new RedirectResponse($lauthUrl);
+			$response->send();
+			return;
+		}
+		
+		if($code)
+		{
+			$storeData=[];
+			// Define the dynamic values as variables
+			$grantType = "authorization_code";
+
+			$data = http_build_query(array(
+				'code' => $code,
+				'grant_type' => $grantType,
+				'client_id' => $clientId,
+				'redirect_uri' => $redirectUri
+			));
+
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $getTokenUrl);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+			$headers = array();
+			$headers[] = 'Accept: */*';
+			$headers[] = 'Content-Type: application/x-www-form-urlencoded';
+			$headers[] = 'Connection: keep-alive';
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+			$result = curl_exec($ch);
+			if($result)
+			{
+				$resultDecoded = json_decode($result);
+				
+				$accessToken = isset($resultDecoded->access_token) ? $resultDecoded->access_token : '';
+	        	\Drupal::logger('workperx')->info($accessToken);
+				$expiresIn = isset($resultDecoded->expires_in) ? $resultDecoded->expires_in : '';
+				if($accessToken)
+				{
+					$tokenArray = explode(".", $accessToken);
+					$parsedJwt = base64_decode(str_pad(strtr($tokenArray[1], '-_', '+/'), strlen($tokenArray[1]) % 4, '=', STR_PAD_RIGHT));
+					$userDetailsArray = json_decode($parsedJwt, true);
+					
+					if (isset($userDetailsArray['storeTerminalId'])) {
+
+						$storeTerminalId = strtolower($userDetailsArray['storeTerminalId']);
+						$companyTerminalId = strtolower($userDetailsArray['companyTerminalId']);
+				    	$userid = strtoupper($userDetailsArray['preferred_username']);
+						$user_name = $userDetailsArray['name'];
+
+						
+						if($configStoreId == $storeTerminalId)
+						{  
+							$userCurrentPointDetails = getCurrentPoints($accessToken,$userid,$storeTerminalId,$companyTerminalId);
+							$json =  (object) $userCurrentPointDetails;
+							// Extract available points
+							 $availablePoints = 0;
+							 if (isset($json->userWallet->availablePoints)) {
+								 $availablePoints = $json->userWallet->availablePoints;
+							 }
+							 $walletName = '';
+							 if (isset($json->userWallet->walletName)) {
+							   $walletName = $json->userWallet->walletName;
+							   }
+						 
+							 if (isset($json->profilePicture->documentDetails->filePath)) {
+								 $filePath = $json->profilePicture->documentDetails->filePath;
+							   } 
+							 $tierName='';
+							 if (isset($json->rewardPrograms[0]->tierName)) {
+							    $tierName = $json->rewardPrograms[0]->tierName;
+							   }
+							setcookie('storeid', $storeTerminalId, time()+3600, "/");
+							$storeData['isCookiesStoreId'] = $storeTerminalId;
+							$storeData['isCookiescompanyTerminalId'] = $companyTerminalId;
+							$storeData['isCookiesuserId'] = $userid;
+							$storeData['points'] = $availablePoints;
+							$storeData['wallet_name'] = $walletName;
+							$storeData['filePath'] = $filePath;
+							$storeData['tierName'] = $tierName;
+							$storeData['user_name'] = $user_name;
+							$storeData['accessToken'] = $accessToken;
+
+						}
+					}
+				}
+
+			}
+
+			curl_close($ch);
+
+			//Update the URL without query parameters
+			 echo "<script>history.pushState(null, '', '$currentUrlWithoutParameter');</script>";
+
+			return $storeData;
+		}
+		
+
+	//}
+}
+
+function workperx_preprocess_html(&$variables)
+{
+	$variables['environment'] = getenv('APP_ENV');
+	$ga_measurement_id = \Drupal::config('workperx_config.ga_details')->get('ga_measurement_id');
+	
+	// Pass the GA4 Measurement ID to the template file.
+	$variables['ga_measurement_id'] = $ga_measurement_id;
+
+
+	$current_url = \Drupal::request()->getUri();
+	
+	if(strpos($current_url, 'http://') !== false){
+		$current_url = str_replace( 'http://', 'https://', $current_url);
+	}
+
+	foreach ($variables['page']['#attached']['html_head'] as $key => $element) {
+	if (isset($element[0]['#tag']) && $element[0]['#tag'] === 'link' && isset($element[0]['#attributes']['rel']) && $element[0]['#attributes']['rel'] === 'canonical') {
+		unset($variables['page']['#attached']['html_head'][$key]);
+		break;
+	}
+	}
+
+	// Add the current URL as the canonical tag.
+	$variables['page']['#attached']['html_head'][] = [
+		[
+		'#tag' => 'link',
+		'#attributes' => [
+			'rel' => 'canonical',
+			'href' => $current_url,
+		],
+		],
+		'workperx_canonical_link',
+	];
+}
+
+function getCurrentPoints($accessToken,$userid,$storeTerminalId,$companyTerminalId) {
+    	$headers = ["Authorization: Bearer " . $accessToken];
+		$url = \Drupal::config('workperx_config.workperx_user')->get('workperx_user');
+		$companyTerminalId = strtoupper($companyTerminalId);
+		$storeTerminalId = strtoupper($storeTerminalId);
+		$url = str_replace('#userid#', $userid, $url);
+		$url = str_replace('#currentStore#', $storeTerminalId, $url);
+		$url = str_replace('#companyid#', $companyTerminalId, $url);
+		\Drupal::logger('workperx')->info($url);
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+		$response = curl_exec($curl);
+		curl_close($curl);
+		$result = (array) json_decode($response);
+		return $result;
+}

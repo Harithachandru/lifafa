@@ -1,0 +1,61 @@
+<style>
+
+@font-face {
+    font-family: 'Verdana-BoldItalic';
+    src: url('../fonts/Verdana-BoldItalic.eot');
+    src: url('../fonts/Verdana-BoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Verdana-BoldItalic.woff2') format('woff2'),
+        url('../fonts/Verdana-BoldItalic.woff') format('woff'),
+        url('../fonts/Verdana-BoldItalic.ttf') format('truetype'),
+        url('../fonts/Verdana-BoldItalic.svg#Verdana-BoldItalic') format('svg');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+    .footer { background: #01556F;padding: 25px 0; left: 0; bottom: 0;width: 100%;position: absolute;}
+
+.footer-2 { background: #002D3A;padding: 25px 0;}
+.footer-menu {padding: 20px 0 0 0;}
+.footer-menu ul { list-style: none;padding: 0;margin: 0;}
+.footer-menu li {  border-right: 1px solid #fff;  display: inline-block; vertical-align: middle; padding: 0 20px; }
+.footer-2 .footer-menu li {  border-right: 1px solid #01556F;  }
+.footer-menu li:last-child { border: none;}
+.footer-menu li a {display: block;color: #fff; line-height: 1.2;}
+.footer-2 .footer-menu li a {display: block;color: #01556F; line-height: 1.2; font-size:13px;}
+.copyright {color: #fff;padding: 10px 0 0 0;font-size: 14px;}
+.footer-2 .copyright {
+    color: #01556F;
+    padding: 20px 0 0 0;
+	font-size:13px;
+}
+
+.footer-3 { background: #091924;}
+.footer-3 .copyright {color: #B3B3B3;font-family: Verdana, Geneva, Tahoma, sans-serif;}
+.footer-3 .footer-menu li a {color: #B3B3B3; text-decoration: none;font-family: Verdana, Geneva, Tahoma, sans-serif;}
+/* Footer CSS  END*/
+.title-dark {color: #091924;}
+.text-center { text-align: center;}
+
+/* Banner CSS Start */
+
+</style>
+
+<footer class="footer footer-3 text-center" style="padding-top: 0;height: 40px;">
+    <div class="container">
+       <!-- <div class="footer-logo">
+             <a href="{{base_url}}"><img src="{{footer_logo}}" alt="logo"></a> 
+        </div>-->
+        <div class="copyright text-center">
+            &copy;  {{ "now"|date("Y") }} Ghoomo.com -  All Rights Reserved
+        </div>
+       <!-- <div class="footer-menu">
+          <ul>
+             <li><a href="{{base_url}}/in/supplier-enquiries">Supplier enquiries​</a></li>
+             <li><a href="{{base_url}}/in/contact-us">Contact Us</a></li>
+             <li><a href="{{base_url}}/in/privacy-policy">Privacy Policy</a></li>
+             <li><a href="{{base_url}}/in/terms">Terms of Use</a></li>
+          </ul>
+       </div> -->
+
+    </div>
+</footer>

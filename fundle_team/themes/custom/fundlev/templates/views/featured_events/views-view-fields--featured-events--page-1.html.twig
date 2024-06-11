@@ -1,0 +1,28 @@
+{#{{drupal_dump(fields.field_brand_name)}}#}
+{#
+
+<div class="trainee-grid">#}
+
+<div class="grid-item grid-item-right dept-clarks " data-dept="Clarks">
+    <div class="category-box">
+
+        <div class="category-sec">
+            <table class="btm-des">
+                <tbody><tr>
+                        <td><div class="link-1">{{fields.field_header.content}}</div><div class="text-12 midd-font">{{fields.field_product_category.content}}</div>
+                        </td>
+                        <td>
+                            <div class="text-9 text-right midd-font">{{fields.field_store_name.content}},{{fields.field_store_floor.content}}</div>                            
+                            <div class="text-9  text-right">From {{fields.field_event_start_date.content}}</div>
+                        </td>
+                    </tr>
+                </tbody></table>
+
+            <div class="top-deals-banner">
+                <a href="{{fields.view_node.content}}">{{fields.field_listing_detail_image.content}} </a>
+            </div>
+        </div>
+         <hr class="hr-8">
+    </div>
+</div>
+

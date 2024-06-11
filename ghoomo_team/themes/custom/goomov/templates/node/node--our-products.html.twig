@@ -1,0 +1,50 @@
+{# div class="banner banner-mb">
+   <div class="banner-img">
+        {{content.field_product_banner}}
+    </div> #}
+    <div class="bn-sec-1 text-center">
+        <div class="container">
+            <div class="title ">
+                 <h3><span>{{node.getTitle}}</span></h3>
+
+                    </div>
+                    <div class="text-2">
+                        {{content.field_banner_description}}
+                    </div>
+
+                {{ drupal_block('views_block:products_offers-block_1', wrapper=false) }}
+                <div class="btn-row text-center">
+                    <!-- {% if not storeId %} -->
+                        {% if store_id %}
+                         <a href="{{store_base_url}}{{store_id}}/myaccount" class="btn btn-primary">Login</a>
+                        {% else %}
+                         <a href="" class="btn btn-primary">Login</a>
+                        {% endif %}
+                    <!-- {% endif %} -->
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    {{content.body}}
+
+<div class="text-center"><div class="top-border mb-none"></div> </div>
+        <div class="bn-sec-1 text-center">
+         <div class="container container-500">
+                <div class="title">
+                    <h2>Sign-up now​</h2>
+
+                    {{ drupal_entity('webform', 'contact') }}
+
+        </div>
+    </div>
+</div>
+
+
+
+
+{#<script src="js/jquery.min.js"></script>
+      <script src="js/plugin.js"></script>
+	  <script src="js/slick.js"></script>
+	     <script>#}

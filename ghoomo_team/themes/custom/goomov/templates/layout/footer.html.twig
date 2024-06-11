@@ -1,0 +1,26 @@
+{% if storeId or token_storeid %}
+    <footer class="footers footer-3 text-center">
+    <div class="container">
+        
+        <div class="copyrights text-center">
+            {{page.footer3}}
+        </div>
+    </div>
+    </footer>
+    {% else %}
+    <footer class="footer footer-3 text-center">
+        <div class="container">
+        <div class="footer-logo">
+            <a href="{{ url('<front>') }}">{{page.footer1}}</a>
+        </div>
+        <div class="footer-menu">
+            <ul>
+                <li><a href="">{{page.footer2}}</a> </li>
+            </ul>
+        </div>
+        <div class="copyright text-center">
+            {{page.footer3}}
+        </div>
+    </div>
+  </footer>
+{% endif %}
