@@ -1,0 +1,123 @@
+<?php
+use Drupal\node\Entity\Node;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\lifafa_store\Controller\LifafaStoreController;
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+function lifafastore_theme_suggestions_form_alter(array &$suggestions, array $variables) {
+    
+  if ($variables['element']['#form_id'] == 'search_block_form') {      
+    $suggestions[] = 'form__search_block_form';
+  }
+}
+
+
+/**
+ * Implement hook_preprocess_page()
+ * 
+ */
+function lifafastore_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+   // Add content type suggestions.
+  if ($node = \Drupal::request()->attributes->get('node')) {
+      
+     if($node->Id()==54){
+         array_splice($suggestions, 1, 0, 'page__node__' . $node->Id());
+     }else{
+         array_splice($suggestions, 1, 0, 'page__node__' . $node->getType());
+     }     
+  }
+}
+
+
+function lifafastore_preprocess_image(&$variables)
+{
+  if (isset($variables['attributes']['width'])) {
+    unset($variables['attributes']['width']);
+  }
+  if (isset($variables['attributes']['height'])) {
+    unset($variables['attributes']['height']);
+  }
+  if (isset($variables['attributes']['typeof'])) {
+    unset($variables['attributes']['typeof']);
+  }
+}
+
+function lifafastore_preprocess_page(&$variables) {  
+  $variables['logopath'] = '/' . drupal_get_path('theme','lifafastore') . '/images/logo.png';
+  $variables['searchicon'] = '/' . drupal_get_path('theme','lifafastore') . '/images/search-icon-m.png';
+}
+
+function lifafastore_form_search_block_form_alter(&$form, &$form_state) {    
+  $form['keys']['#attributes']['placeholder'][] = t('Search......');
+  $form['keys']['#attributes']['class'][] = 'gsearch';
+  $form['actions']['submit']['#attributes']['class'][] = 'submit-btn';
+}
+
+/**
+ * Implements hook_preprocess().
+ */
+function lifafastore_preprocess(&$variables) {
+    $variables['base_path'] = base_path();
+    global $base_root;
+    $variables['base_root'] = $base_root;
+    $variables['store_base_url'] = getStoreUrl();
+    
+    if (\Drupal::currentUser()->isAuthenticated()) {        
+        $page = \Drupal::request()->getRequestUri();
+        if($page=='/'){
+           $storeId =  getStoreIdFromSession();
+           if(empty($storeId)){
+               $storeId= 1234;
+               // redirect 404
+           }
+            global $base_url;
+            
+            $url = $base_url.'/store/'.$storeId.'/home';               
+            $response = new RedirectResponse($url);
+            $response->send();
+            return new Response();
+        }
+        
+    }
+     
+}
+
+
+function yummy_preprocess_menu(&$variables, $hook) {
+  if ($hook == 'menu__main') { // We're doing that for main menu.
+    // Get the current path.
+    $current_path = \Drupal::request()->getRequestUri();
+    $items = $variables['items'];
+    foreach ($items as $key => $item) {
+      // If path is current_path, set active to li.
+      if ($item['url']->toString() == $current_path) {
+      // Add active link.
+      $variables['items'][$key]['attributes']['class'] = 'active';
+      }
+    }
+  }
+}
+
+
+function lifafastore_user_login($account) {
+  $url = "/1252/test";
+  $response = new Symfony\Component\HttpFoundation\RedirectResponse($url);
+  $response->send();
+  return;
+}
+//function lifafastore_preprocess_page(&$variables) {
+//    
+//    if (!empty($variables['node']) && $variables['node']->getType() == 'page') {
+//        $variables['title'] = '';
+//    }
+//    
+////    $node = \Drupal::routeMatch()->getParameter('node');
+////    echo $node->getType();die;
+////    if( $node->getType() == 'page' ) {
+////        $variables['title'] = "";
+////    }
+//}

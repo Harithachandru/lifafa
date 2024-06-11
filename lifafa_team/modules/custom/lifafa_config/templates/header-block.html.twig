@@ -1,0 +1,106 @@
+{#
+/**
+* @file
+* Default theme implementation to display a block.
+*
+* @see template_preprocess_block()
+*
+* @ingroup themeable
+*/
+#}
+{#{% set classes = [
+    'clear-both',
+] %}
+<div{{ attributes.addClass(classes) }}>
+    {% for value in content %}
+        <p>{{value}}</p>
+    {% endfor %}
+</div>#}
+{# empty Twig template #}
+
+ {% if storedata.templatetype  %}
+                 <section class="header-main-landing2">    
+    <header class="header-top-nav">
+        <div class="container" style="max-width: 1340px;">
+            <div class="top-nav ">
+                
+              <div class="link-hone">
+                    
+                    {% if logged_in %}
+                        <a href="{{store_home_url}}">
+                            <img src="{{ base_path ~ directory }}/images/house-black.png" alt="logo">
+                        </a>
+                    {% else %}
+                        <a href="{{base_url}}/user/login?store_id={{field_store_id}}">
+                            <img src="{{ base_path ~ directory }}/images/house-black.png" alt="logo">
+                        </a>
+                    {% endif %}                                        
+                </div>
+                
+                <div class="logo-hone-center">                    
+                    <a href="/{{getSelectStoreId}}/home/"><img src="{{comapany_logo}}" alt="logo"></a>
+                </div>
+                <div class="menu-right">
+                    <div  class="user-in user-in-black">
+                        <ul>                            
+                            {% if logged_in %}
+                                <li><a href="{{store_base_url}}">My account</a></li>
+                                <li><a href="{{store_home_url}}">My store</a></li>
+
+                                <li><a href="{{logoutUrl}}" title="Logout">Logout</a></li>
+                                {% else %}
+                                <li><a href="{{base_url}}/user/login?store_id={{field_store_id}}" title="Sign in">Sign in</a></li>
+                                    {#{% if external_url %}
+                                    <li><a href="{{base_url}}{{external_url}}" title="Sign up">Sign up</a></li>
+                                    {% else %}
+                                    <li><a href="{{getStoreBaseUrl}}myaccount/{{field_store_id}}/self/register" title="Sign up">Sign up</a></li>
+                                    {% endif %}#}
+                                {% endif %}                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+</section>
+    
+       {% else %}
+<header class="header-top-nav">
+    <div class="top-nav ">
+        <div class="link-hone">
+            
+            
+              {% if logged_in %}
+            <a href="/{{getSelectStoreId}}/home/"><img src="{{ base_path ~ directory }}/images/house-black.png" alt="logo"></a>
+              {% else %}
+              <a href="/"><img src="{{ base_path ~ directory }}/images/house-black.png" alt="logo"></a>
+           {% endif %} 
+           
+        </div>
+        <div class="logo-hone-center">            
+            {% if storedata.store_logo %}            
+                <a href="{{store_home_url}}"><img src="{{storedata.store_logo}}" alt="logo"></a>
+            {% else %}               
+                <a href="{{store_home_url}}"><img src="{{base_path ~ directory}}/images/logo2.png" alt="logo"></a>
+            {% endif %}                           
+        </div>
+        <div class="menu-right">
+            <div  class="user-in">
+                <ul>
+                    <li><a href="{{store_base_url}}">My account</a></li>
+                    <li><a href="{{store_home_url}}">My store</a></li>
+                    {#<li><a href="{{base_url}}/user/logout" title="Logout">Logout</a></li>#}
+                    <li><a href="{{logoutUrl}}" title="Logout">Logout</a></li>
+                </ul>
+            </div>
+           {# <div class="s-btn"><img src="{{ base_path ~ directory }}/images/search-icon-m.png" alt="logo"></div> #}
+        </div>
+        {# <div class="search-row clear">
+            <div class="search">
+                <form class="top-searchbox"><input type="search" name="gsearch" placeholder="Search" class="gsearch"> <input class="submit-btn" type="submit"> </form>
+            </div>
+        </div> #}
+    </div>
+</header>
+{% endif %}

@@ -1,0 +1,15 @@
+<div class="col-4">
+   <div class="announcements-box">
+       <a href="{{fields.view_node.content}}">
+      {{fields.field_tiles_image.content}}
+      <div class="announcements-dsc text-center">
+         <h4>{{fields.title.content}}</h4>
+         {% if  fields.field_sub_title.content %}
+            <h5>{{fields.field_sub_title.content}}</h5>
+         {% endif %}
+         {{fields.body.content}}
+      </div>
+      </a>
+   </div>
+</div>
+        

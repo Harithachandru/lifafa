@@ -1,0 +1,354 @@
+<?php
+
+/**
+ * @file
+ * Contains lifafa_config.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+include_once \Drupal::root() . '/core/themes/engines/twig/twig.engine';
+
+/**
+ * Implements hook_help().
+ */
+function lifafa_config_help($route_name, RouteMatchInterface $route_match) {
+
+	switch ($route_name) {
+
+		case 'help.page.lifafa_config':
+			$output = '';
+			$output .= '<h3>' . t('About') . '</h3>';
+			$output .= '<p>' . t('My Awesome Module') . '</p>';
+			return $output;
+
+		default:
+	}
+}
+
+/**
+ * Implements hook_theme().
+ */
+function lifafa_config_theme() {
+  return [
+		'login_button_block' => [
+			'variables' => [
+				'content' => NULL
+			],
+		],
+
+		'survey_block' => [
+			'variables' => [
+				'content' => NULL
+			], 
+		],  
+		'people_recognition' => [
+			'variables' => [
+				'content' => NULL
+			],
+			'render element' => 'children',
+		],
+
+		'footer_block' => [
+			'variables' => [
+				'content' => NULL
+			],
+			'render element' => 'children',
+		],
+
+		'header_block' => [
+			'variables' => [
+				'storedata' => NULL
+			],
+			'render element' => 'children',
+		],
+		
+		'perks_slider_block' => [
+			'variables' => [
+				'content' => NULL
+			],
+			'render element' => 'children',
+		],
+		
+		'review_detail_block' => [
+			'variables' => [
+				'content' => NULL
+			],
+			'render element' => 'children',
+		],
+		
+		'banner_block' => [
+			'variables' => [
+				'content' => NULL
+			],
+			'render element' => 'children',
+		],
+		
+		'insurance_banner_block' => [
+			'variables' => [
+				'content' => NULL
+			],
+			'render element' => 'children',
+		],
+
+		'gcm_store_block' => [
+			'variables' => [
+				'content' => NULL,
+				'gcm_type' => NULL,
+				'gcm_viewall' => NULL,
+				'discount_url' => NULL,
+				'store_landing_url' => NULL,
+				'current_store_id' => NULL,
+			],
+			'render element' => 'children',
+		],
+  	];
+}
+
+function getStoreHeader($storeId){
+	global $base_url;
+	$result['store_header'] = '';
+	$data['store_fevicon'] = '';
+	$data['store_logo'] = '';
+
+	if(empty($storeId)){ return ; }
+
+	$nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['field_store_id' => $storeId,'status'=>1]);
+
+	$storebase_Url = getStoreBaseUrl();
+	$store_Url = $storebase_Url;
+
+	$store_homeurl = getStoreHomeUrl();
+	$storehome_Url = $store_homeurl;
+
+	if ($node = reset($nodes)) {
+
+		$logoId = $node->field_store_logo->target_id;
+		$feviconId = $node->field_store_fevicon->target_id;
+		$signup = $node->field_external_url->value;
+
+		if(empty($signup)) {
+			$signup = $store_Url."myaccount/".$storeId ."/self/register/";
+		} else {
+			$signup =  $base_url."/book-demo";
+		}
+
+		$signin = $base_url."/user/login?store_id=".$storeId;
+		$home_baseurl = $base_url."/".$storeId."/home";
+		$file = \Drupal\file\Entity\File::load($logoId);
+
+		if(!empty($file)) {
+			$path = $file->getFileUri();
+			$url = \Drupal\Core\Url::fromUri(file_create_url($path), ['https' => 
+				!empty(getenv('APP_ENV')) ? true : false
+			])->toString();
+			$data['store_logo'] = $url;                                      
+		}
+						
+		if(!empty($feviconId)) {
+			$fevicon = \Drupal\file\Entity\File::load($feviconId);
+			$path2 = $fevicon->getFileUri();
+			$url2 = \Drupal\Core\Url::fromUri(file_create_url($path2), ['https' => 
+				!empty(getenv('APP_ENV')) ? true : false
+			])->toString();
+			$data['store_fevicon'] = $url2;
+		}
+
+		$data['store_id'] = $storeId;         
+		$data['signup_url'] = $signup; 
+		$data['signin_url'] = $signin; 
+		$data['store_home_baseurl'] = $storehome_Url;
+		$data['home_Url'] = $home_baseurl;
+	}
+
+	$logo = $data['store_logo'];
+	$fevicon = $data['store_fevicon'];
+	$id = $data['store_id'];
+	$sign_url = $data['signup_url'];
+	$sign_in_url = $data['signin_url'];
+	$store_home_base_url = $data['store_home_baseurl'];
+	$home_base_url = $data['home_Url'];
+
+	return twig_render_template(drupal_get_path('module', 'lifafa_config') . '/templates/header.html.twig',[
+		'logo' => "{$data['store_logo']}",
+		'fevicon' => "{$data['store_fevicon']}",
+		'id'=> "{$data['store_id']}",
+		'sign_in_url'=>"{$data['signin_url']}",
+		'home_base_url' =>"{$data['home_Url']}",
+		'store_home_base_url' => "{$data['store_home_baseurl']}",
+		'sign_url'=>"{$data['signup_url']}"
+
+		] 
+	);
+}  
+
+function getLoggedStoreHeader($storeId) {
+	\Drupal::service('page_cache_kill_switch')->trigger();
+	global $base_url;
+	$result['store_header'] = '';
+	$data['store_fevicon'] = '';
+	$data['store_logo'] = '';
+
+	if(empty($storeId)){ return; }
+
+	$nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['field_store_id' => $storeId,'status'=>1]);
+		
+	$storebase_Url = getStoreBaseUrl();
+	$store_Url = $storebase_Url;
+	$log_out = getLogoutUrl();
+	$logout_url = $log_out;
+	$user_points = getCurrentPoints();
+	$user = $user_points;
+    
+	$available_points = $user['data'][0]->availablePoints;
+	$points = (string) $available_points;
+    \Drupal::logger('lifafa_user')->info($points);
+	if ($node = reset($nodes)) {
+
+		$logoId = $node->field_store_logo->target_id;
+		$feviconId = $node->field_store_fevicon->target_id;
+		$signup = $node->field_external_url->value;
+		if(empty($signup)) {
+			$signup= $store_Url."myaccount/".$storeId ."/self/register/";
+		} else {
+			$signup =  $base_url."/book-demo";
+		}
+		
+		$home_baseurl = $base_url."/".$storeId."/home";
+		$signin = $base_url."/user/login?store_id=".$storeId;
+		$my_accounturl = $store_Url.$storeId."/myaccount/";
+		$storehome_Url = $base_url."/store/".$storeId."/home";
+
+		$file = \Drupal\file\Entity\File::load($logoId);
+
+		if(!empty($file)) {
+			$path = $file->getFileUri();
+			$url = \Drupal\Core\Url::fromUri(file_create_url($path), ['https' => 
+				!empty(getenv('APP_ENV')) ? true : false
+			])->toString();
+			$data['store_logo'] = $url;                                        
+		}
+						
+		if(!empty($feviconId)){
+			$fevicon = \Drupal\file\Entity\File::load($feviconId);
+			$path2 = $fevicon->getFileUri();
+			$url2 = \Drupal\Core\Url::fromUri(file_create_url($path2), ['https' => 
+				!empty(getenv('APP_ENV')) ? true : false
+			])->toString();
+			$data['store_fevicon'] = $url2;
+		}
+		 
+		$data['store_id'] = $storeId;         
+		$data['signup_url'] = $signup;   
+		$data['signin_url'] = $signin; 
+		$data['store_home_baseurl'] = $storehome_Url;
+		$data['home_Url'] = $home_baseurl;
+		$data['myaccount_url'] = $my_accounturl;
+		$data['logout_path'] = $logout_url;
+		$data['current_points'] = $points;
+	
+	}
+
+	$logo = $data['store_logo'];
+	$fevicon = $data['store_fevicon'];
+	$id = $data['store_id'];
+	$sign_url = $data['signup_url'];
+	$sign_in_url = $data['signin_url'];
+	$store_home_base_url = $data['store_home_baseurl'];
+	$home_base_url = $data['home_Url'];
+	$store_base_url = $data['myaccount_url'];
+	$logout_Url = $data['logout_path'];
+	$available_point = $data['current_points'];
+
+	return twig_render_template(drupal_get_path('module', 'lifafa_config') . '/templates/logged-header.html.twig',[
+		'logo' => "{$data['store_logo']}",
+		'fevicon' => "{$data['store_fevicon']}",
+		'id'=> "{$data['store_id']}",
+		'sign_in_url'=>"{$data['signin_url']}",
+		'store_home_base_url' => "{$data['store_home_baseurl']}",
+		'home_base_url' =>"{$data['home_Url']}",
+		'store_base_url' => "{$data['myaccount_url']}",
+		'logout_Url' => "{$data['logout_path']}", 
+		'sign_url'=>"{$data['signup_url']}",
+		'available_point' =>"{$data['current_points']}"
+
+		] 
+	);
+}
+
+function getfevicon($storeId) {
+
+	if(empty($storeId)){ return ; }
+	
+	$nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['field_store_id' => $storeId,'status'=>1]);
+
+	if ($node = reset($nodes)) {
+
+		$feviconId = $node->field_store_fevicon->target_id;
+
+		if(!empty($feviconId)){
+			$fevicon = \Drupal\file\Entity\File::load($feviconId);
+			$path2 = $fevicon->getFileUri();
+			$url2 = \Drupal\Core\Url::fromUri(file_create_url($path2), ['https' => 
+				!empty(getenv('APP_ENV')) ? true : false
+			])->toString();
+			$data = $url2;
+		}
+	}
+
+	return $data;
+}
+
+function getStoreFooter($storeId) {
+	$result['store_footer'] = '';
+	$data['store_fevicon'] = '';
+	$data['store_logo'] = '';
+
+	if(empty($storeId)) { return; }
+
+	$nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['field_store_id' => $storeId,'status'=>1]);
+
+	if ($node = reset($nodes)) {
+		$logoId = $node->field_store_logo->target_id;
+		$feviconId = $node->field_store_fevicon->target_id;
+		$signup = $node->field_external_url->value;
+
+		if(empty($signup)) {
+			$signup="https://store.lifafa.team/myaccount/".$storeId ."/self/register/";
+		}
+
+		$file = \Drupal\file\Entity\File::load($logoId);
+		if(!empty($file)) {
+			$path = $file->getFileUri();
+			$url = \Drupal\Core\Url::fromUri(file_create_url($path), ['https' => 
+				!empty(getenv('APP_ENV')) ? true : false
+			])->toString();
+			$data['store_logo'] = $url;                     
+		}
+						
+		if(!empty($feviconId)) {
+			$fevicon = \Drupal\file\Entity\File::load($feviconId);
+			$path2 = $fevicon->getFileUri();
+			$url2 = \Drupal\Core\Url::fromUri(file_create_url($path2), ['https' => 
+				!empty(getenv('APP_ENV')) ? true : false
+			])->toString();
+			$data['store_fevicon'] = $url2;
+		}
+
+		$data['store_id'] = $storeId;        
+		$data['signup_url'] = $signup;
+	}
+
+	$logo = $data['store_logo'];
+	$fevicon = $data['store_fevicon'];
+	$id = $data['store_id'];
+	$sign_url = $data['signup_url'];
+
+	return twig_render_template(drupal_get_path('module', 'lifafa_config') . '/templates/footer.html.twig', [
+		'logo' => "{$data['store_logo']}",
+		'fevicon' => "{$data['store_fevicon']}",
+		'id'=> "{$data['store_id']}",
+		'sign_url'=>"{$data['signup_url']}"
+
+		]
+	);
+} 

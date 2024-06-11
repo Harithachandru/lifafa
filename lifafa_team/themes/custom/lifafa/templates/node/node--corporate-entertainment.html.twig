@@ -1,0 +1,119 @@
+<div class="banner-inner clear">    
+    {% if content.field_banner %}
+        {{content.field_banner}}
+    {% endif %}
+    <div class="banner-dsc">
+        <div class="container ">
+            <div class="title text-center">
+                {% if content.field_banner_heading %}
+                    <h2>{{content.field_banner_heading}}</h2>
+                {% endif %} 
+                {% if content.field_banner_subheading %}
+                    <div class="text-1">{{content.field_banner_subheading}}</div>
+                 {% endif %} 
+                <div class="banner-btn">
+                    <a href="/request-booking/{{node.id}}" class="btn btn-primary">Request to book</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="steps clear page-navbar" id="page-navbar">
+           <div class="perks-filter ">
+               <div class="container">
+                   <div class="cat-filter text-center">
+                       <ul>
+                           <li><a href="#about">About</a></li>
+                           <li><a href="#more-detail">More details</a></li>
+                           <li><a href="#gallery">Gallery</a></li>
+                           {#<li><a href="#reviews">Reviews</a></li>#}
+                       </ul>
+                   </div>
+               </div>
+           </div>
+       </div>                                
+<div class=" steps clear marketplace-supplier pb-30">
+    <div class="container news-singal">
+        <h3   id="about">About</h3>
+        <div class="fb-row">
+            <div class="news-left">
+                <div class="img-100 clear">
+                    {% if content.field_tiles_image %}
+                        {{content.field_tiles_image}}
+                    {% endif %}                    
+                </div>
+
+            </div>
+            <div class="news-content">
+                <div class="title  pb-20">
+                    <h2>{{node.getTitle}}</h2>
+                    {% if content.field_sub_title %}
+                        <div class="text-1">{{content.field_sub_title}}</div>
+                    {% endif %}  
+                </div>
+                {{content.body}}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="top-border"></div>
+
+{% if content.field_more_detail %}
+    <div class=" steps clear marketplace-supplier"  >
+        <div class="container ">
+            <h3 id="more-detail">More details</h3>
+            {{content.field_more_detail}}
+        </div>
+    </div>
+{% endif %}    
+<div class="top-border"></div>  
+
+<div class=" steps clear marketplace-supplier">
+    <div class="container ">
+        <h3 id="gallery">Gallery</h3>
+{% if content.field_images[0] is not empty %}        
+        {#<h5>Images</h5>#}
+        <div class="row">
+            <div class="announcements-slider">
+            {{content.field_images}}            
+            </div>
+        </div>
+{% endif %}            
+
+{% if content.field_videos[0] is not empty %}
+        {#<h5>Videos</h5>#}
+        <div class="row">
+            <div class="announcements-slider">
+                {{ content.field_videos }}                
+            </div>
+        </div>
+{% endif %}             
+    </div>
+</div>
+    
+          
+{#<div class="top-border"></div>#}
+
+<div class=" steps clear marketplace-supplier">
+    {#<div class="container ">
+        <h3 id="reviews">Reviews</h3>
+        {{ drupal_block("views_block:comments-block_1", wrapper=false) }}          
+        <div class="view-link pb-20 text-right">
+            <a href="/comments/{{ node.id }}"> View All >> </a>
+        </div>
+    </div>#}
+    <div class="top-border"></div>
+    <div class="text-center pb-30">
+        <a href="/request-booking/{{node.id}}" class="btn btn-primary">Request to book</a>
+    </div>		
+</div>  
+<div class="steps clear   pb-30">
+    <div class="container container-1500 back-link back-right">
+        <a href="javascript:history.go(-1)"> Back </a>        
+    </div>    
+</div>
+ {% if is_admin %}
+    <div{{ content_attributes.addClass('node__content') }}>
+        {{ content }}
+    </div>
+  {% endif %} 

@@ -1,0 +1,91 @@
+{# empty Twig template #}
+
+{#{{drupal_dump(content)}}#}
+
+{% if store_gcm_url  and logged_in %}
+    {% set store_url = store_gcm_url %}
+{% else %}
+    {% set store_url = store_landing_url %}
+{% endif %}
+<div class="steps clear">
+  <div class="container">
+      {% for key, row in content %}
+         <div class="fb-row">
+            {% for key2, data in row.data %}
+                    
+              {% if data.field_store!=''%}
+                {% if data.field_special_offer  %}
+                  <div class="fb-col-5">
+                     
+			       <div class="vouchers-card-box Offer-hover">
+                     
+                        <table class="vouchers-table" cellpadding="0" cellspacing="0">
+                          <tr>
+                           <td class="logo-box">
+				    
+                             <div class="vouchers-Offer">Special Offer</div>
+                   
+				                <img src="{{data.field_image}}" alt="Lifafa">
+				            </td>
+                             <td class="vouchers-dsc"><div class="ma-vouchers-title">{{data.title}}</div><div class="ma-vouchers pt-5 m-pt-20">{{data.body | raw}}</div></td>
+                             <td class="text-right vouchers-link">
+                               {% if data.field_discount %}
+                                 <div class="text-14 bold">Save {{data.field_discount}}%</div>
+                               {% endif %}
+                                 {% if discount_url == "-01" %}
+                                  <div class=" pt-5"><a href="{{store_url}}{{discount_url}}{{data.field_external_url}}?store_id={{current_store_id}}" class="btn btn-primarybtn"  >Redeem</a></div></td>
+                                 {% else %}
+                                  <div class=" pt-5"><a href="{{store_url}}{{discount_url}}{{data.field_external_url}}?store_id={{current_store_id}}" class="btn btn-primarybtn"  >Buy Now</a></div></td>
+                                {% endif %}
+                            </td>
+                          </tr>
+
+                       </tbody></table>
+
+               
+                 </div>
+              </div>   
+                    
+              {% else %} 
+                <div class="fb-col-5">
+			      <div class="vouchers-card-box">
+                     
+                        <table class="vouchers-table" cellpadding="0" cellspacing="0">
+                         <tr>
+                          <td class="logo-box">
+				   
+                              <img src="{{data.field_image}}" alt="Lifafa">
+				           </td>
+                            <td class="vouchers-dsc"><div class="ma-vouchers-title">{{data.title}}</div><div class="ma-vouchers pt-5 m-pt-20">{{data.body | raw}}</div></td>
+                            <td class="text-right vouchers-link">
+                              {% if data.field_discount %}
+                                <div class="text-14 bold">Save {{data.field_discount}}%</div>
+                              {% endif %}
+                               {% if discount_url == "-01" %}
+                                <div class=" pt-5"><a href="{{store_url}}{{discount_url}}{{data.field_external_url}}?store_id={{current_store_id}}" class="btn btn-primarybtn"  >Redeem</a></div></td>
+                              {% else %}
+                                 <div class=" pt-5"><a href="{{store_url}}{{discount_url}}{{data.field_external_url}}?store_id={{current_store_id}}" class="btn btn-primarybtn"  >Buy Now</a></div></td>
+                              {% endif %}
+                           </td>
+                          </tr>
+
+                         </tbody></table>
+                     
+                    </div>
+                 </div> 
+                {% endif %}  
+              {% endif %}
+            {% endfor%}
+         </div>
+    {% endfor%}
+     {% if gcm_viewall %}
+        <div class="text-center  pb-30 clear">
+            <a href="{{store_url}}{{discount_url}}{{gcm_type}}?store_id={{current_store_id}}" class="btn btn-primary" >View All </a>
+        </div>
+     {% endif %}
+    </div>
+</div>
+
+
+
+

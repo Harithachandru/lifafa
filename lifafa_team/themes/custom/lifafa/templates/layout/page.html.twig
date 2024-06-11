@@ -1,0 +1,49 @@
+{# empty Twig template #}
+{% if logged_in %}
+    {% if page.mainheader %}
+        {{ page.mainheader }}    
+    {% else %}
+        {% include theme_path ~ "/templates/layout/header.html.twig" %}
+    {% endif %}
+    
+{% else %}
+    {% include theme_path ~ "/templates/layout/header.html.twig" %}
+{% endif %}
+
+
+{% if page.header_bottom %}
+    {{ page.header_bottom }}
+{% endif %}
+
+{% if page.content %}
+    {{ page.content }}
+{% endif %}
+
+{% if page.store_content and logged_in %}
+   {{ page.store_content }}
+{% endif %}
+
+{% if page.footer_top and logged_in %}
+   {{ page.footer_top }}
+{% endif %}
+
+
+{#{% if page.bottom_slider %}
+        <div class="clients text-center">
+        {{ page.bottom_slider }}
+        </div>
+{% endif %} #}
+{% if logged_in and page.mainfooter %}       
+    {% if page.mainfooter %}
+        {{ page.mainfooter }}    
+    {% else %}
+        {% include theme_path ~ "/templates/layout/storefooter.html.twig" %}
+    {% endif %}
+    
+    
+{% else %}
+    {% include theme_path ~ "/templates/layout/footer.html.twig" %}
+{% endif %}
+    
+
+

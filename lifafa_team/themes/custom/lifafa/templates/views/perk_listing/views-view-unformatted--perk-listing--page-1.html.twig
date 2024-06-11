@@ -1,0 +1,12 @@
+{# empty Twig template #}
+<div class="logged-steps clear">
+    <div class="container">
+        <div class="category-filter clear">
+            <div class="row">
+                {% for row in rows %}
+                    {{ row.content }}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

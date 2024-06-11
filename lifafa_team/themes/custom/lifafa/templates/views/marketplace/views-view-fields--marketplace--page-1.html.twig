@@ -1,0 +1,25 @@
+        
+{%if fields.field_external_url.content %}    
+    {% set external_url = fields.field_external_url.content %}  
+    <a href="{{external_url|render}}" >
+        <div class="rewards-box">
+            <div class="re-box-sd">
+            {{fields.field_marketplace_image.content}}
+            <div class="rewards-dsc text-center"> 
+                <h4>{{fields.title.content}}</h4>
+                <p>{{fields.body.content}}</p>      
+            </div>
+            </div>
+        </div>
+    </a>
+{% else %}           
+        <div class="rewards-box">
+            <div class="re-box-sd">
+            {{fields.field_marketplace_image.content}}
+            <div class="rewards-dsc text-center"> 
+                <h4>{{fields.title.content}}</h4>
+                <p>{{fields.body.content}}</p>      
+            </div>
+        </div>
+    </div>
+{% endif %}

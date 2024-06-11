@@ -1,0 +1,18 @@
+<div class="item">
+    <div class="announcements-box">
+        {% if fields.field_banner.content %}
+        {{fields.field_banner.content}}
+    {% endif %}
+        <div class="announcements-dsc">
+            <h4>
+              {% if fields.field_external_url.content %}
+               <a href="{{fields.field_external_url.content}}" target="_blank">{{fields.title.content}}</a>
+             {% else %}
+                   {{fields.title.content}}
+            {% endif %}
+            </h4>
+            {{fields.body.content}}
+            <span class="day">{{fields.field_published_date.content}}</span>
+        </div>
+    </div>
+</div>

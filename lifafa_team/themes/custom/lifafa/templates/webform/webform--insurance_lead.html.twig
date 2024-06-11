@@ -1,0 +1,144 @@
+{#
+/**
+ * @file
+ * Theme implementation for a 'webform' element.
+ *
+ * This is an copy of the webform.html.twig theme_wrapper which includes the
+ * 'title_prefix' and 'title_suffix' variables needed for
+ * contextual links to appear.
+ *
+ * Available variables
+ * - attributes: A list of HTML attributes for the wrapper element.
+ * - children: The child elements of the webform.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ *
+ * @see template_preprocess_webform()
+ * @see _webform_form_after_build()
+ *
+ * @ingroup themeable
+ */
+#}
+
+<div class="steps award-form clear pb-30">
+         <div class="container container-1000">
+            <div class="title text-center">
+               <h2>Send Query</h2>
+            </div>
+
+ {% set elements = element.elements %}
+<form{{ attributes.addClass('book-demo-form') }}>             
+             
+            <div class="row clear">
+               <div class="col-sm-6">
+                  <div class="form-row">
+                     <label class="fm-lb">Name</label>
+                     {#<input type="text" name="Name" value="" placeholder="Name" class="fm-in">#}
+                     {{ elements.name }}
+                  </div>
+               </div>
+               <div class="col-sm-6">
+                  <div class="form-row">
+                     <label class="fm-lb">Mobile Number</label>
+                     {#<input id="phone" name="Mobile Numbe" type="tel" placeholder="Mobile Number" class="fm-in">#}
+                     {{ elements.country_code }}    
+                    {{ elements.phone_number }}
+                  </div>
+               </div>
+            </div>
+            <div class="row clear">
+               <div class="col-sm-6">
+                  <div class="form-row">
+                     <label class="fm-lb">Plan ID</label>
+                     {#<input type="text" name="Plan ID" value="" placeholder="Plan ID" class="fm-in">#}
+                     {{ elements.plan_id }}
+                     	
+                  </div>
+               </div>
+               <div class="col-sm-6">
+                  <div class="form-row">
+                     <label class="fm-lb">Email</label>
+                     {#<input type="text" name=" Email" value="" placeholder=" Email" class="fm-in">#}
+                     {{ elements.email_address }}
+                  </div>
+               </div>
+            </div>
+            {#<input data-drupal-selector="edit-plan-id" type="hidden" name="plan_id" value="{{ plan_id }}" />#}
+                  
+            {{ element.form_build_id }}
+            {{ element.form_token }}
+            {{ element.form_id }} 
+                  
+            <div class="submit-btn-row text-center">
+                {#<input type="submit" value="Send" class="btn btn-primary">#}
+                {{ element.actions }}  
+            {{ elements.actions }}
+                
+                
+            </div>
+            
+            
+            
+            
+            {{ elements.captcha }}
+            
+            </form>
+         </div>
+      </div>
+
+
+
+
+{#
+<div class="steps clear">
+    <div class="container container-500">
+        <div class="title text-center">
+            <h2>Booking Request</h2>
+        </div>
+        <div class="form-top-field">		
+            <h5>Service Name: <span>{{ node_title }}</span></h5> 
+            <h5>EVENT ID: <span>{{ vendor_list_id }}</span></h5>
+        </div>
+       {% set elements = element.elements %}
+<form{{ attributes.addClass('book-demo-form') }}>
+    {{ title_prefix }}
+    {% if element.status_messages %}
+        {{ element.status_messages }}
+    {% endif %}
+    
+    {{ elements.first_name }}
+    
+    {{ elements.last_name }}
+    
+    {{ elements.company_name }}
+    
+    {{ elements.email_address }}
+    
+    {{ elements.country_code }}
+    
+    {{ elements.phone_number }}
+    {{ elements.products }}
+    
+    {{ elements.message }}
+    
+    {{ elements.captcha }}
+    
+     <input data-drupal-selector="edit-vendor-list-id" type="hidden" name="vendor_list_id" value="{{ vendor_list_id }}s" />
+        <input data-drupal-selector="edit-vendor-name" type="hidden" name="vendor_name" value="{{ node_title }}" />
+        
+    
+    {{ element.form_build_id }}
+    {{ element.form_token }}
+    {{ element.form_id }} 
+    {{ element.actions }}  
+    {{ elements.actions }}
+    
+    {{ title_suffix }}
+</form>
+    </div>
+</div>#}
+
+
+

@@ -1,0 +1,5 @@
+## YAML Template.
+---
+employee award access:
+  title: 'send award'
+  description: 'Gives permission to access send award'

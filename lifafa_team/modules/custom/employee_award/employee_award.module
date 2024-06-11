@@ -1,0 +1,114 @@
+<?php
+
+/**
+ * @file
+ * Contains award.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\taxonomy\Entity\Term;
+function employee_award_theme($existing, $type, $theme, $pat) {
+  return [
+    'create_award_form' => [            
+       'render element' => 'form',        
+    ],
+      
+    'create_award_prev_form' => [            
+       'render element' => 'form',        
+    ],  
+     'send_giftcard' => [            
+       'render element' => 'form',    
+        'variables' => [
+       'store_baseurl' => [ ],
+       'current_store_id' => [ ],
+       
+    ],      
+    ],  
+      
+  ];
+}
+
+
+function employee_award_mail($key, &$message, $params) {
+  switch($key) {
+    // To Trigger email on x_mail key.
+    case 'award_mail':
+      $message['headers'] = [
+        'content-type' => 'text/html'
+      ];
+      $message['subject'] = t($params['subject']);
+      $message['body'][] = (string) $params['message'];
+      //    $context = $params['context'];
+      //$message['params']['attachments'][] = $context['attachments'];
+  }
+}
+
+
+/**
+     * 
+     * @param type $tempNo
+     * @param type $tempData
+     * @return string
+     */
+    function getXMailMessageBody($tempData=[]) {
+        // Get Dynamic values.. then pass to twig file..
+        if(empty($tempData)){
+            return '';
+        }        
+        $tempNo = $tempData['award_template'];  
+        
+        
+        
+    $award_type = $tempData['award_type'];
+    getAwardName($award_type);
+//    $term = Term::load($award_type);
+//    $name = $term->getName();
+    $name = getAwardName($award_type);
+    if(!empty($award_type) && $award_type=='create_your_own' && !empty($tempData['award_name'])){      
+        $name =  $tempData['award_name'];
+    }  
+    
+        $selectedDate = date('d/M/Y',strtotime($tempData['award_date']));            
+        return twig_render_template(
+                drupal_get_path('module', 'employee_award') . '/templates/email_templates/'.$tempNo.'-mailTemplate.html.twig', [
+            //'theme_hook_original' => 'not-applicable',
+            'award_type' => "{$tempData['award_type']}",
+            'award_name' => "{$name}",            
+            'sender_name' => "{$tempData['sender_name']}",
+            'sender_email' => "{$tempData['sender_email']}",
+            'award_heading' => "{$tempData['award_heading']}",
+            'award_body' => "{$tempData['award_body']}",
+            'recipient_name' => "{$tempData['recipient_name']}",
+            'award_date' => "{$selectedDate}",
+            'company_name' => "{$tempData['company_name']}",
+            'dynamic_key2' => "{test ji}"
+                ]
+        );
+    }
+    
+    
+    /**
+   * 
+   * @return type
+   */
+  function getAwardName($optionKey){      
+        $query = \Drupal::entityQuery('taxonomy_term');
+        $query->condition('vid', "award_type");
+       $query->sort('weight' , 'ASC'); 
+        $tids = $query->execute();
+        $terms = \Drupal\taxonomy\Entity\Term::loadMultiple($tids);        
+        foreach ($terms as $term) {            
+            $id = $term->id();
+        $remove[] = "'";
+        $remove[] = '"';
+        $remove[] = "-";
+        $remove[] = " ";
+
+        $optionVal = str_replace( $remove, "_", strtolower($term->name->value) );                  
+        $option[$optionVal] = $term->name->value;
+        }
+        
+        if(array_key_exists($optionKey, $option)){        
+            return $option[$optionKey];
+        }        
+  }

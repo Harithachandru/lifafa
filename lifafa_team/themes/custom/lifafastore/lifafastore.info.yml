@@ -1,0 +1,28 @@
+## YAML Template.
+---
+name: 'Lifafa Store'
+core: 8.x
+type: theme
+screenshot: screenshot.png
+description: 'this is custom drupal theme for lifafa Store'
+
+libraries:
+  - lifafastore/global-styling
+  - lifafastore/fonts
+
+
+
+regions:
+  header: 'Header'
+  header_bottom: 'Header Bottom'
+  logo: 'Logo'
+  main_content: 'Main Content'
+  top_left: 'Top Left'
+  top_right: 'Top Right'  
+  highlighted: 'Highlighted'
+  help: 'Help'
+  breadcrumb: 'Breadcrumb'
+  content: 'Content'  
+  footer_top: 'Footer Top'
+  footer_logo: 'Footer Logo'
+  copyright: 'Copyright'

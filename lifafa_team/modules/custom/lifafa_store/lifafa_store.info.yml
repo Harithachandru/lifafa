@@ -1,0 +1,5 @@
+name: 'lifafa_store'
+type: module
+description: 'this is lifafa store custom module'
+core: 8.x
+package: 'Custom'

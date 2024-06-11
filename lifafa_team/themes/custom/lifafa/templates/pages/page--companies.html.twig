@@ -1,0 +1,78 @@
+{# empty Twig template #}
+<header class="header-top-nav">
+    <div class="top-nav ">
+        <div class="link-hone">
+            <a href="/">
+                {#<img src="{{ base_path ~ directory }}/images/house-black.png" alt="logo">#}
+            </a>
+        </div>
+        <div class="logo-hone-center">            
+          {#  {% if storedata.store_logo %}     #}       
+                <a href="/"><img src="{{comapany_logo}}" alt="logo"></a>
+            {#{% else %}               
+                <a href="{{store_home_url}}"><img src="{{base_path ~ directory}}/images/logo2.png" alt="logo"></a>
+            {% endif %}                           #}
+        </div>
+        <div class="menu-right">
+            <div  class="user-in">
+                <ul>
+                    {% if logged_in %}
+                        <li><a href="{{store_base_url}}">My account</a></li>
+                        <li><a href="{{store_home_url}}">My store</a></li>
+                        <li><a href="{{base_url}}/user/logout" title="Logout">Logout</a></li>
+                    {% else %}
+                        <li><a href="{{base_url}}/user/login" title="Sign in">Sign in</a></li>
+                        <li><a href="{{base_url}}/book-demo" title="Sign up">Sign up</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="s-btn"><img src="{{ base_path ~ directory }}/images/search-icon-m.png" alt="logo"></div>
+        </div>
+        <div class="search-row clear">
+            <div class="search">
+                <form class="top-searchbox"><input type="search" name="gsearch" placeholder="Search" class="gsearch"> <input class="submit-btn" type="submit"> </form>
+            </div>
+        </div>
+    </div>
+</header>
+           
+<div class="banner-inner clear">
+            <img src="{{ base_path ~ directory }}/images/photo6339242558210813192.jpg" alt="Lifafa">
+        </div>
+        <div class="steps clear">
+            <div class="container">
+                <div class="title text-center">
+                    <h2>samsung</h2>
+                    <span class="link-dsc">Samsung</span>
+                    <span class="loction pb-30">Samsung</span>
+                </div>
+                
+            <div class="text-center ">
+                 {% if logged_in %}
+                     <a href="{{base_url}}/user/logout" title="Logout">Logout</a>
+                     {% else %}
+                         <a href="{{base_url}}/user/login" class="btn btn-primary">Login</a>
+                          {% endif %}
+            
+            </div>
+                
+                <div class="content text-center ">
+                    <h4>Overview</h4>
+                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+                    <h4>Welcome</h4>
+                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+                </div>
+            </div>
+        </div>
+
+<footer class="footer login-footer full-width">
+    <div class="footer-inner ">
+        <div class="copyright ">
+            &copy; {{ "now"|date("Y") }} All Rights Reserved
+        </div>
+        <div class="footer-logo">
+            {#<img src="{{ base_path ~ directory }}/images/footerlogo.png" alt="Lifafa">#}
+        </div>
+    </div>	
+</footer>        
+        

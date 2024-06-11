@@ -1,0 +1,9 @@
+lifafa_config.lifafa_admin_config:
+  path: '/admin/config/lifafa_config/lifafaconfig'
+  defaults:
+    _form: '\Drupal\lifafa_config\Form\LifafaConfig'
+    _title: 'LifafaConfig'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE

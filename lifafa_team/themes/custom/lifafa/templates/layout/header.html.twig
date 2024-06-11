@@ -1,0 +1,59 @@
+{# empty Twig template #}
+<header class="header-top-nav">
+    <div class="top-nav ">
+        <div class="menu-left">
+            <div class="logo">
+                <a href="{{front_page}}"><img src="{{logopath}}" alt="logo"></a>
+            </div>
+            <div class="menu-wrap">
+                {{ page.primary_menu }}
+                
+            </div>
+        </div>
+          
+                {% if logged_in %}       
+                    <div class="menu-right">            
+                        <div  class="user-in">
+                            <ul>                    
+                                <li><a href="{{store_base_url}}">My account</a></li>
+                                <li><a href="{{store_home_url}}">My store</a></li>
+                                <li><a href="{{base_url}}/storelogout" title="Logout">Logout</a></li>                        
+                                    {#<li><a href="{{logoutUrl}}" title="Logout">Logout</a></li>#}                                                              
+                            </ul>
+                        </div>
+                        <div class="s-btn">
+                            <img src="{{ base_path ~ directory }}/images/search-icon-m.png" alt="logo">
+                        </div>
+                    </div>
+                {% else %}
+
+
+                    <div class="menu-right-2">
+                        <div class="re-login">
+                            <div  class="user-in">                
+                                <a href='{{base_url}}/rewardstore'><img src="{{ base_path ~ directory }}/images/re-login.png" alt="logo"></a>
+                                {#<ul>                 
+                                    <li><a href="{{base_url}}/loginpage" title="Sign in">Sign in</a></li>
+                                    <li><a href="{{base_url}}/book-demo" title="Sign up">Sign up</a></li>                 
+                                </ul>#}
+                            </div>
+
+                        </div>
+                    </div>    
+                {% endif %}
+
+
+        {% if page.header %}
+            {{ page.header }}
+        {% endif %}
+        {#<div class="s-btn"><img src="{{directory}}/images/search-icon-m.png" alt="logo"></div>
+        <div class="search">
+            <form class="top-searchbox">
+                <input type="search" name="gsearch" placeholder="Search" class="gsearch">
+                <input class="submit-btn" type="submit"> 
+            </form>
+        </div>#}
+
+    </div>
+
+</header>

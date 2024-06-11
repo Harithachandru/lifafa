@@ -1,0 +1,75 @@
+<div class="rewards-box">     
+    {% if fields.field_external_url.content %}        
+        {% if store_gcm_url %}
+            {% set redirect_url = store_gcm_url~fields.field_external_url.content %}        
+        {% else %}
+            {% set redirect_url = getStoreBaseUrl~getSelectStoreId~fields.field_external_url.content %}
+        {% endif %}
+        
+        {#{% if fields.field_external_url.content =='yes' %}
+            {% set redirect_url = store_gcm_url %}
+        {% endif %}#}
+        <a href="{{redirect_url}}?store_id={{getSelectStoreId}}" >
+            <div class="re-box-sd">
+                {% if fields.field_coming_soon.content=='On' %}
+                    <div class="c-soon"><img class="csoon" src="{{ base_path ~ directory }}/images/Subtraction.png" alt="Lifafa"></div>
+                    {% endif %}
+                    {% if fields.field_banner.content %}
+                        {{fields.field_banner.content}}
+                    {% endif %}
+                <div class="rewards-dsc text-center">
+                    <h4>{{fields.title.content}}</h4>
+                    {{fields.body.content}}
+                </div>
+            </div>
+        </a>
+        {% elseif fields.field_product_url.content %}
+          <a href="https://{{getSelectStoreId}}-01.{{fields.field_product_url.content}}" >
+           <div class="re-box-sd">
+             {% if fields.field_coming_soon.content=='On' %}
+               <div class="c-soon"><img  src="{{ base_path ~ directory }}/images/Coming-soon.png" alt="Lifafa"></div>
+            {% endif %}
+        
+            {% if fields.field_banner.content %}
+              {{fields.field_banner.content}}
+             {% endif %}
+        
+              <div class="rewards-dsc text-center">
+               <h4>{{fields.title.content}}</h4>
+                {{fields.body.content}}
+              </div>
+    
+            </div>
+         </a>
+    {% elseif fields.field_contact_url.content  %}
+    <a href="/store/{{getSelectStoreId}}/{{fields.field_contact_url.content}}"  >
+    <div class="re-box-sd">
+    {% if fields.field_coming_soon.content=='On' %}
+        <div class="c-soon"><img  src="{{ base_path ~ directory }}/images/Coming-soon.png" alt="Lifafa"></div>
+        {% endif %}
+        {% if fields.field_banner.content %}
+            {{fields.field_banner.content}}
+        {% endif %}
+    <div class="rewards-dsc text-center">
+        <h4>{{fields.title.content}}</h4>
+        {{fields.body.content}}
+    </div>
+    
+</div>
+</a>
+{% else %}
+   <div class="re-box-sd">
+    {% if fields.field_coming_soon.content=='On' %}
+        <div class="c-soon"><img  src="{{ base_path ~ directory }}/images/Coming-soon.png" alt="Lifafa"></div>
+        {% endif %}
+        {% if fields.field_banner.content %}
+            {{fields.field_banner.content}}
+        {% endif %}
+    <div class="rewards-dsc text-center">
+        <h4>{{fields.title.content}}</h4>
+        {{fields.body.content}}
+    </div>
+    
+   </div>
+{% endif %}
+ </div>    

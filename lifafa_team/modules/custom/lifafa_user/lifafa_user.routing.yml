@@ -1,0 +1,9 @@
+lifafa_user.lifafa_admin_user:
+  path: '/admin/config/lifafa_user/lifafauser'
+  defaults:
+    _form: '\Drupal\lifafa_user\Form\LifafaUser'
+    _title: 'LifafaUser'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE

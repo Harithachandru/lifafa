@@ -1,0 +1,32 @@
+{# empty Twig template #}
+<div class="banner-inner clear">
+    {{content.field_page_banner}}
+    <div class="banner-dsc banner-2"> 
+        <div class="container ">
+            <div class="title text-center">
+                <h2>{{ content.field_banner_title }}</h2>
+            </div>
+        </div>
+    </div>
+</div>  
+{{content.body}}
+
+<div class="loyalty-form clear">
+<div class="fb-row">
+<div class="fb-col-5 img-100 ">
+	<img src="{{ base_path ~ directory }}/images/shutterstock_102736505.jpg" alt="Lifafa">	
+</div>
+<div class="fb-col-5 ">
+<div class="wallet-form ">
+
+<div class="title">
+<h2>Know more about our Pre-paid Gift cards</h2>
+<div class="retail-tech-contact-us">
+{{ drupal_entity('webform', 'contact') }}
+</div>
+</div>
+</div> 
+</div>
+</div>	
+</div>
+

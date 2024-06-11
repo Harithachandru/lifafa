@@ -1,0 +1,26 @@
+{# empty Twig template #}
+<header class="header-top-nav">
+    <div class="top-nav ">
+        <div class="link-hone">
+            <a href="{{front_page}}"><img src="{{ base_path ~ directory }}/images/house-black.png" alt="logo"></a>
+        </div>
+        <div class="logo-hone-center">
+            <a href="{{front_page}}"><img src="{{ base_path ~ directory }}/images/logo.png" alt="logo"></a>
+        </div>
+        <div class="menu-right">
+            <div  class="user-in">
+                <ul>
+                    <li><a href="{{store_base_url}}">My account</a></li>
+                    {#<li><a href="{{base_url}}/user/logout" title="Logout">Logout</a></li>#}
+                    <li><a href="{{logoutUrl}}" title="Logout">Logout</a></li>
+                </ul>
+            </div>
+            <div class="s-btn"><img src="{{ base_path ~ directory }}/images/search-icon-m.png" alt="logo"></div>
+        </div>
+        <div class="search-row clear">
+            <div class="search">
+                <form class="top-searchbox"><input type="search" name="gsearch" placeholder="Search" class="gsearch"> <input class="submit-btn" type="submit"> </form>
+            </div>
+        </div>
+    </div>
+</header>

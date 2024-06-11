@@ -1,0 +1,171 @@
+{#<div class="banner-inner clear">
+    {% if content.field_image_detail_page %}
+        {{ content.field_image_detail_page }}
+    {% endif %}
+</div>
+<div class="steps clear">
+    <div class="perks-filter filter-link">
+        <div class="container">
+            <div class="cat-filter text-center">
+                <ul>
+                    <li class="active"><a href="#">Featured</a></li>
+                    <li><a href="#">Previous</a></li>
+                    <li><a href="#">Nominate</a></li>
+                    <li><a href="#">Eligibility</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class=" steps clear marketplace-supplier pb-30">
+    {{content.body}}    
+</div>
+
+<div class=" steps clear marketplace-supplier">
+    <div class="container ">
+        <div class="back-link view-link pb-20 text-right">
+            <a href="{{store_home_url}}"> Back</a>
+        </div>
+    </div>
+</div>  
+<div class="steps clear   pb-30">
+    <div class="container">
+        <button type="button" class="scroll-top "></button>
+    </div>
+</div>#}
+
+<!--================        -->
+
+<div class="banner-inner clear">
+{% if content.field_image_detail_page %}
+    {{ content.field_image_detail_page }}
+{% endif %}
+</div>
+<div class="steps clear">
+    <div class="perks-filter filter-link">
+        <div class="container">
+            <div class="cat-filter text-center">
+                <ul>
+                    {#openCity(event, 'previous')#}
+                    {#onclick="openCity(event, 'eligibility')"#}
+                    <li><button class="tablink1 active" onclick="openCity(event, 'featured')" >Featured</button></li>
+                    <li><button class="tablink1 " >Previous</button></li>
+                    <li><button class="tablink1" onclick="openCity(event, 'nominate')">Nominate</button></li>
+                    <li><button class="tablink1" >Eligibility</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="featured" class="tab1" style="display: block;">
+    <div class=" steps clear marketplace-supplier pb-30">
+        {{content.body}}    
+    </div>
+
+    <div class=" steps clear marketplace-supplier">
+        <div class="container ">
+            <div class="back-link view-link pb-20 text-right">
+                <a href="#"> Back</a>
+            </div>
+        </div>
+    </div>  
+    <div class="steps clear   pb-30">
+        <div class="container">
+            <button type="button" class="scroll-top "></button>
+        </div>
+    </div>
+</div>
+<div id="nominate" class="tab1">
+    <div class=" steps clear marketplace-supplier pb-30">
+        <div class="container news-singal">
+            <h3>custom form:</h3>
+
+            <h5 class="pb-20">Name</h5>
+            <h5>Title of Achievement</h5>
+            <div class="custom-form">
+                <form>
+                    <label>1. Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum ?</label>
+                    <textarea class="form-textarea" name="message" rows="5" cols="60" placeholder="Type your answer"></textarea>
+                    <label>2. Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum ?</label>
+                    <textarea class="form-textarea" name="message" rows="5" cols="60" placeholder="Type your answer"></textarea>
+                    <label>3. Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum ?</label>
+                    <textarea class="form-textarea" name="message" rows="5" cols="60" placeholder="Type your answer"></textarea>
+                    <label>4. Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum ?</label>
+                    <textarea class="form-textarea" name="message" rows="5" cols="60" placeholder="Type your answer"></textarea>
+                    <div class="text-center">
+                        <input class="btn btn-primary "  type="submit" id="edit-actions-submit" name="op" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class=" steps clear">
+        <div class="container ">
+            <div class="back-link view-link pb-20 text-right">
+                <a href="#"> Back</a>
+            </div>
+        </div>
+    </div>  
+    <div class="steps clear   pb-30">
+        <div class="container">
+            <button type="button" class="scroll-top "></button>
+        </div>
+    </div>
+</div>
+<div id="previous" class="tab1">
+    <div class=" steps clear marketplace-supplier pb-30">
+        {{content.body}}  
+    </div>
+
+    <div class=" steps clear marketplace-supplier">
+        <div class="container ">
+            <div class="back-link view-link pb-20 text-right">
+                <a href="{{store_home_url}}"> Back</a>
+            </div>
+        </div>
+    </div>  
+    <div class="steps clear   pb-30">
+        <div class="container">
+            <button type="button" class="scroll-top "></button>
+        </div>
+    </div>
+</div>
+<div id="eligibility" class="tab1">
+    <div class=" steps clear marketplace-supplier pb-30">
+        <div class="container news-singal">
+            <h3>custom form:</h3>
+
+            <h5 class="pb-20">Name</h5>
+            <h5>Title of Achievement</h5>
+            <div class="custom-form">
+                <form>
+                    <label>1. Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum ?</label>
+                    <textarea class="form-textarea" name="message" rows="5" cols="60" placeholder="Type your answer"></textarea>
+                    <label>2. Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum ?</label>
+                    <textarea class="form-textarea" name="message" rows="5" cols="60" placeholder="Type your answer"></textarea>
+                    <label>3. Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum ?</label>
+                    <textarea class="form-textarea" name="message" rows="5" cols="60" placeholder="Type your answer"></textarea>
+                    <label>4. Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum ?</label>
+                    <textarea class="form-textarea" name="message" rows="5" cols="60" placeholder="Type your answer"></textarea>
+                    <div class="text-center">
+                        <input class="btn btn-primary "  type="submit" id="edit-actions-submit" name="op" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class=" steps clear">
+        <div class="container ">
+            <div class="back-link view-link pb-20 text-right">
+                <a href="{{store_home_url}}"> Back</a>
+            </div>
+        </div>
+    </div>  
+    <div class="steps clear   pb-30">
+        <div class="container">
+            <button type="button" class="scroll-top "></button>
+        </div>
+    </div>
+</div>

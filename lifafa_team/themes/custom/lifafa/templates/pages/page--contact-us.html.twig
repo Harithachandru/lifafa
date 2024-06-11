@@ -1,0 +1,125 @@
+ {# empty Twig template #}
+ 
+ <header class="header-top-nav">
+    <div class="top-nav ">
+        <div class="link-hone">
+        {% if logged_in %}
+            <a href="{{store_home_url}}">
+                <img src="{{ base_path ~ directory }}/images/house-black.png" alt="logo">
+            </a>
+            {% else %}
+            <a href="{{base_url}}/user/login?store_id={{field_store_id}}">
+                <img src="{{ base_path ~ directory }}/images/house-black.png" alt="logo">
+                </a>
+                {% endif %}
+        </div>
+        <div class="logo-hone-center">
+        <a href="{{store_home_url}}"><img src="{{comapany_logo}}" alt="logo"></a>
+            {#  {% if storedata.store_logo %}     #}
+            {# {% if logged_in %}
+                 <a href="{{store_home_url}}"><img src="{{comapany_logo}}" alt="logo"></a>
+                  {% else %}
+                  <a href="{{base_url}}/user/login?store_id={{field_store_id}}"><img src="{{comapany_logo}}" alt="logo"></a>
+             {% endif %}#}
+
+                {#{% else %}
+                    <a href="{{store_home_url}}"><img src="{{base_path ~ directory}}/images/logo2.png" alt="logo"></a>
+                {% endif %}                           #}
+        </div>
+        <div class="menu-right">
+            <div  class="user-in">
+                <ul>
+                    {% if logged_in %}
+                        <li><a href="{{store_base_url}}">My account</a></li>
+                        <li><a href="{{store_home_url}}">My store</a></li>
+                        {#<li><a href="{{base_url}}/user/logout" title="Logout">Logout</a></li>#}
+                        <li><a href="{{logoutUrl}}" title="Logout">Logout</a></li>
+                        {% else %}
+                       {% if signin_button %}
+                        <li><a href="{{base_url}}/user/login?store_id={{field_store_id}}" title="Sign in">Sign in</a></li>
+                        {% else %}
+                        <li><a href="{{base_url}}/user/login?store_id={{field_store_id}}" title="Sign in">Sign in</a></li>
+                            {% if external_url %}
+                            <li><a href="{{base_url}}{{external_url}}" title="Sign up">Sign up</a></li>
+                            {% else %}
+                            <li><a href="{{getStoreBaseUrl}}myaccount/{{field_store_id}}/self/register" title="Sign up">Sign up</a></li>
+                        {% endif %}
+                        {% endif %}
+                        {% endif %}
+                </ul>
+            </div>
+            {#<div class="s-btn"><img src="{{ base_path ~ directory }}/images/search-icon-m.png" alt="logo"></div>#}
+        </div>
+        {#<div class="search-row clear">
+            <div class="search">
+                <form class="top-searchbox"><input type="search" name="gsearch" placeholder="Search" class="gsearch"> <input class="submit-btn" type="submit"> </form>
+            </div>
+        </div>#}
+    </div>
+</header>
+ <div class="banner-inner clear">
+         <div class="banner-slider">
+            <div class="item">
+                 <img src="{{ landing_page_image }}" alt="Lifafa">
+               <div class="banner-dsc">
+                  <div class="container ">
+                     <div class="title text-center">
+                        <h2>{{banner_heading | raw}} </h2>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            </div>
+      </div>
+	<div class="steps clear">
+         <div class="container">
+            <div class="top-border"></div>
+            <div class="title text-center">
+               <h2>{{header}}</h2>
+               <div class="text-1">{{sub_heading | raw}}</div>
+
+            </div>
+         </div>
+      </div>
+      <div class="steps clear">
+         <div class="container">
+       
+     {{body | raw}}
+               
+     
+        
+         </div>
+      </div> 	 
+	<div class="steps clear">
+    <div class="container ">
+	<div class="top-border"></div>
+        <div class="title text-center pb-30">
+          <h2>{{form_heading}}</h2>
+			<div class="text-1">{{form_subheading | raw}}</div>
+        </div>
+	  </div>
+    </div>  
+
+   {{ drupal_entity('webform', 'flight_hotel_contact') }}
+
+<div class=" contact-steps clear pb-30">
+    <div class="container container-500">
+        <div class="top-border"></div>
+       {{contact_details | raw}}
+               </div>
+
+
+  
+</div>
+               
+               
+               <footer class="footer login-footer full-width">
+    <div class="footer-inner ">
+        <div class="copyright text-center ">
+            &copy; {{ "now"|date("Y") }} All Rights Reserved
+        </div>
+      {#  <div class="footer-logo">
+            <img src="{{ base_path ~ directory }}/images/footerlogo.png" alt="Lifafa"> 
+        </div> #}
+    </div>
+</footer>

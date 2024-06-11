@@ -1,0 +1,208 @@
+{# empty Twig template #}
+<div class="banner-inner clear">
+    <img src="{{ storedata.main_banner}}" alt="Lifafa">
+    <div class="banner-dsc">
+        <div class="container ">
+            <div class="title text-center">
+                <h2>Wellbeing</h2>
+                <div class="text-1">Fitness, Nutrition, Mental Health</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="top-filter steps">
+    <div class="container container-1500">
+        <div class="cat-filter ">
+            <form>
+                <select>
+                    <option>Categories</option>
+                    <option>All</option>
+                    <option>Nutrition</option>
+                    <option>Fitness</option>
+                    <option>Mental Health</option>
+                </select>
+            </form>
+        </div>
+    </div>
+</div>		  
+<div class="logged-steps clear team-building">
+    <div class="container container-1500">
+    {% if storedata.store_blocks %}
+        {% for row in storedata.store_blocks %}                
+            <div class="steps clear">
+                <div class="container container-1500">
+                    <div class="top-border"></div>
+                    <div class="title text-center">
+                        {% if row.block_title %}
+                            <h2>{{ row.block_title }}</h2>
+                        {% endif %}
+                        {% if row.block_subtitle %}
+                            <div class="text-1">{{ row.block_subtitle }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>                                
+            {{ drupal_block(row.block_stores, wrapper=false) }}
+        {% endfor %} 
+    {% endif %} 
+    
+    
+    
+    
+    {#<div class="container container-1500">
+        <h3>Yoga</h3>
+        <div class="fb-row">
+            <div class="col-4">
+                <div class="announcements-box">
+                    <img src="images/yoga-gettyimages-1142820079-promo.jpg" alt="Lifafa">
+                    <div class="announcements-dsc text-center">
+                        <h4>Lorem Ipsum</h4>
+                        <h5>Lorem Ipsum</h5>
+                        <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="announcements-box">
+                    <img src="images/yoga-gettyimages-1142820079-promo.jpg" alt="Lifafa">
+                    <div class="announcements-dsc text-center">
+                        <h4>Lorem Ipsum</h4>
+                        <h5>Lorem Ipsum</h5>
+                        <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="announcements-box">
+                    <img src="images/yoga-gettyimages-1142820079-promo.jpg" alt="Lifafa">
+                    <div class="announcements-dsc text-center">
+                        <h4>Lorem Ipsum</h4>
+                        <h5>Lorem Ipsum</h5>
+                        <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="announcements-box">
+                    <img src="images/yoga-gettyimages-1142820079-promo.jpg" alt="Lifafa">
+                    <div class="announcements-dsc text-center">
+                        <h4>Lorem Ipsum</h4>
+                        <h5>Lorem Ipsum</h5>
+                        <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <a href="#" class="btn btn-primary">View all</a>
+            <div class="top-border"></div>
+        </div>
+    </div>#}
+</div>
+{#<div class="logged-steps clear team-building">
+    <div class="container container-1500">
+        <h3>Mental Health</h3>
+        <div class="fb-row">
+            <div class="col-4">
+                <div class="announcements-box">
+                    <img src="images/yoga-gettyimages-1142820079-promo.jpg" alt="Lifafa">
+                    <div class="announcements-dsc text-center">
+                        <h4>Lorem Ipsum</h4>
+                        <h5>Lorem Ipsum</h5>
+                        <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="announcements-box">
+                    <img src="images/yoga-gettyimages-1142820079-promo.jpg" alt="Lifafa">
+                    <div class="announcements-dsc text-center">
+                        <h4>Lorem Ipsum</h4>
+                        <h5>Lorem Ipsum</h5>
+                        <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="announcements-box">
+                    <img src="images/yoga-gettyimages-1142820079-promo.jpg" alt="Lifafa">
+                    <div class="announcements-dsc text-center">
+                        <h4>Lorem Ipsum</h4>
+                        <h5>Lorem Ipsum</h5>
+                        <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="announcements-box">
+                    <img src="images/yoga-gettyimages-1142820079-promo.jpg" alt="Lifafa">
+                    <div class="announcements-dsc text-center">
+                        <h4>Lorem Ipsum</h4>
+                        <h5>Lorem Ipsum</h5>
+                        <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <a href="#" class="btn btn-primary">View all</a>
+            <div class="top-border"></div>
+        </div>
+    </div>
+</div>
+<div class="logged-steps clear team-building">
+    <div class="container container-1500">
+        <h3>Nutrition</h3>
+        <div class="fb-row">
+            <div class="col-4">
+                <div class="announcements-box">
+                    <img src="images/yoga-gettyimages-1142820079-promo.jpg" alt="Lifafa">
+                    <div class="announcements-dsc text-center">
+                        <h4>Lorem Ipsum</h4>
+                        <h5>Lorem Ipsum</h5>
+                        <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="announcements-box">
+                    <img src="images/yoga-gettyimages-1142820079-promo.jpg" alt="Lifafa">
+                    <div class="announcements-dsc text-center">
+                        <h4>Lorem Ipsum</h4>
+                        <h5>Lorem Ipsum</h5>
+                        <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="announcements-box">
+                    <img src="images/yoga-gettyimages-1142820079-promo.jpg" alt="Lifafa">
+                    <div class="announcements-dsc text-center">
+                        <h4>Lorem Ipsum</h4>
+                        <h5>Lorem Ipsum</h5>
+                        <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="announcements-box">
+                    <img src="images/yoga-gettyimages-1142820079-promo.jpg" alt="Lifafa">
+                    <div class="announcements-dsc text-center">
+                        <h4>Lorem Ipsum</h4>
+                        <h5>Lorem Ipsum</h5>
+                        <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <a href="#" class="btn btn-primary">View all</a>
+            <div class="top-border"></div>
+        </div>
+    </div>#}
+</div>
+<div class="steps clear   pb-30">
+    <div class="container container-1500 back-link back-right">
+        <button type="button" class="scroll-top "></button>
+    </div>
+</div>

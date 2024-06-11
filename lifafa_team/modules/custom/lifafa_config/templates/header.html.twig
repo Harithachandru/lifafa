@@ -1,0 +1,250 @@
+ <style>
+  @font-face{font-family:'cs-Segoe UI';src:url('fonts/cs-SegoeUI.eot');src:url('fonts/cs-SegoeUI.eot?#iefix') format('embedded-opentype'),url('fonts/cs-SegoeUI.woff2') format('woff2'),url('fonts/cs-SegoeUI.woff') format('woff'),url('fonts/cs-SegoeUI.ttf') format('truetype'),url('fonts/cs-SegoeUI.svg#SegoeUI') format('svg');font-weight:normal;font-style:normal;font-display:swap;}
+    * {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+  }  
+  body { margin:0px; padding:0;}
+  body {
+      margin: 0;
+      color: #000;
+      font-weight: 400;
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 20px;
+      outline: none;
+      line-height: 1.4;
+      min-height: 100vh;
+      position: relative;
+  }
+  a, a:hover, a:focus {
+      text-decoration: none;
+  }
+  img {
+      max-width: 100%;
+      vertical-align: middle;
+      border: 0;
+  }
+  header.header-top-nav {
+      position: relative;
+      z-index: 9;
+  }
+  .top-nav {
+      padding: 45px 40px 15px 40px;
+      border-bottom: 3px solid #2A577C;
+      width: 100%;
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+  }
+  .link-hone {
+      float: left;
+      padding: 20px 0;
+  }
+  .logo-hone-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      height: 80px;
+      align-items: center;
+  }
+  .logo-hone-center img {
+      max-height: 80px;
+  }
+  .menu-right {
+      float: right;
+      padding: 20px 0;
+  }
+  .search-row {
+      padding: 20px 20px 0 20px;
+      display: none;
+  }
+  .clear {
+      clear: both;
+  }
+  .s-btn img {
+      width: 30px;
+      height: 30px;
+  }
+  .s-btn {
+      float: left;
+      cursor: pointer;
+  }
+  .user-in {
+      background: url(https://www.lifafa.team/sites/lifafa.team/themes/custom/lifafa/images/user.png) no-repeat center center;
+      border: 1px solid #F48830;
+      outline: none;
+      height: 30px;
+      width: 30px;
+      border-radius: 20px;
+      float: left;
+      margin-right: 20px;
+      position: relative;
+      cursor: pointer;
+  }
+  .user-in ul {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background: #FFFFFF;
+      border: 1px solid #eaeaea;
+      box-shadow: 0 3px 2px rgb(0 0 0 / 20%);
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      z-index: 99;
+      min-width: 170px;
+      display: none;
+  }
+  .user-in:hover ul {
+      display: block;
+  }
+  .user-in ul li a {
+      padding: 10px 16px;
+      font-family: 'cs-Segoe UI';
+      font-size: 16px;
+      white-space: pre;
+      border-bottom: 2px solid #D4D4D4;
+      display: block;
+      color: #000;
+  }
+  .user-in ul li a:hover {
+      border-bottom: 2px solid #2A577C;
+      background: #2A577C;
+      color: #fff;
+  }
+  .footer.login-footer {
+      padding: 10px 40px;
+  }
+  ​
+  .footer {
+      background: #2A577C;
+      padding: 40px 0;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+  }
+  .full-width {
+      width: 100%;
+      float: left;
+  }
+  .footer-inner {
+      display: table;
+      width: 100%;
+  }
+  .footer.login-footer .copyright {
+      display: table-cell;
+      padding: 0;
+      width: calc(100% - 50px );
+      padding-left: 50px;
+      text-align: center;
+  }
+  ​
+  .copyright {
+      font-size: 15px;
+      font-family: 'cs-Segoe UI';
+      color: #fff;
+      padding: 30px 0 0 0;
+  }
+  .footer.login-footer .footer-logo {
+      display: table-cell;
+      text-align: right;
+      width: 110px;
+  }
+  .footer.login-footer .footer-logo img {
+      max-height: 30px;
+  }
+  @media (max-width: 1399px){
+  .top-nav {  padding: 40px 35px 15px 35px;}
+  }
+  @media (max-width: 1299px){
+  .top-nav { padding: 35px 30px 15px 30px;}
+  }
+  @media (max-width: 1199px){
+  .top-nav { padding: 30px 25px 15px 25px;}
+  }
+  @media (max-width: 1023px){
+  .top-nav { padding: 30px 20px 15px 20px;}
+  .logo-hone-center img {
+      max-height: 60px;
+  }
+  .menu-right {
+      padding: 15px 0;
+  }
+  .logo-hone-center {
+      height: 60px;
+  }
+  .link-hone {
+      padding: 10px 0;
+  }
+  .footer.login-footer {
+      padding: 10px 30px;
+  }
+  }
+  @media (max-width: 767px){
+  .top-nav {padding: 20px 20px 15px 20px;}
+  .logo-hone-center img {
+      max-height: 50px;
+  }
+  .menu-right {
+      padding: 10px 0;
+  }
+  .logo-hone-center {
+      height: 50px;
+  }
+  .link-hone {
+      padding: 5px 0;
+  }
+  .footer.login-footer {
+      padding: 10px 20px;
+  }
+  .footer.login-footer .copyright {
+      text-align: left;
+      padding-left: 0;
+  }
+  .copyright {
+      font-size: 14px;
+      padding: 10px 0 0 0;
+  }
+  }
+  @media (max-width: 499px){
+  .top-nav {  padding: 20px 15px 15px 15px;}
+  .link-hone img {
+      max-width: 30px;
+  }
+  .logo-hone-center img {
+      max-height: 40px;
+  }
+  .menu-right {
+      padding: 5px 0;
+  }
+  .logo-hone-center {
+      height: 40px;
+  }
+  .user-in {
+      margin-right: 15px;
+  }
+  }
+  </style>
+        <header class="header-top-nav">
+           <div class="top-nav ">
+              <div class="link-hone">
+                 <a href="{{sign_in_url}}"><img src="https://www.lifafa.team/sites/lifafa.team/themes/custom/lifafa/images/house-black.png" alt="logo"></a>
+              </div>
+              <div class="logo-hone-center">
+                 <a href="{{home_base_url}}"><img src="{{logo}}" alt="logo"></a>
+              </div>
+              <div class="menu-right">
+                 <div  class="user-in">
+                    <ul>
+                     <li><a href="{{sign_in_url}}">Sign in</a></li>
+                     <li><a href="{{sign_url}}">Sign up</a></li>
+                    </ul>
+                 </div>
+              </div>
+              
+           </div>
+        </header>
+    

@@ -1,0 +1,485 @@
+<?php
+use Drupal\node\Entity\Node;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\lifafa_store\Controller\LifafaStoreController;
+use Drupal\Core\Url;
+use Drupal\Core\Routing\CurrentRouteMatch;
+use Symfony\Component\HttpFoundation\Response;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+function lifafa_theme_suggestions_form_alter(array &$suggestions, array $variables)
+{
+	if ($variables['element']['#form_id'] == 'search_block_form') {
+		$suggestions[] = 'form__search_block_form';
+	}
+}
+
+/**
+ * Implement hook_preprocess_page()
+ *
+ */
+function lifafa_theme_suggestions_page_alter(array &$suggestions, array $variables)
+{
+	// Add content type suggestions.
+	if ($node = \Drupal::request()->attributes->get('node')) {
+		if ($node->getType() == 'customer_store' || $node->getType() == 'contact_us') {
+			if (!empty($node->field_template_type->value)) {
+				$suggestions[] = 'page__' . $node->bundle() . '__' . $node->Id();
+			} else {
+				$suggestions[] = 'page__' . $node->bundle();
+			}
+		}
+		if ($node->getType() == 'full_page') {
+			if (!empty($node->field_template_type->value)) {
+				$suggestions[] = 'page__' . $node->bundle() . '__' . $node->Id();
+			} else {
+				$suggestions[] = 'page__' . $node->bundle();
+			}
+		} else {
+			if ($node->Id() == 54) {
+				array_splice($suggestions, 1, 0, 'page__node__' . $node->Id());
+			} else {
+				array_splice($suggestions, 1, 0, 'page__node__' . $node->getType());
+			}
+		}
+	}
+	// Get Request Object.
+	$request = \Drupal::request();
+
+	// If there is HTTP Exception..
+	if ($exception = $request->attributes->get('exception')) {
+		// Get the status code.
+		$status_code = $exception->getStatusCode();
+		if (in_array($status_code, [401, 403, 404])) {
+			$suggestions[] = 'page__' . $status_code;
+		}
+	}
+}
+
+function lifafa_preprocess_image(&$variables)
+{
+	if (isset($variables['attributes']['width'])) {
+		unset($variables['attributes']['width']);
+	}
+	if (isset($variables['attributes']['height'])) {
+		unset($variables['attributes']['height']);
+	}
+	if (isset($variables['attributes']['typeof'])) {
+		unset($variables['attributes']['typeof']);
+	}
+}
+
+function lifafa_preprocess_page(&$variables)
+{
+	global $base_url;
+	$variables['logopath'] = '/' . drupal_get_path('theme', 'lifafa') . '/images/logo.png';
+	$variables['searchicon'] = '/' . drupal_get_path('theme', 'lifafa') . '/images/search-icon-m.png';
+	$theme = \Drupal::theme()
+		->getActiveTheme()
+		->getName();
+	$variables['theme_path'] = drupal_get_path('theme', $theme);
+
+	if ($node = \Drupal::request()->attributes->get('node')) {
+		if ($node->getType() == 'customer_store') {
+			$bannerId = $node->field_store_logo->target_id;
+			$comapany_logo = '';
+			if (!empty($bannerId)) {
+				$comapany_logo = getFileUrl($bannerId);
+			}
+
+			$mainImagesId = $node->field_store_banner->target_id;
+			$mainImageurl = '';
+			if (!empty($mainImagesId)) {
+				$mainImageurl = getFileUrl($mainImagesId);
+			}
+			$landingpage_blocks = $node->field_landing_page_blocks->getValue();
+			if (!empty($landingpage_blocks)) {
+				foreach ($landingpage_blocks as $element_block) {
+					$pblock = \Drupal\paragraphs\Entity\Paragraph::load($element_block['target_id']);
+					$data['landingpage_blocks'][$element_block['target_id']]['block_subtitle'] = $pblock->field_block_subtitle->value;
+					$data['landingpage_blocks'][$element_block['target_id']]['block_title'] = $pblock->field_block_title->value;
+					$data['landingpage_blocks'][$element_block['target_id']]['block_stores'] = $pblock->field_stores->plugin_id;
+				}
+
+				$variables['landingpage_blocks'] = $data['landingpage_blocks'];
+			}
+
+			$variables['comapany_logo'] = $comapany_logo;
+			$variables['landing_page_image'] = $mainImageurl;
+			$variables['data'] = $node;
+			$variables['welcom_message'] = $node->field_welcom_message->value;
+			$variables['footer_content'] = $node->field_landing_page_content->value;
+			$variables['field_store_id'] = $node->field_store_id->value;
+			$variables['banner_heading'] = $node->field_banner_heading->value;
+			$variables['banner_subheading'] = $node->field_banner_subheading->value;
+			$variables['external_url'] = $node->field_external_url->value;
+
+			$variables['templates'] = isset($node->field_templates->value) ? $node->field_templates->value : "";
+
+			$variables['signin_button'] = $node->field_signin_button->value;
+		}
+	}
+
+	if ($node = \Drupal::request()->attributes->get('node')) {
+		if ($node->getType() == 'full_page') {
+			$bannerId = $node->field_store_logo->target_id;
+			$comapany_logo = '';
+			if (!empty($bannerId)) {
+				$comapany_logo = getFileUrl($bannerId);
+			}
+
+			$variables['comapany_logo'] = $comapany_logo;
+
+			$variables['field_store_id'] = $node->field_store_id->value;
+			$variables['body_content'] = $node->field_body_content->value;
+			$variables['templates'] = isset($node->field_templates->value) ? $node->field_templates->value : "";
+		}
+	}
+
+	if ($node = \Drupal::request()->attributes->get('node')) {
+		if ($node->getType() == 'contact_us') {
+			$banner_Id = $node->field_store_logo->target_id;
+			$comapany_logo = '';
+			if (!empty($banner_Id)) {
+				$comapany_logo = getFileUrl($banner_Id);
+			}
+			$mainImages_Id = $node->field_store_banner->target_id;
+			$mainImage_url = '';
+			if (!empty($mainImages_Id)) {
+				$mainImage_url = getFileUrl($mainImages_Id);
+			}
+
+			$variables['comapany_logo'] = $comapany_logo;
+			$variables['landing_page_image'] = $mainImage_url;
+			$variables['contact_details'] = $node->field_contact_details->value;
+			$variables['body'] = $node->body->value;
+			$variables['banner_heading'] = $node->field_banner_heading->value;
+			$variables['form_heading'] = $node->field_form_heading->value;
+			$variables['form_subheading'] = $node->field_form_subheading->value;
+			$variables['header'] = $node->field_header->value;
+			$variables['page_banner'] = isset($node->field_page_banner->value) ? $node->field_page_banner->value : "";
+			$variables['sub_heading'] = $node->field_sub_heading->value;
+		}
+	}
+}
+
+function lifafa_form_search_block_form_alter(&$form, &$form_state)
+{
+	$form['keys']['#attributes']['placeholder'][] = t('Search......');
+	$form['keys']['#attributes']['class'][] = 'gsearch';
+	$form['actions']['submit']['#attributes']['class'][] = 'submit-btn';
+}
+
+/**
+ * Implements hook_preprocess().
+ */
+function lifafa_preprocess(&$variables)
+{
+	$variables['base_path'] = base_path();
+	global $base_root;
+	$variables['base_root'] = $base_root;
+	$variables['store_base_url'] = getStoreUrl();
+	$variables['store_home_url'] = getStoreHomeUrl();
+	$variables['store_gcm_url'] = getGCMUrl();
+	$variables['current_store_url'] = getCurrentStoreUrl();
+	$variables['logoutUrl'] = getLogoutUrl();
+	$variables['getStoreBaseUrl'] = getStoreBaseUrl();
+	$variables['getSelectStoreId'] = getSelectStoreId();
+
+	$route_match = \Drupal::routeMatch();
+	$page = \Drupal::request()->getRequestUri();
+
+	$current_path = \Drupal::service('path.current')->getPath();
+	$page = \Drupal::request()->getRequestUri();
+	$result = \Drupal::service('path.alias_manager')->getAliasByPath($current_path);
+
+	//Update pages
+	if ($node = \Drupal::request()->attributes->get('node')) {
+		if (\Drupal::currentUser()->isAuthenticated() && $node->getType() == 'customer_store') {
+			$storeId = $node->field_store_id->value;
+			$loggedStoreId = getStoreIdFromSession();
+			if (!empty($storeId) && !empty($loggedStoreId) && $loggedStoreId != $storeId) {
+				$storeUrl = $base_url . '/store/logoutpage/' . $storeId;
+				$response = new RedirectResponse($storeUrl);
+				$response->send();
+				return new Response();
+			}
+		}
+	}
+}
+
+function lifafa_preprocess_node(&$variables)
+{
+	if ($node = \Drupal::request()->attributes->get('node')) {
+		if ($node->getType() == 'customer_store') {
+			$bannerId = $node->field_store_fevicon->target_id;
+			if (!empty($bannerId)) {
+				$file = \Drupal\file\Entity\File::load($bannerId);
+				$path = $file->getFileUri();
+				$feviconUrl = \Drupal\Core\Url::fromUri(file_create_url($path), ['https' => 
+					!empty(getenv('APP_ENV')) ? true : false
+				])->toString();
+
+				if (!empty($feviconUrl)) {
+					$variables['page']['#attached']['html_head_link'][1] = $variables['page']['#attached']['html_head_link'][0];
+					unset($variables['page']['#attached']['html_head_link']);
+					$icon = [
+						'#tag' => 'link',
+						'#attributes' => [
+							'rel' => 'shortcut icon',
+							'href' => $feviconUrl,
+
+							'sizes' => '52x52',
+							'type' => "image/png",
+						],
+					];
+					$variables['#attached']['html_head'][0] = [$icon, 'icon52x52'];
+				}
+			}
+		}
+		if ($node->getType() == 'full_page') {
+			$bannerId = $node->field_store_fevicon->target_id;
+			if (!empty($bannerId)) {
+				$file = \Drupal\file\Entity\File::load($bannerId);
+				$path = $file->getFileUri();
+				$feviconUrl = \Drupal\Core\Url::fromUri(file_create_url($path), ['https' => 
+					!empty(getenv('APP_ENV')) ? true : false
+				])->toString();
+
+				if (!empty($feviconUrl)) {
+					$variables['page']['#attached']['html_head_link'][1] = $variables['page']['#attached']['html_head_link'][0];
+					unset($variables['page']['#attached']['html_head_link']);
+					$icon = [
+						'#tag' => 'link',
+						'#attributes' => [
+							'rel' => 'shortcut icon',
+							'href' => $feviconUrl,
+
+							'sizes' => '52x52',
+							'type' => "image/png",
+						],
+					];
+					$variables['#attached']['html_head'][0] = [$icon, 'icon52x52'];
+				}
+			}
+			$paragraph_blocks = isset($node->field_blocks_content->getvalue) ? $node->field_blocks_content->getvalue : "";
+			if (!empty($paragraph_blocks)) {
+				foreach ($paragraph_blocks as $element_block) {
+					$pblock = \Drupal\paragraphs\Entity\Paragraph::load($element_block['target_id']);
+					$data['blocks'][$element_block['target_id']]['content'] = $pblock->field_paragraph_body->value;
+				}
+			}
+		}
+
+		if ($node->getType() == 'perks') {
+			$tempstore = \Drupal::service('user.private_tempstore')->get('lifafa_store');
+			$data = $tempstore->get('userClaimperks');
+			$variables['claimed_perks'] = $data;
+			$variables['#cache']['max-age'] = 0;
+		}
+
+		if ($node->getType() == 'insurance_plan') {
+			$fileId = $node->field_pricing->target_id;
+
+			$variables['priceing_file_url'] = "";
+			if (!empty($fileId)) {
+				$file_url = getFileUrl($fileId);
+				$variables['priceing_file_url'] = $file_url;
+			}
+
+			$variables['#cache']['max-age'] = 0;
+		}
+
+		if ($node->getType() == 'marketplace') {
+			$bannerId = $node->field_store_logo->target_id;
+			$comapany_logo = '';
+			if (!empty($bannerId)) {
+				$comapany_logo = getFileUrl($bannerId);
+			}
+
+			$mainImagesId = $node->field_store_banner->target_id;
+			$mainImageurl = '';
+			if (!empty($mainImagesId)) {
+				$mainImageurl = getFileUrl($mainImagesId);
+			}
+
+			$paragraph_blocks = $node->field_blocks_content->getValue();
+			if (!empty($paragraph_blocks)) {
+				foreach ($paragraph_blocks as $element_block) {
+					$pblock = \Drupal\paragraphs\Entity\Paragraph::load($element_block['target_id']);
+					$data['store_blocks'][$element_block['target_id']]['block_subtitle'] = $pblock->field_block_subtitle->value;
+					$data['store_blocks'][$element_block['target_id']]['block_title'] = $pblock->field_block_title->value;
+					$data['store_blocks'][$element_block['target_id']]['block_stores'] = $pblock->field_stores->plugin_id;
+				}
+			}
+			$variables['storedata'] = $data;
+		}
+
+		if ($node->getType() == 'corporate_events') {
+
+			$paragraph = $node->field_event_banner->getValue();
+			$data['store_slider'] = [];
+			if (!empty($paragraph)) {
+				foreach ($paragraph as $element) {
+					$p = \Drupal\paragraphs\Entity\Paragraph::load($element['target_id']);
+					$data['store_slider'][$element['target_id']]['banner_heading'] = $p->field_banner_heading->value;
+					$mainImagesId = $p->field_banner_image->target_id;
+					$storeSliderUrl = '';
+					if (!empty($mainImagesId)) {
+						$storeSliderUrl = getFileUrl($mainImagesId);
+					}
+					$data['store_slider'][$element['target_id']]['banner_image'] = $storeSliderUrl;
+					$data['store_slider'][$element['target_id']]['banner_subheading'] = $p->field_banner_subheading->value;
+				}
+			}
+
+			$paragraph_blocks = $node->field_destination_block->getValue();
+			if (!empty($paragraph_blocks)) {
+				foreach ($paragraph_blocks as $element_block) {
+					$pblock = \Drupal\paragraphs\Entity\Paragraph::load($element_block['target_id']);
+					$data['store_blocks'][$element_block['target_id']]['block_subtitle'] = $pblock->field_block_subtitle->value;
+					$data['store_blocks'][$element_block['target_id']]['block_title'] = $pblock->field_block_title->value;
+					$data['store_blocks'][$element_block['target_id']]['block_stores'] = $pblock->field_stores->plugin_id;
+				}
+			}
+			$variables['storedata'] = $data;
+		}
+	}
+}
+
+function lifafa_preprocess_webform(&$variables)
+{
+	if (!empty($variables['element']['#webform_id']) && $variables['element']['#webform_id'] == 'booking_request') {
+		$request = \Drupal::request();
+		$current_path = $request->getPathInfo();
+		$path_args = explode('/', $current_path);
+		$nodeId = $path_args[2];
+		$node = Node::load($nodeId);
+		$variables['node_title'] = $node->title->value;
+		$variables['vendor_list_id'] = $node->field_vendor_list_id->value;
+	}
+
+	if (!empty($variables['element']['#webform_id']) && $variables['element']['#webform_id'] == 'insurance_lead') {
+		$request = \Drupal::request();
+		$current_path = $request->getPathInfo();
+		$path_args = explode('/', $current_path);
+		$nodeId = $path_args[2];
+		$node = Node::load($nodeId);
+		$variables['node_title'] = $node->title->value;
+		$variables['plan_id'] = $node->field_plan_id->value;
+	}
+
+	if (!empty($variables['element']['#webform_id']) && $variables['element']['#webform_id'] == 'credit_note') {
+		$request = \Drupal::request();
+		$current_path = $request->getPathInfo();
+		$path_args = explode('/', $current_path);
+		$nodeId = $path_args[2];
+
+		$node = Node::load($nodeId);
+
+		$user = getCurrentPoints();
+		$available_points = $user['data'][0]->availablePoints;
+		$variables['points'] = (string) $available_points;
+	}
+}
+
+function lifafa_preprocess_html(&$variables)
+{
+	$feviconUrl = getStoreFevicon();
+	if (!empty($feviconUrl)) {
+		$variables['page']['#attached']['html_head_link'][1] = $variables['page']['#attached']['html_head_link'][0];
+		unset($variables['page']['#attached']['html_head_link']);
+		$icon = [
+			'#tag' => 'link',
+			'#attributes' => [
+				'rel' => 'shortcut icon',
+				'href' => $feviconUrl,
+
+				'sizes' => '52x52',
+				'type' => "image/png",
+			],
+		];
+		$variables['#attached']['html_head'][0] = [$icon, 'icon52x52'];
+	}
+
+	// Non logged in page
+	if ($node = \Drupal::request()->attributes->get('node')) {
+		if ($node->getType() == 'customer_store') {
+			$bannerId = $node->field_store_fevicon->target_id;
+			if (!empty($bannerId)) {
+				$file = \Drupal\file\Entity\File::load($bannerId);
+				$path = $file->getFileUri();
+				$feviconUrl = \Drupal\Core\Url::fromUri(file_create_url($path), ['https' => 
+					!empty(getenv('APP_ENV')) ? true : false
+				])->toString();
+
+				if (!empty($feviconUrl)) {
+					$variables['page']['#attached']['html_head_link'][1] = $variables['page']['#attached']['html_head_link'][0];
+					unset($variables['page']['#attached']['html_head_link']);
+
+					$icon = [
+						'#tag' => 'link',
+						'#attributes' => [
+							'rel' => 'shortcut icon',
+							'href' => $feviconUrl,
+
+							'sizes' => '52x52',
+							'type' => "image/png",
+						],
+					];
+					$variables['#attached']['html_head'][0] = [$icon, 'icon52x52'];
+				}
+			}
+		}
+	}
+}
+
+function yummy_preprocess_menu(&$variables, $hook)
+{
+	if ($hook == 'menu__main') {
+		// We're doing that for main menu.
+		// Get the current path.
+		$current_path = \Drupal::request()->getRequestUri();
+		$items = $variables['items'];
+		foreach ($items as $key => $item) {
+			// If path is current_path, set active to li.
+			if ($item['url']->toString() == $current_path) {
+				// Add active link.
+				$variables['items'][$key]['attributes']['class'] = 'active';
+			}
+		}
+	}
+}
+
+function getStoreFevicon()
+{
+	$storeId = getStoreIdFromSession();
+
+	$data = [];
+	if (empty($storeId)) {
+		return;
+	}
+
+	$nodes = \Drupal::entityTypeManager()
+		->getStorage('node')
+		->loadByProperties(['field_store_id' => $storeId, 'status' => 1]);
+
+	if (!empty($nodes) && ($node = reset($nodes))) {
+		$data['id'] = $node->id();
+		$bannerId = $node->field_store_fevicon->target_id;
+		if (!empty($bannerId)) {
+			$file = \Drupal\file\Entity\File::load($bannerId);
+			$path = $file->getFileUri();
+			return $url = \Drupal\Core\Url::fromUri(file_create_url($path), ['https' => 
+				!empty(getenv('APP_ENV')) ? true : false
+			])->toString();
+		}
+
+		$data['title'] = $node->title->value;
+		$data['store_id'] = $node->field_store_fevicon->value;
+	}
+}

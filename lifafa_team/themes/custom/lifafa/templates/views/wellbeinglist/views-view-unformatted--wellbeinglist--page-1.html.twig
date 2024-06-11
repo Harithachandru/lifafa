@@ -1,0 +1,32 @@
+{# empty Twig template #}
+<div class="banner-inner clear">
+    <img src="{{ base_path ~ directory }}/images/PerksHerobannerPizza.jpg22" alt="Lifafa">
+    <div class="banner-dsc">
+        <div class="container ">
+            <div class="title text-center">
+                <h2>Yoga</h2>
+                <div class="text-1">Fitness, Nutrition, Mental Health</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="logged-steps clear team-building all">
+    <div class="section-title">
+        <div class="container">
+            <div class="top-border"></div>
+            <div class="title text-center">
+                <h2> Yoga </h2>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="fb-row">
+            {% for row in rows %}
+                {{ row.content }}
+            {% endfor %}
+        </div>
+        <div class="text-center">
+            <a href="#" class="btn btn-primary">View all</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,258 @@
+{# empty Twig template #}
+{#<header class="header-top-nav">
+         <div class="top-nav ">
+            <div class="menu-left">
+               <div class="logo">
+                  <a href="{{front_page}}"><img src="{{logopath}}" alt="logo"></a>
+               </div>
+               <div class="menu-wrap">
+                   {{ page.primary_menu }}                  
+               </div>
+            </div>
+            <div class="menu-right">
+                <div  class="user-in">
+                    <ul>
+                        <li><a href="{{base_url}}/user/login" title="Sign in">Sign in</a></li>
+                        <li><a href="{{base_url}}/book-demo" title="Sign up">Sign up</a></li>
+                    </ul>
+                </div>
+                                                   <div class="s-btn">
+    <img src="{{ base_path ~ directory }}/images/search-icon-m.png" alt="logo">
+</div>
+</div>
+
+                {% if page.header %}
+                    {{ page.header }}
+                {% endif %}
+		{#<div class="s-btn"><img src="{{directory}}/images/search-icon-m.png" alt="logo"></div>
+                <div class="search">
+                    <form class="top-searchbox">
+                        <input type="search" name="gsearch" placeholder="Search" class="gsearch">
+                        <input class="submit-btn" type="submit"> 
+                    </form>
+                </div>#//
+            
+         </div>
+
+      </header>#}
+{% include theme_path ~ "/templates/layout/header.html.twig" %}
+
+{#
+<header class="header-top-nav">
+         <div class="top-nav ">
+            <div class="menu-left">
+               <div class="logo">                  
+                  <a href="{{front_page}}"><img src="{{logopath}}" alt="logo"></a>
+               </div>
+               <div class="menu-wrap">
+                   {{ page.primary_menu }}
+                   
+               </div>
+            </div>
+            <div class="menu-right">
+               <div  class="user-in">
+			   	<ul>
+					<li><a href="#">Sign in</a></li>
+					<li><a href="#">Sign up</a></li>
+				</ul>
+			   </div>
+               <div class="search"><form class="top-searchbox"><input type="search" name="gsearch" placeholder="Search" class="gsearch"> <input class="submit-btn" type="submit"> </form></div>
+            </div>
+         </div>
+
+      </header>#}
+
+
+{#<header class="header-top-nav">
+         <div class="top-nav ">
+            <div class="menu-left">
+               <div class="logo">
+                  <a href="{{front_page}}"><img src="{{logopath}}" alt="logo"></a>
+               </div>
+               <div class="menu-wrap">
+                  {{ page.primary_menu }}
+               </div>
+            </div>
+            <div class="menu-right">
+               <div  class="user-in">
+			   	<ul>
+					<li><a href="#">Sign in</a></li>
+					<li><a href="#">Sign up</a></li>
+				</ul>
+			   </div>
+               <div class="search"><form class="top-searchbox"><input type="search" name="gsearch" placeholder="Search" class="gsearch"> <input class="submit-btn" type="submit"> </form></div>
+            </div>
+         </div>
+
+      </header>#}
+
+
+
+{#<header class="header-top-nav">
+    <div class="top-nav nav-mobile">
+        <div class="logo text-center">
+            <a href="{{front_page}}"><img src="{{logopath}}" alt="logo"></a>
+        </div>
+        <div class="menu-wrap">            
+            {{ page.primary_menu }}
+           
+        </div>
+
+        <a href="#" class="user-in"></a>
+         {% if page.header %}
+             {{ page.header }}
+         {% endif%}
+        <form class="searchbox">
+            <input type="search" placeholder="Search......" name="search" class="searchbox-input" onkeyup="buttonUp();" required>
+            <input type="submit" class="searchbox-submit" value="">
+            <span class="searchbox-icon"> </span>
+        </form>
+
+    </div> 
+    <div class="top-nav nav-desktop">
+        <div class="menu-left">
+            <div class="logo">                
+                <a href="{{front_page}}"><img src="{{logopath}}" alt="logo"></a>
+            </div>
+            <div class="menu-wrap">
+                <nav id="top-nav" class="menu">                    
+                    {{ page.primary_menu }}
+                </nav>                                
+            </div>
+        </div>
+        <div class="menu-right">
+            <div  class="user-in">
+                <ul>
+                    <li><a href="#">Sign in</a></li>
+                    <li><a href="#">Sign up</a></li>
+                </ul>
+            </div>
+
+
+            <div class="search">
+                {% if page.header %}
+                    {{ page.header }}
+                {% endif %}
+                <input type="search" name="gsearch" placeholder="Search" class="gsearch"> <input class="submit-btn" type="submit">
+            </div>
+        </div>
+    </div>
+</header>#}
+{% if is_front %}
+  <div class="lifafa-banner">
+            <div class="banner-img">
+                <img src="{{ base_path ~ directory }}/images/Launch_Banner-4.jpg" alt="logo">
+            </div>
+            <div class="banner-text text-center">
+                <div class="container">
+                    <h2>Fire up your Employee Engagement</h2>
+                    <h2>Introductory Offer - 50% Off on annual subscription</h2>
+                    <div class="more"><a href="/book-demo" class="click-more-btn"> Find out more</a></div>
+                </div>
+            </div>
+        </div>  
+{#    
+    
+    
+<div class="lifafa-banner">
+           <div class="banner-img">
+               <img src="{{ base_path ~ directory }}/images/Launch_Banner-4.jpg" alt="logo">
+           </div>
+           <div class="banner-text text-center">
+               <div class="container">
+                   <h2>Fire up your Employee Engagement</h2>
+                   <h2>Introductory Offer - 50% Off on annual subscription</h2>
+                   <div class="more"><a heref="/book-demo" class="click-more-btn">Find out more</a></div>
+               </div>
+           </div>
+       </div>#}
+{% endif %}
+
+{% if is_front and page.header_bottom %}
+    <div class="banner">
+        {{ page.header_bottom }}
+    </div>
+{% endif %}
+
+
+{% if is_front and page.step_content %}
+    <div class="steps clear">
+        {{ page.step_content }}
+    </div>
+{% endif %}
+
+{% if is_front and page.feature_content %}
+    <div class="steps clear">
+        {{ page.feature_content }}
+    </div>
+{% endif %}
+
+{% if is_front and page.customer_content %}
+    <div class="steps clear">
+        {{ page.customer_content }}
+    </div>
+{% endif %}
+
+
+<div class="steps clear">
+    <div class="top-border"></div>
+    <div class="title text-center">
+        <h2>Our Customers</h2>
+    </div>
+    <div class="our-customers clear">
+        <div class="container ">
+            <div class="fb-row">
+                <div class="fb-col-5">
+                    <div class="customer">
+                        <div class="customers-icon ">
+                            <img src="{{directory}}/images/customer.png" alt="Lifafa">
+                        </div>
+                        <div class="customers-ov ">
+                            <div data-from="50" data-to="100"
+                                 data-speed="5000" data-refresh-interval="25" class="customers-count">100+</div>
+                            <div class="customers-text">Happy customers</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fb-col-5">
+                    <div class="customer">
+                        <div class="customers-icon ">
+                            <img src="{{directory}}/images/customer.png" alt="Lifafa">
+                        </div>
+                        <div class="customers-ov ">
+                            <div data-from="10000" data-to="200000"
+                                 data-speed="5000" data-refresh-interval="25" class="customers-count">200,000<span>+</span></div>
+                            <div class="customers-text">Happy users</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                        <div class="text-1 text-center">Contact us now to arrange a <a href="{{base_url}}/contact-us" class="link-1">demo</a></div>
+        </div>
+    </div>
+</div>
+
+
+{% if is_front and page.bottom_slider %}
+    <div class="clients text-center">
+        {{ page.bottom_slider }}
+    </div>
+{% endif %} 
+
+
+{% include theme_path ~ "/templates/layout/footer.html.twig" %}
+{#<footer class="footer full-width">
+    <div class="footer-inner text-center">
+        {% if page.footer_menu %}
+            {{ page.footer_menu }}
+        {% endif %}
+
+    </div>
+    <div class="copyright text-center">
+        <div class="container">            
+            &copy; {{ "now"|date("Y") }} Lifafa.com - All Rights Reserved
+        </div>
+    </div>
+</footer>#}
+{#<script src="js/jquery.min.js"></script>
+<script src="js/plugin.js"></script> #}  

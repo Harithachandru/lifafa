@@ -1,0 +1,72 @@
+<div class="banner-inner clear overlay">
+    {{content.field_banner}}
+    <div class="banner-dsc">
+        <div class="container ">
+            <div class="title text-center">
+                <h2> {{content.field_insurer}}​</h2>
+                <div class="text-1"> {{content.field_plan_name}}​</div>
+            </div>
+        </div>
+    </div>
+</div>
+            
+<div class="steps clear pb-30">
+         <div class="container " style="max-width: 760px;">
+            <div class="top-border"></div>
+            <div class="fb-row">
+              {% if content.field_tiles_image %}                 
+                <div class="news-left">
+                   <div class="img-100 clear">                     
+                       {{content.field_tiles_image}}
+                   </div>
+                </div>
+              {% endif %} 
+               <div class="news-content">
+                  <div class="title  insurance-title pb-20">
+                      {% if content.field_banner %}                                                
+                        <div class="text-1"><span>Plan ID:</span> {{content.field_plan_id}}</div>
+                      {% endif %}                                             
+                      {% if content.field_plan_name %}                                                                        
+                        <div class="text-1"><span>Plan Name:</span> {{content.field_plan_name}}</div>
+                      {% endif %}                      
+                      {% if content.field_insurer %}                        
+                        <div class="text-1"><span>Insurer:</span> {{content.field_insurer}}</div>
+                      {% endif %}                     
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="logged-steps clear  plan-description pb-30">
+         <div class="container">            
+             {% if content.field_plan_description %}
+                <div class="top-border"></div>
+                <div class="text-1 text-center">Plan Description</div>
+                {{content.field_plan_description}}
+             {% endif %}             
+             {% if content.field_plan_benefits %}
+                <div class="top-border"></div>
+                <div class="text-1 text-center">Plan Benefits</div>
+                {{content.field_plan_benefits}}
+             {% endif %}             
+             {% if content.field_tax_benefits %}
+                <div class="top-border"></div>
+                <div class="text-1 text-center">Tax Benefits</div>
+                {{content.field_tax_benefits}}
+             {% endif %}
+
+            {% if content.field_plan_exclusions %}
+                <div class="top-border"></div>
+                <div class="text-1 text-center">Plan Exclusions</div>
+                {{content.field_plan_exclusions}}
+             {% endif %}
+              </div>
+            <div class="text-center"> 
+            <div class="top-border"></div>
+            <div class="text-1">Pricing</div>
+            
+            <div class="dounload-btn pb-20"><a href="{{priceing_file_url}}"><img src="{{ base_path ~ directory }}/images/dounload-btn.jpg" alt="Lifafa"></a></div>
+            <a href="/store/insurance-lead/{{node.id}}" class="btn btn-primary text-center">Send Query</a>
+         </div>
+        
+      </div>

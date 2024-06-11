@@ -1,0 +1,32 @@
+{# empty Twig template #}
+{# extend element attributes (taken from bartik) #}
+{%
+  set attributes = attributes.addClass('search-form', 'search-block-form')
+%}
+{# create attributes for the search input field by system variable #}
+{%
+  set input_attributes = create_attribute(element.keys['#attributes'])
+%}
+{# extend attributes for the search input field #}
+{%
+  set input_attributes = input_attributes.setAttribute('placeholder', 'Search')
+%}
+{# create attributes for the search submit button by system variable #}
+{%
+  set submit_attributes = create_attribute(element.actions['submit']['#attributes'])
+%}
+
+
+
+<div class="search-row clear">
+<div class="search">
+<form{{ attributes }} class="top-searchbox">
+  {#<label for="{{ input_attributes.id }}">{{ element.keys['#title'] }} </label>#}
+  <input{{ input_attributes }}/>
+  {#<button{{ submit_attributes }}><span class="visually-hidden">#}
+          {#{{  element.actions['submit']['#value'] }}#}
+          <input{{ submit_attributes }} />
+      {#</span></button>#}
+</form>
+</div>
+</div>

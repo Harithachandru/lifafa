@@ -1,0 +1,77 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+function lifafa_user_theme() {
+  return [
+    'user_info_block' => [
+    'variables' => [
+    'content' => NULL,
+    'title' => NULL,
+    'subtitle' => NULL,
+    'user_content' => NULL,
+    ],
+    'render element' => 'children',
+    ],
+  ];
+
+  }
+
+   function getCurrentPoints(){
+    $currentStore =  getStoreIdFromSession();
+    $storeid = strtoupper($currentStore);
+    //print_r($currentStore);
+    //echo "hi";
+    $tempstore = \Drupal::service('user.private_tempstore')->get('lifafa_store');
+    //print_r($tempstore);
+    $name = $tempstore->get('userName');
+    $idtoken = $tempstore->get('JwtToken');
+    $cid = $tempstore->get('companyTerminalId');
+    $userid = $tempstore->get('userid');
+     $preferred_username = $tempstore->get('preferred_username');
+   // echo $storeid;
+    //echo $cid;
+   // echo $userid;
+    //echo $preferred_username;
+    $url = \Drupal::config('lifafa_user.lifafauser')->get('api_url');
+    $url = str_replace('#userid#',$userid,$url);
+    $url = str_replace('#companyid#',$cid,$url);
+    $url = str_replace('#currentStore#',$storeid,$url); 
+    //$api_url = (string) $url;
+   //  echo $url;
+    $curl= curl_init();
+    /*curl_setopt_array($curl,array(
+        CURLOPT_URL => $api_url,
+
+          //CURLOPT_URL => "https://api.lifafa.com/myaccount-service/api/wallet/v2.0.0/user/INBOM2111008UZZL29/store/INBOM2110016S03?companyTerminalId=INBOM2111008&storeTerminalId=INBOM2110016S03",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING =>"",
+        CURLOPT_MAXREDIRS =>10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_POSTFIELDS => array(''=>''),
+        CURLOPT_HTTPHEADER => array(
+            "Cookie: __cfduid=db696628637e59376c16d660c3d21b8571604080024"
+        ),
+
+
+    ));*/
+    $headers = array("Authorization: Bearer ". $idtoken);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+    $response = curl_exec($curl);
+    //var_dump($response);
+
+    curl_close($curl);
+    $result = (array)json_decode($response);
+   // var_dump($result);
+    return $result;
+
+     
+}
+
+    

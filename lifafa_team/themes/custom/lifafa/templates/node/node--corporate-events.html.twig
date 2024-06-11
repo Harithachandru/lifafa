@@ -1,0 +1,49 @@
+{# empty Twig template #}
+
+{#{{storedata.store_slider}}#}
+{% if storedata.store_slider %}
+    <div class="banner-inner clear">
+        <div class="banner-slider">
+            {% for row in storedata.store_slider %} 
+                <div class="item">
+                    <img src="{{ row.banner_image }}" alt="Lifafa">
+                    <div class="banner-dsc">
+                        <div class="container ">
+                            <div class="title text-center">
+                                <h2>{{ row.banner_heading }}</h2>
+                                <div class="text-1">{{ row.banner_subheading }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}                 
+        </div>
+    </div>
+{% endif %} 
+
+
+
+    {% set countnumber = 1 %}
+    {% if storedata.store_blocks %}
+        {% for row in storedata.store_blocks %}
+<div class="steps clear">
+    <div class="container">
+        <div class="title of-title">            
+            {% if row.block_title %}
+                <h3>{{ row.block_title }}</h3>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="logged-steps clear">
+    <div class="container">
+        {{ drupal_block(row.block_stores, wrapper=false) }}
+        
+        <div class="text-1 text-1-bold text-center pb-30 clear">Looking for another destination?<br>
+            <a href="#">Get in touch</a> and we will work out the details with you
+        </div>
+        <div class="top-border"></div>
+    </div>
+</div>
+    {% endfor %} 
+    {% endif %}

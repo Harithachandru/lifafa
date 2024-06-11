@@ -1,0 +1,50 @@
+{# empty Twig template #}
+<div class="banner-inner clear">
+    {{content.field_page_banner}}    
+    <div class="banner-dsc banner-2"> 
+        <div class="container ">
+            <div class="title text-center">
+                <h2>{{ content.field_banner_title }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="top-sec clear">
+    {{content.body}}
+</div>
+
+<div class="steps clear">
+    <div class="container">
+        <div class="top-border"></div>
+        <div class="title text-center">
+            <h2>Our Team</h2>
+        </div>
+        {{ drupal_view('team', 'block_1') }}	  
+    </div>
+</div> 
+
+<div class="steps clear">
+    <div class="container">
+        <div class="top-border"></div>
+        <div class="title text-center">
+            <h2>Our Office</h2>
+        </div>
+
+    </div>
+</div>
+<div class="our-office clear">
+    <div class="container container-1500">
+        <div class="office-map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d13081.312928425685!2d77.59007759430298!3d12.901445201937515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e6!4m0!4m5!1s0x3bae1519380fc7ad%3A0x8195f8645dab7f8c!2s91springboard%20JP%20Nagar%2C%20175%26%2C%20176%2C%20Bannerghatta%20Main%20Rd%2C%20Dollars%20Colony%2C%20Bengaluru%2C%20Karnataka%20560076!3m2!1d12.903941!2d77.60128399999999!5e0!3m2!1sen!2sin!4v1622633508405!5m2!1sen!2sin" width="300" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="box-title-3 office-text-address">
+            <p>Corporate Office:</p>
+            <p>5th Floor, 91Springboard, Bannerghatta Rd,</p>
+            <p>Dollars Colony, JP Nagar 4th Phase,</p>
+            <p>Bangalore, Karnataka - 560078</p>
+        </div>
+
+    </div>
+</div>	

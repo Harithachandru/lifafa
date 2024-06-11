@@ -1,0 +1,74 @@
+{#
+/**
+ * @file
+ * Theme implementation for a 'webform' element.
+ *
+ * This is an copy of the webform.html.twig theme_wrapper which includes the
+ * 'title_prefix' and 'title_suffix' variables needed for
+ * contextual links to appear.
+ *
+ * Available variables
+ * - attributes: A list of HTML attributes for the wrapper element.
+ * - children: The child elements of the webform.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ *
+ * @see template_preprocess_webform()
+ * @see _webform_form_after_build()
+ *
+ * @ingroup themeable
+ */
+#}
+{% set elements = element.elements %}
+<form{{ attributes.addClass('contact-form') }}>
+    {{ title_prefix }}
+    {% if element.status_messages %}
+        {{ element.status_messages }}
+    {% endif %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        {{ elements.first_name }}
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        {{ elements.last_name }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ elements.company_name }}
+            </div>
+            <div class="form-group">
+                {{ elements.email }}
+            </div>
+            <div class="form-group">
+                <div class="row">
+                <div class="col-md-3 col-sm-3 col-3 pr-0">
+                    {{ elements.country_code }}
+                </div>
+                <div class="col-md-9 col-sm-9 col-9">
+                    {{ elements.phone_number }}
+                </div>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ elements.message }}
+            </div>
+            <div class="form-group">
+                {{ elements.captcha }}
+            </div>
+            <div class="form-group">
+                {{ element.form_build_id }}
+                    {{ element.form_token }}
+                    {{ element.form_id }} 
+                {{ element.actions }}  
+                    {{ elements.actions }}
+            </div>
+        </div>
+    </div>
+    {{ title_suffix }}
+</form>

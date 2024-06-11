@@ -1,0 +1,84 @@
+{# empty Twig template #}
+
+{#{{drupal_dump(content)}}#}
+
+<div class="banner-inner clear">
+    <img src="{{content.node_banner}}" alt="Lifafa">
+    <div class="banner-dsc">
+        <div class="container ">
+            <div class="title text-center">
+                <h2>{{content.node_title}}</h2>
+                <div class="text-1">{{content.sub_title}}</div>
+                <div class="banner-btn">
+                    <a href="/request-booking/{{ content.node_id }}" class="btn btn-primary">Request to book</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class=" steps clear marketplace-supplier pb-30 asdasd">
+    <div class="container news-singal">
+        <h3>Reviews</h3>
+        <div class="fb-row">
+            <div class="news-left">
+                <div class="img-100 clear">
+                    <img src="{{ content.tiles_image }}" alt="Lifafa">
+                </div>
+            </div>
+            <div class="news-content">
+                <div class="title  pb-20">
+                    <h2>{{content.node_title}}</h2>
+                    <div class="text-1">{{content.sub_title}}</div>
+                </div>
+                <div class="ov-rating">
+                    <h4>Overall rating</h4>
+
+                    <div class="ov-rating-box">
+                        <table>
+                            <tr>
+                                <td class="rw-left">
+                                    <div class="t-rating pb-20"><span>{{content.avg_rating}}</span> <span>★</span></div>
+                                    <div class="t-rr text-center" >{{content.total_comment}} Ratings &
+                                    {{content.total_comment}} Reviews</div>
+                                </td>
+                                <td class="rw-right">
+                                    <table class="rw-map">
+                                        {% for key, row in content.rating_detail %}
+                                           {# {{key}}---{{row}}#}
+                                        
+                                            {#<tr><td class="rw-m-star">{{key}}★</td><td class="rw-bar"><div class="rw-line"><div class="rw-line rw-line-5" style="width:100%"></div></div></td><td class="rw-count">{{row}}</td></tr>                                        #}
+                                            <tr class="rw-m-star">
+                                                <td>{{key}}★</td>
+                                                <td class="rw-bar">
+                                                    <div class="rw-line">
+                                                        <div class="rw-line rw-line-4" style="width:80%"></div>                                                            
+                                                    </div>
+                                                </td><td class="rw-count">{{row}}</td>
+                                            </tr>
+                                        
+                                        {#{% if key==4 %}
+                                            <tr class="rw-m-star"><td>4★</td><td class="rw-bar"><div class="rw-line"><div class="rw-line rw-line-4" style="width:80%"></div></div></td><td class="rw-count">{{row}}</td></tr>
+                                        {% endif %}
+                                        
+                                        {% if key==3 %}
+                                            <tr class="rw-m-star"><td>3★</td><td class="rw-bar"><div class="rw-line"><div class="rw-line rw-line-3" style="width:60%"></div></div></td><td class="rw-count">{{row}}</td></tr>
+                                        {% endif %}#}
+                                        
+                                        {#<tr><td class="rw-m-star">5★</td><td class="rw-bar"><div class="rw-line"><div class="rw-line rw-line-5" style="width:100%"></div></div></td><td class="rw-count">70</td></tr>
+                                        <tr class="rw-m-star"><td>4★</td><td class="rw-bar"><div class="rw-line"><div class="rw-line rw-line-4" style="width:80%"></div></div></td><td class="rw-count">70</td></tr>
+                                        <tr class="rw-m-star"><td>3★</td><td class="rw-bar"><div class="rw-line"><div class="rw-line rw-line-3" style="width:60%"></div></div></td><td class="rw-count">70</td></tr>
+                                        <tr class="rw-m-star" class="rw-count"><td>2★</td><td class="rw-bar"><div class="rw-line rw-line-2"><div class="rw-line" style="width:40%"></div></div></td><td class="rw-count">70</td></tr>
+                                        <tr class="rw-m-star"><td>1★</td><td class="rw-bar"><div class="rw-line"><div class="rw-line rw-line-1" style="width:20%"></div></div></td><td class="rw-count">70</td></tr>#}
+                                        {% endfor%}
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

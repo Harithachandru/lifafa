@@ -1,0 +1,45 @@
+## YAML Template.
+---
+name: 'Lifafa'
+core: 8.x
+type: theme
+screenshot: screenshot.png
+description: 'this is custom drupal theme for lifafa'
+
+libraries:
+  - lifafa/global-styling
+  - lifafa/fonts
+
+
+
+regions:
+  header: 'Header'
+  mainheader: 'Main Header'
+  header_bottom: 'Header Bottom'
+  primary_menu: 'Primary menu'
+  step_content: 'Step Content'
+  feature_content: 'Feature Content'
+  customer_content: 'Customer Content'
+  bottom_slider: 'Bottom Slider'
+  logo: 'Logo'
+  logo2: 'Logo 2'
+  sidebar: 'main sidebar'
+  free_consulting: 'Free Consulting'
+  navigation: 'Navigation'
+  top_left: 'Top Left'
+  top_right: 'Top Right'
+  section_blog: 'Section blog'
+  highlighted: 'Highlighted'
+  help: 'Help'
+  breadcrumb: 'Breadcrumb'
+  content: 'Content'
+  store_content: 'Store Content'
+  footer_top: 'Footer Top'
+  footer_column_1: 'Footer column 1'
+  footer_column_2: 'Footer column 2'
+  footer_column_3: 'Footer column 3'
+  mainfooter: 'Main Footer'
+  copyright: 'Copyright'
+  page_top: 'Page top'
+  page_bottom: 'Page bottom'
+  footer_menu: 'Footer menu'

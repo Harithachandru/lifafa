@@ -1,0 +1,17 @@
+{# empty Twig template #}
+<div class="banner-inner clear">
+    {{content.field_banner}}
+    <div class="banner-dsc">
+        <div class="container ">
+            <div class="title text-center">
+                <h2>{{node.getTitle}}</h2>
+                {% if content.field_descriptions %}
+                    <div class="text-1">{{ content.field_descriptions }}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class=" clear cash-card-sec">
+    {{content.field_body_content}}
+</div>

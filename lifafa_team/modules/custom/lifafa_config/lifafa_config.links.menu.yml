@@ -1,0 +1,6 @@
+lifafa_config.lifafa_admin_config:
+  title: 'Lifafa Settings'
+  route_name: lifafa_config.lifafa_admin_config
+  description: 'A description for the menu entry'
+  parent: system.admin
+  weight: 99

@@ -1,0 +1,237 @@
+{# empty Twig template #}
+<div class="banner-inner clear">
+         <img src="{{ base_path ~ directory }}/images/ad-banner.jpg" alt="Lifafa">
+         <div class="banner-dsc">
+            <div class="container ">
+               <div class="title text-center">
+                  <h2>People Recognition​</h2>
+                  <div class="text-1">Say thank you for a job well done​</div>
+               </div>
+            </div>
+         </div>
+      </div>
+<div class="icon-box-sec clear">
+         <div class="container container-1500">
+            <div class="row">
+               <div class=" flex-wrap flex-row">
+                  <div class="col col-4">
+                     <div class="left-icon-box">
+                        <div class="left-icon">
+                           <img src="{{ base_path ~ directory }}/images/gift-box.png" alt="logo">
+                        </div>
+                        <div class="left-icon-dsc">
+                           <h5>Select award​</h5>
+                           <p>Pick from pre-selected awards or create your own​​</p>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col col-4">
+                     <div class="left-icon-box">
+                        <div class="left-icon">
+                           <img src="{{ base_path ~ directory }}/images/gift-card.png" alt="logo">
+                        </div>
+                        <div class="left-icon-dsc">
+                           <h5>Select a template?</h5>
+                           <p>Enter recipient details and customise the message​</p>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col col-4">
+                     <div class="left-icon-box">
+                        <div class="left-icon">
+                           <img src="{{ base_path ~ directory }}/images/credit-card.png" alt="logo">
+                        </div>
+                        <div class="left-icon-dsc">
+                           <h5>Choose Recipient</h5>
+                           <p>Enter recipient details and add a voucher to the award*</p>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col col-4">
+                     <div class="left-icon-box">
+                        <div class="left-icon">
+                           <img src="{{ base_path ~ directory }}/images/send.png" alt="logo">
+                        </div>
+                        <div class="left-icon-dsc">
+                           <h5>Digital Delivery</h5>
+                           <p>Instant, secure delivery to Recipient</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+    
+	<div class="award-form clear">     
+		    <div class="steps clear">
+		       <div class="container container-1500">
+		          <div class="top-border"></div>
+		          <div class="title text-center">
+		             <h2>Award Details</h2>
+		          </div>
+		       </div>
+		    </div>
+		    <div class="container container-1000">
+		       <div class="row clear">
+		          <div class="col-sm-6">
+		             <div class="form-row">
+		                <label class="fm-lb">Select Award</label>
+		                {{ form.award_type }}
+		             </div>
+		          </div>
+		          <div class="col-sm-6">
+                              <div class="form-row award_name" style="display:none;">
+                                  <label class="fm-lb">Select Name</label>
+                              {{ form.award_name }}  
+                              </div>
+		          </div>
+		       </div>		                		                           
+               <div class="row clear">
+                  <div class="col-sm-6">
+                     <div class="form-row">
+                        <label class="fm-lb">Sender Name*</label>                        
+                        {{ form.sender_name }}
+                     </div>
+                  </div>
+                  <div class="col-sm-6">
+                     <div class="form-row">
+                        <label class="fm-lb">Sender Email*</label>                        
+                        {{ form.sender_email }}
+                     </div>
+                  </div>
+               </div>
+               <div class="row clear">
+                  <div class="col-sm-6">
+                     <div class="form-row">
+                        <label class="fm-lb">Company Name</label>                        
+                        {{ form.company_name }}
+                     </div>
+                  </div>
+                  <div class="col-sm-6">
+                     <div class="form-row">
+                        <label class="fm-lb">Date of Award</label>                        
+                        {{ form.award_date }}
+                     </div>
+                  </div>
+               </div>
+               <div class="row clear">
+                  <div class="col-sm-6">
+                     <div class="form-row">
+                        <label class="fm-lb">Recipient Name*</label>                        
+                        {{ form.recipient_name }}
+                     </div>
+                  </div>
+                  <div class="col-sm-6">
+                     <div class="form-row">
+                        <label class="fm-lb">Recipient Email*</label>                        
+                        {{ form.recipient_email }}
+                     </div>
+                  </div>
+               </div>
+            </div>
+                     
+                     
+            <div class="steps clear">
+               <div class="container ">
+                  <div class="top-border"></div>
+                  <div class="title text-center">
+                     <h2>Pick award template​</h2>
+                  </div>
+               </div>
+                 {#{{form.award_template}} #}
+               <div class="steps radio-click-box clear">
+                  <div class="container container-1500">
+                     <div class="award-template">
+                       
+                        <div class="item">
+                           <div class="category-box">
+                              <input type="radio" name="award_template" id="template-1" class="input-hidden" value="1" />
+                              <label for="template-1">
+                              <img 
+                                 src="{{ base_path ~ directory }}/images/Certificate-02.jpg" 
+                                 alt="template" />
+                              </label> 
+                              <h5>Template 01</h5>
+                           </div>
+                        </div>
+                                 
+                        <div class="item">
+                           <div class="category-box">
+                              <input 
+                                 type="radio" name="award_template"
+                                 id="template-2" class="input-hidden" value="2" />
+                              <label for="template-2">
+                              <img 
+                                 src="{{ base_path ~ directory }}/images/Certificate-03.jpg" 
+                                 alt="template" />
+                              </label> 
+                              <h5>Template 02</h5>
+                           </div>
+                        </div>
+                        <div class="item">
+                           <div class="category-box">
+                              <input 
+                                 type="radio" name="award_template"
+                                 id="template-3" class="input-hidden" value="3" />
+                              <label for="template-3">
+                              <img 
+                                 src="{{ base_path ~ directory }}/images/Certificate-05.jpg" 
+                                 alt="template" />
+                              </label> 
+                              <h5>Template 03</h5>
+                           </div>
+                        </div>
+                        <div class="item">
+                           <div class="category-box">
+                              <input 
+                                 type="radio" name="award_template"
+                                 id="template-4" class="input-hidden" value="4" />
+                              <label for="template-4">
+                              <img 
+                                 src="{{ base_path ~ directory }}/images/Certificate-04.jpg" 
+                                 alt="template" />
+                              </label> 
+                              <h5>Template 04</h5>
+                           </div>
+                        </div>
+                        {#<div class="item">
+                           <div class="category-box">
+                              <input type="radio" name="award_template" id="template-5" class="input-hidden" value="5" />
+                              <label for="template-5">
+                              <img 
+                                 src="{{ base_path ~ directory }}/images/Certificate-02.jpg" 
+                                 alt="template" />
+                              </label> 
+                              <h5>Template 05</h5>
+                           </div>
+                        </div>#}
+                                 
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="steps clear">
+               <div class="container container-1000">
+                  <div class="top-border"></div>
+                  <div class="title text-center">
+                     <h2>Award Message</h2>
+                  </div>
+                  <div class="form-row">
+                     <label class="fm-lb">Award Heading*</label>                     
+                     {{ form.award_heading }}
+                  </div>
+                  <div class="form-row">
+                     <label class="fm-lb">Award Body*</label>                     
+                     {{ form.award_body }}
+                  </div>
+               </div>        
+         </div>          
+         <div class="submit-btn-row text-center">             
+              {{ form.actions }}
+             {#<input type="submit" value="Preview" class="btn btn-primary">#}             
+         </div>
+      </div>                                     
+    {{ form | without('actions','sender_name','award_body','award_heading','award_template','recipient_email','recipient_name','award_date','company_name','sender_email','sender_name','award_name','award_type') }}
+        
+   

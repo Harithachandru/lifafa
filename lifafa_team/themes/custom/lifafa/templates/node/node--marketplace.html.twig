@@ -1,0 +1,84 @@
+{# empty Twig template #}
+<div class="banner-inner clear">
+    {{content.field_banner}}
+    {# <img src="{{content.field_marketplace_image}}" alt="Lifafa">#}
+    <div class="banner-dsc">
+        <div class="container ">
+            <div class="title text-center">
+                <h2>{{node.getTitle}}</h2>
+                <div class="text-1">{{content.body}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="steps clear page-navbar" id="page-navbar">
+    <div class="perks-filter ">
+        <div class="container">
+            <div class="cat-filter text-center">
+                <ul>
+                    {% if storedata.store_blocks %}
+                        {% for row in storedata.store_blocks %} 
+                    <li><a href="#{{ row.block_title|replace({' ': ''}) }}" >{{ row.block_title }}</a></li>
+                    {% endfor %} 
+    {% endif %}
+                    
+                    {#<li><a href="#health">Mental Health</a></li>
+                    <li><a href="#nutrition">Nutrition</a></li>
+                    <li><a href="#Fitness">Fitness</a></li>#}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>	
+
+<div class="logged-steps clear team-building all">
+    {% set countnumber = 1 %}
+    {% if storedata.store_blocks %}
+        {% for row in storedata.store_blocks %} 
+            {% set counter = ( counter | default(0) ) + 1 %}
+            <div class="section-title" id="{{ row.block_title|replace({' ': ''}) }}">
+                <div class="container">
+                    
+                    <div class="title text-center">
+                        {% if row.block_title %}
+                            <h2>{{ row.block_title }}</h2>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                {{ drupal_block(row.block_stores, wrapper=false) }}
+            </div>
+            {% if counter <4 %}
+            <div class="top-border"></div>
+            {% endif %}         
+        {% endfor %} 
+    {% endif %}         
+</div>
+
+
+{#<div class="logged-steps clear team-building">
+    <div class="container container-1500">        
+        {% if storedata.store_blocks %}
+            {% for row in storedata.store_blocks %}
+                {% if row.block_title %}
+                     <h3>{{ row.block_title }}</h3>
+                {% endif %}
+                {#<div class="steps clear">
+                    <div class="container container-1500">
+                        <div class="top-border"></div>
+                        <div class="title text-center">
+                            {% if row.block_title %}
+                                <h2>{{ row.block_title }}</h2>
+                            {% endif %}
+                            {% if row.block_subtitle %}
+                                <div class="text-1">{{ row.block_subtitle }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>  #}                              
+{#  {{ drupal_block(row.block_stores, wrapper=false) }}
+{% endfor %} 
+{% endif %} 
+</div>
+</div>  #}  

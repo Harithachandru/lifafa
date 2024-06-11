@@ -1,0 +1,36 @@
+{# empty Twig template #}
+<div class="banner-inner clear">
+    {% if content.field_news_image %}
+     {{ content.field_news_image }}
+    {% endif %}
+</div>
+<div class="steps clear">
+    <div class="container news-singal">
+        <div class="fb-row">
+            <div class="news-left">
+                <div class="img-100 clear">
+                    {% if content.field_banner %}                        
+                        {{content.field_banner}}
+                    {% endif %}                    
+                </div>		  
+                
+            </div>
+            <div class="news-content">
+                <div class="title  pb-20">
+                    <h2>{{node.getTitle}}</h2>
+                    <div class="date-time">{{ node.createdtime | date('m/d/Y, H:i A') }}</div>
+                    <div class="source-dsc">Source: {{content.field_source_description}}</div>
+                    <div class="text-1">{{content.body}}</div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+ 
+{#<div class="logged-steps clear back-link  pb-30">
+    <div class="container">
+        <a href="#"> Back </a>
+
+
+    </div>
+</div>#}

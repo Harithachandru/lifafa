@@ -1,0 +1,189 @@
+{#
+/**
+* @file
+* Default theme implementation to display a block.
+*
+* @see template_preprocess_block()
+*
+* @ingroup themeable
+*/
+#}
+{#{% set classes = [
+    'clear-both',
+] %}
+<div{{ attributes.addClass(classes) }}>
+    {% for value in content %}
+        <p>{{value}}</p>
+    {% endfor %}
+</div>
+#}
+{#<div class="steps clear">
+         <div class="container container-1500">
+            <div class="top-border"></div>
+            <div class="title text-center">
+               <h2>People Recognition</h2>
+               <div class="text-1">Our way of saying thank you​
+               </div>
+            </div>
+         </div>
+      </div>#}
+<div class="logged-steps clear">
+         <div class="container container-1500">
+            <div class="rewards-marketplace rewards-logged box-center">
+                
+             {% if store_gcm_url=='https://store.lifafa.team/inblr2107001s11' %}
+                 <div class="rewards-box">
+                  <a href="{{store_gcm_url}}-01/gcm/category/Stationary" >
+                     <div class="re-box-sd">                        
+                        <img src="{{ base_path ~ directory }}/images/merchandise.jpg" alt="Lifafa">
+                        <div class="rewards-dsc text-center">
+                           <h4>Merchandise</h4>
+                           <p style="font-size: 18px;">Joining Kits,Stationary,T-Shirts</p>
+                        </div>
+                     </div>
+                  </a>
+               </div>
+               <div class="rewards-box">
+                  <a href="{{store_gcm_url}}-01/gcm/category/Hampers" >
+                     <div class="re-box-sd">
+                        {#<div class="c-soon"><img src="{{ base_path ~ directory }}/images/Subtraction.png" alt="Lifafa"></div>#}
+                        <img src="{{ base_path ~ directory }}/images/1903172305-huge.jpg" alt="Lifafa">
+                        <div class="rewards-dsc text-center">
+                           <h4>Order a special hamper</h4>
+                          {# <p>Send somthing special for a job well done</p>#}
+                        </div>
+                     </div>
+                  </a>
+               </div>
+               <div class="rewards-box">
+                  <a href="{{store_gcm_url}}-01/gcm/" >
+                     <div class="re-box-sd">
+                        {#<div class="c-soon"><img src="{{ base_path ~ directory }}/images/Subtraction.png" alt="Lifafa"></div>#}
+                        <img src="{{ base_path ~ directory }}/images/shutterstock_792517693.jpg" alt="Lifafa">
+                        <div class="rewards-dsc text-center">
+                           <h4>Send a gift card</h4>
+                           {#<p>Select from hundreds of brands</p>#}
+                        </div>
+                     </div>
+                  </a>
+               </div>         
+               <div class="rewards-box">
+                  <a href="/store/%25/send-award" >
+                     <div class="re-box-sd">
+                        {#<div class="c-soon"><img src="{{ base_path ~ directory }}/images/Subtraction.png" alt="Lifafa"></div>#}
+                        <img src="{{ base_path ~ directory }}/images/thank_you.jpg" alt="Lifafa">
+                        <div class="rewards-dsc text-center">
+                           <h4>Send a digital certificate</h4>
+                          {# <p>Say thank you for a job well done</p>#}
+                        </div>
+                     </div>
+                  </a>
+               </div>
+               
+                
+                        
+                 {% else %}
+                     
+                     
+                
+               <div class="rewards-box">
+                  <a href="/store/%25/send-award" >
+                     <div class="re-box-sd">
+                        {#<div class="c-soon"><img  src="{{ base_path ~ directory }}/images/Subtraction.png" alt="Lifafa"></div>#}
+                        <img src="{{ base_path ~ directory }}/images/thank_you.jpg" alt="Lifafa">
+                        <div class="rewards-dsc text-center">
+                           <h4>Send a digital certificate</h4>
+                          {# <p>Say thank you for a job well done</p>#}
+                        </div>
+                     </div>
+                  </a>
+               </div>
+               <div class="rewards-box">
+                  <a href="{{store_gcm_url}}-01/gcm/"  >
+                     <div class="re-box-sd">
+                        {#<div class="c-soon"><img src="{{ base_path ~ directory }}/images/Subtraction.png" alt="Lifafa"></div>#}
+                        <img src="{{ base_path ~ directory }}/images/shutterstock_792517693.jpg" alt="Lifafa">
+                        <div class="rewards-dsc text-center">
+                           <h4>Send a gift card</h4>
+                           {#<p>Select from hundreds of brands</p>#}
+                        </div>
+                     </div>
+                  </a>
+               </div>
+               <div class="rewards-box">
+               {#   <a href="{{store_gcm_url}}-01/gcm/category/Hampers" > #}
+                     <div class="re-box-sd">
+                        <div class="c-soon"><img  src="{{ base_path ~ directory }}/images/Coming-soon.png" alt="Lifafa"></div>
+                        <img src="{{ base_path ~ directory }}/images/1903172305-huge.jpg" alt="Lifafa">
+                        <div class="rewards-dsc text-center">
+                           <h4>Order a special hamper</h4>
+                          {# <p>Send somthing special for a job well done</p>#}
+                        </div>
+                     </div>
+               {#   </a>  #}
+               </div>
+                       
+               
+               {# <div class="rewards-box">
+                  <a href="{{store_gcm_url}}-01/gcm/category/Stationar"  >
+                     <div class="re-box-sd">                        
+                        <img src="{{ base_path ~ directory }}/images/merchandise.jpg" alt="Lifafa">
+                        <div class="rewards-dsc text-center">
+                           <h4>Merchandise</h4>
+                           <p>Joining Kits,Stationary,T-Shirts</p>
+                        </div>
+                     </div>
+                  </a>
+               </div> #}
+                        {% endif %} 
+               </div> 
+               {# <div class="text-center clear">
+                  <a href="#" class="btn btn-primary">Find out more</a>
+               </div> #}
+            </div>
+         </div>
+
+
+
+      {#<div class="logged-steps clear">
+         <div class="container container-600">
+		 <div class="people-row">
+		 <div class="fb-col-5"><div class="title-box">
+                           <div class="c-soon"><img src="{{ base_path ~ directory }}/images/RisingStar.png" alt="Lifafa"></div>
+                     <img src="{{ base_path ~ directory }}/images/photo1625582863.jpeg" alt="Lifafa">
+                     <div class="box-title text-center">
+                       Nikhil Deshpande​​
+                     </div>
+                  </div>
+		 </div>
+		 		 <div class="fb-col-5"><div class="title-box">
+                      <div class="c-soon"><img src="{{ base_path ~ directory }}/images/RisingStar.png" alt="Lifafa"></div>
+                     <img src="{{ base_path ~ directory }}/images/photo1625582934.jpeg" alt="Lifafa">
+                     <div class="box-title text-center">
+                        Anusha
+                     </div>
+                  </div>
+		 </div>
+		  </div>
+            <div class="rewards-marketplace">
+               <div class="rewards-box">
+                  <a href="{{store_gcm_url}}-01/gcm/" >
+                   <div class="re-box-sd">
+                  <img src="{{ base_path ~ directory }}/images/shutterstock_792517693.jpg" alt="Lifafa">
+                  <div class="rewards-dsc text-center">
+                     <h4>Send a Gift Card to a co-worker</h4>
+                  </div>
+               </div>
+                  </a>
+             </div>
+               <div class="rewards-box">
+                   <div class="re-box-sd">
+                  <img src="{{ base_path ~ directory }}/images/1903172305-huge.jpg" alt="Lifafa">
+                  <div class="rewards-dsc text-center">
+                     <h4>Order a Cash Card</h4>
+                  </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>#}

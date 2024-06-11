@@ -1,0 +1,16 @@
+<div class="rewards-box">
+    <div class="re-box-sd">
+  {% if fields.field_coming_soon.content=='On' %}
+    <div class="c-soon"><img  src="{{ base_path ~ directory }}/images/Coming-soon.png" alt="Lifafa"></div>
+  {% endif %}
+  {% if fields.field_banner.content %}
+    {{fields.field_banner.content}}
+  {% endif %}
+  <div class="rewards-dsc text-center">
+     <h4>{{fields.title.content}}</h4>
+     <p>{{fields.body.content}}</p>
+  </div>
+  </div>
+</div>
+  
+  {#field_coming_soon#}

@@ -1,0 +1,20 @@
+<!-- Add you custom twig html here -->
+
+
+<div class="steps clear">
+    <div class="container">
+        <div class="title text-center">            
+            <p>It appears that you are already logged into the system</p>
+            <p>To continue with your existing session <a href="{{store_home_url}}" class="">click here</a></p>
+            <p>Alternatively <a href="/user/logout?destination={{storedata}}/home/" class="">click here</a> to Log out and login into a new store</p>
+        </div>
+    </div>
+</div>  
+
+{#<div class="banner-btn">
+
+
+    {% if logged_in %}
+        <a href="/user/logout?destination={{storedata}}/home/" class="btn btn-primary">log out</a>    
+    {% endif %}
+</div>#}

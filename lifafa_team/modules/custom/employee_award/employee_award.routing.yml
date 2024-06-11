@@ -1,0 +1,31 @@
+lifafa_award.lifafa_award_form:
+  path: '/store/%/send-award'
+  defaults:
+    _title: 'Lifafa Award'
+    _form: '\Drupal\employee_award\Form\lifafaAward'
+  requirements:
+    _access: 'TRUE'
+    _permission: employee award access
+  options:
+    no_cache: 'TRUE'
+
+
+employee_award.employee_award_controller_sendgiftcardpage:
+  path: 'store/%/voucher'
+  defaults:
+    _controller: '\Drupal\employee_award\Controller\EmployeeAwardController::sendgiftcardpage'
+    _title: 'Giftcard and Voucher page'
+  requirements:
+    _permission: 'access content'   
+  options:
+     no_cache: TRUE      
+#
+#torchlight_tfa.get_store:
+#  path: '/store/{id}/home'
+#  defaults:
+#    _title: 'Store Home Page'
+#    _controller: '\Drupal\torchlight_tfa\Controller\VerifyOtp::getStorePage'
+#  requirements:
+#    _access: 'TRUE'
+#  options:
+#    no_cache: 'TRUE'

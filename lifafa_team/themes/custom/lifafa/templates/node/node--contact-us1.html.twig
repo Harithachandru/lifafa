@@ -1,0 +1,50 @@
+ <div class="banner-inner clear">
+         <div class="banner-slider">
+            <div class="item">
+               {{content.field_page_banner}}
+               <div class="banner-dsc">
+                  <div class="container ">
+                     <div class="title text-center">
+                        <h2>{{content.field_banner_heading}} </h2>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            </div>
+      </div>
+	<div class="steps clear">
+         <div class="container">
+            <div class="top-border"></div>
+            <div class="title text-center">
+               <h2>{{content.field_header}}</h2>
+               <div class="text-1">{{content.field_sub_heading}}</div>
+            </div>
+         </div>
+      </div>
+      <div class="steps clear">
+         <div class="container">
+       
+     {{content.body}}
+               
+        
+         </div>
+      </div> 	 
+	<div class="steps clear">
+    <div class="container ">
+	<div class="top-border"></div>
+                <div class="title text-center pb-30">
+            <h2>{{content.field_form_heading}}</h2>
+			 <div class="text-1">{{content.field_form_subheading}}</div>
+        </div>
+		  </div>
+   {{ drupal_entity('webform', 'flight_hotel_contact') }}
+
+<div class=" contact-steps clear pb-30">
+    <div class="container container-500">
+        <div class="top-border"></div>
+       {{content.field_contact_details}}
+               </div>
+
+
+  
+</div>

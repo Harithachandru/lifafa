@@ -1,0 +1,126 @@
+{# empty Twig template #}
+<header class="header-top-nav">
+    <div class="top-nav ">
+        <div class="link-hone">
+        {% if logged_in %}
+            <a href="{{store_home_url}}">
+                <img src="{{ base_path ~ directory }}/images/house-black.png" alt="logo">
+            </a>
+            {% else %}
+            <a href="{{base_url}}/user/login?store_id={{field_store_id}}">
+                <img src="{{ base_path ~ directory }}/images/house-black.png" alt="logo">
+                </a>
+                {% endif %}
+        </div>
+        <div class="logo-hone-center">
+        <a href="/{{getSelectStoreId}}/home/"><img src="{{comapany_logo}}" alt="logo"></a>
+            {#  {% if storedata.store_logo %}     #}
+            {# {% if logged_in %}
+                 <a href="{{store_home_url}}"><img src="{{comapany_logo}}" alt="logo"></a>
+                  {% else %}
+                  <a href="{{base_url}}/user/login?store_id={{field_store_id}}"><img src="{{comapany_logo}}" alt="logo"></a>
+             {% endif %}#}
+
+                {#{% else %}
+                    <a href="{{store_home_url}}"><img src="{{base_path ~ directory}}/images/logo2.png" alt="logo"></a>
+                {% endif %}                           #}
+        </div>
+        <div class="menu-right">
+            <div  class="user-in">
+                <ul>
+                    {% if logged_in %}
+                        <li><a href="{{store_base_url}}">My account</a></li>
+                        <li><a href="{{store_home_url}}">My store</a></li>
+                        {#<li><a href="{{base_url}}/user/logout" title="Logout">Logout</a></li>#}
+                        <li><a href="{{logoutUrl}}" title="Logout">Logout</a></li>
+                        {% else %}
+                       {% if signin_button %}
+                        <li><a href="{{base_url}}/user/login?store_id={{field_store_id}}" title="Sign in">Sign in</a></li>
+                        {% else %}
+                        <li><a href="{{base_url}}/user/login?store_id={{field_store_id}}" title="Sign in">Sign in</a></li>
+                            {% if external_url %}
+                            <li><a href="{{base_url}}{{external_url}}" title="Sign up">Sign up</a></li>
+                            {% else %}
+                            <li><a href="{{getStoreBaseUrl}}myaccount/{{field_store_id}}/self/register" title="Sign up">Sign up</a></li>
+                        {% endif %}
+                        {% endif %}
+                        {% endif %}
+                </ul>
+            </div>
+            {#<div class="s-btn"><img src="{{ base_path ~ directory }}/images/search-icon-m.png" alt="logo"></div>#}
+        </div>
+        {#<div class="search-row clear">
+            <div class="search">
+                <form class="top-searchbox"><input type="search" name="gsearch" placeholder="Search" class="gsearch"> <input class="submit-btn" type="submit"> </form>
+            </div>
+        </div>#}
+    </div>
+</header>
+
+{% if landing_page_image %}
+    <div class="banner-inner banner-inner-auto clear overlay">
+                <img src="{{ landing_page_image }}" alt="Lifafa">
+                <div class="banner-dsc">
+                    <div class="container">
+                        <div class="title text-center">
+                            {% if banner_heading %}
+                                <h2>{{ banner_heading }}</h2>
+                            {% endif %}
+                            {% if banner_subheading %}
+                                <div class="text-1">{{ banner_subheading }}</div>
+                            {% endif %}
+                            {% if signin_button %}
+                           {{ drupal_block('login_button_block', wrapper=false) }}
+                          {% endif %}
+                        </div>
+                    </div>
+                </div>
+    </div>
+{% endif %}
+
+{% if welcom_message %}
+    <div class="steps clear">
+        <div class="container">
+            <div class="title text-center">
+                <h2>{{welcom_message}}</h2>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% for row in landingpage_blocks %}
+    <div class="steps clear">
+        <div class="container container-1500">
+            <div class="top-border"></div>
+            <div class="title text-center">
+                {% if row.block_title %}
+                    <h2>{{ row.block_title }}</h2>
+                {% endif %}
+                {% if row.block_subtitle %}
+                    <div class="text-1">{{ row.block_subtitle }}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {{ drupal_block(row.block_stores, wrapper=false) }}
+{% endfor %}
+
+{% if page.footer_top  %}
+   {{ page.footer_top }}
+{% endif %}
+
+
+{% if footer_content %}
+    {{ footer_content|raw }}
+{% endif %}
+
+<footer class="footer login-footer full-width">
+    <div class="footer-inner ">
+        <div class="copyright text-center ">
+            &copy; {{ "now"|date("Y") }} All Rights Reserved
+        </div>
+      {#  <div class="footer-logo">
+            <img src="{{ base_path ~ directory }}/images/footerlogo.png" alt="Lifafa"> 
+        </div> #}
+    </div>
+</footer>

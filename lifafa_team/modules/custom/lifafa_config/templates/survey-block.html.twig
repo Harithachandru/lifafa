@@ -1,0 +1,98 @@
+{#
+/**
+* @file
+* Default theme implementation to display a block.
+*
+* @see template_preprocess_block()
+*
+* @ingroup themeable
+*/
+#}
+{#{% set classes = [
+    'clear-both',
+] %}
+<div{{ attributes.addClass(classes) }}>
+    {% for value in content %}
+        <p>{{value}}</p>
+    {% endfor %}
+</div>#}
+         <div class="container container-1500">
+            {#<div class="top-border"></div>#}
+            <div class="title text-center">
+               <h2>Surveys</h2>
+            </div>
+            <div class="surveys-box">
+               <div class="surveys-row ">
+                  <div class="surveys-col s-col-1">
+                     <div class="surveys-time">
+                        <span>2</span>
+                        <span>Mins</span>
+                     </div>
+                  </div>
+                  <div class="surveys-col s-col-2">
+                     <div class="surveys-dsc">
+                        <p>Survey Topic</p>
+                        <p><strong>Compensation Survey</strong></p>
+                     </div>
+                  </div>
+                  <div class="surveys-col s-col-3">
+                     <a href="#" class="btn btn-primary">Take Survey</a>
+                  </div>
+               </div>
+               <div class="surveys-row ">
+                  <div class="surveys-col s-col-1">
+                     <div class="surveys-time">
+                        <span>5</span>
+                        <span>Mins</span>
+                     </div>
+                  </div>
+                  <div class="surveys-col s-col-2">
+                     <div class="surveys-dsc">
+                        <p>Survey Topic</p>
+                        <p><strong>Benefits Satisfaction Survey</strong></p>
+                     </div>
+                  </div>
+                  <div class="surveys-col s-col-3">
+                     <a href="#" class="btn btn-primary">Take Survey</a>
+                  </div>
+               </div>
+               {#<div class="surveys-row ">
+                  <div class="surveys-col s-col-1">
+                     <div class="surveys-time">
+                        <span>25</span>
+                        <span>Mins</span>
+                     </div>
+                  </div>
+                  <div class="surveys-col s-col-2">
+                     <div class="surveys-dsc">
+                        <p>Survey Topic</p>
+                        <p><strong>Lorem Ipsum Lorem Ipsum </strong></p>
+                     </div>
+                  </div>
+                  <div class="surveys-col s-col-3">
+                     <a href="#" class="btn btn-primary">Take Survey</a>
+                  </div>
+               </div>
+               <div class="surveys-row ">
+                  <div class="surveys-col s-col-1">
+                     <div class="surveys-time">
+                        <span>25</span>
+                        <span>Mins</span>
+                     </div>
+                  </div>
+                  <div class="surveys-col s-col-2">
+                     <div class="surveys-dsc">
+                        <p>Survey Topic</p>
+                        <p><strong>Lorem Ipsum Lorem Ipsum </strong></p>
+                     </div>
+                  </div>
+                  <div class="surveys-col s-col-3">
+                     <a href="#" class="btn btn-primary">Take Survey</a>
+                  </div>
+               </div>#}
+            </div>
+            <div class="text-center pb-30">
+               <a href="#" class="btn btn-primary">View all</a>
+            </div>
+         </div>
+      

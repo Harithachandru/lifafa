@@ -1,0 +1,14 @@
+{# empty Twig template #}
+<footer class="footer full-width">
+    <div class="footer-inner text-center">
+        {% if page.footer_menu %}
+            {{ page.footer_menu }}
+        {% endif %}
+
+    </div>
+    <div class="copyright text-center">
+        <div class="container">            
+            &copy; {{ "now"|date("Y") }} Lifafa.com - All Rights Reserved
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,9 @@
+torchlight_tfa.otp_verification_form:
+  path: '/otp-verify'
+  defaults:
+    _title: 'OTP Verification'
+    _form: '\Drupal\torchlight_tfa\Form\OtpVerification'
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: 'TRUE'

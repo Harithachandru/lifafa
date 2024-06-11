@@ -1,0 +1,232 @@
+<?php
+
+use Drupal\file\Entity\File;
+use Drupal\image\Entity\ImageStyle;
+use Drupal\Component\Render\FormattableMarkup;
+
+function omnivus_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+   // Add content type suggestions.
+  if ($node = \Drupal::request()->attributes->get('node')) {
+    array_splice($suggestions, 1, 0, 'page__node__' . $node->getType());
+  }
+}
+
+function omnivus_preprocess_breadcrumb(&$variables) {
+    $request = \Drupal::request();
+
+    if (($node = \Drupal::routeMatch()->getParameter('node')) && $variables['breadcrumb']) {
+        $variables['breadcrumb'][] = array(
+            'text' => $node->getTitle(),
+        );
+        $variables['#cache']['contexts'][] = 'url';
+    } 
+}
+function omnivus_system_breadcrumb_alter(\Drupal\Core\Breadcrumb\Breadcrumb &$breadcrumb, \Drupal\Core\Routing\RouteMatchInterface $route_match, array $context) {
+  $breadcrumb->addCacheContexts(['url.path']);
+  if(($node = \Drupal::routeMatch()->getParameter('node')) && $variables['breadcrumb']){
+		$variables['breadcrumb'][] = array(
+			'text' => $node->getTitle(),
+			'url' => $node->URL(),
+                        
+		);
+ 		$variables['#cache']['contexts'][] = 'url';
+	}
+}
+
+/**
+ * Implements hook_preprocess().
+ */
+function omnivus_preprocess(&$variables) {
+    $variables['base_path'] = base_path();
+    global $base_root;
+    $variables['base_root'] = $base_root;
+     
+}
+
+
+
+
+
+
+/**
+ * Implements hook_preprocess_user().
+ */
+function omnivus_preprocess_user(&$variables) {
+  /** @var User $account */
+  $account = $variables['elements']['#user'];
+
+  $variables['username'] = $account->getDisplayName();
+}
+
+
+
+
+
+function omnivus_preprocess_page(&$variables) {
+
+   
+   global $base_root, $base_url;
+    $node = \Drupal::routeMatch()->getParameter('node');
+
+    $theme = \Drupal::theme()->getActiveTheme()->getName();
+    $variables['theme_path'] = drupal_get_path('theme', $theme);
+
+    $request = \Drupal::request();
+    if ($route = $request->attributes->get(\Symfony\Cmf\Component\Routing\RouteObjectInterface::ROUTE_OBJECT)) {
+        $variables['title'] = \Drupal::service('title_resolver')->getTitle($request, $route);
+    }
+
+   
+}
+ 
+
+function omnivus_form_search_block_form_alter(&$form, &$form_state) {
+//dpm($form);
+  $form['keys']['#attributes']['placeholder'][] = t('Search');
+  $form['actions']['submit']['#value'] = html_entity_decode('&#xf002;');
+  $form['actions']['submit']['#attributes']['class'][] = 'search-button';
+}
+
+
+
+function omnivus_theme_suggestions_user_alter(array &$suggestions, array $variables) {
+  $request = \Drupal::routeMatch()->getRouteObject();
+  $path_args = explode('/', $request->getPath());
+  if (\Drupal::currentUser()->isAuthenticated() && in_array('user', $path_args)) {
+    $suggestions[] = 'user__profile';
+  }
+}
+
+
+
+
+
+
+
+function omnivus_preprocess_node(&$variables) {
+
+  $ntype = $variables['node']->getType();
+
+//    echo '<pre>';print_r($variables['node']->field_service_list_item[0]);echo'</pre>';
+  $site_name = \Drupal::config('system.site')->get('name');
+  $variables['site_name'] = $site_name;
+  $request = \Drupal::request();
+  if ($route = $request->attributes->get(\Symfony\Cmf\Component\Routing\RouteObjectInterface::ROUTE_OBJECT)) {
+      $variables['title'] = \Drupal::service('title_resolver')->getTitle($request, $route);
+  }
+
+
+  if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical') {
+      $term_id = \Drupal::routeMatch()->getRawParameter('taxonomy_term');
+      $term = taxonomy_term_load($term_id);
+      //$term_name = $term_object->get('name')->value;
+      $variables['current_term'] = $term;
+  }
+
+  if ($ntype == 'blog_post') {
+      $created_time = $variables['node']->changed->value;
+      $variables['next_blog'] = generateNextPrevious('next', $created_time, 'blog_post');
+      $variables['prev_blog'] = generateNextPrevious('prev', $created_time, 'blog_post');
+  }
+  if ($ntype == 'portfolios') {
+      $created_time = $variables['node']->changed->value;
+      $variables['next_por'] = generateNextPrevious('next', $created_time, 'portfolios');
+      $variables['prev_por'] = generateNextPrevious('prev', $created_time, 'portfolios');
+  }
+
+  $blocks_name = array();
+  $arr_block = array();
+  $blocks_name = \Drupal::entityManager()->getStorage('block')->loadByProperties(['region' => 'section_blog', 'theme' => \Drupal::theme()->getActiveTheme()->getName()]);
+  foreach ($blocks_name as $k => $v) {
+      $block = \Drupal\block\Entity\Block::load($k);
+      $arr_block[$k] = (\Drupal::entityManager()->getViewBuilder('block')->view($block));
+//print render($arr_block[$k]);
+  }
+  if (isset($arr_block) && !empty($arr_block)) {
+      $variables['blog_section'] = $arr_block;
+  }
+
+
+  if (isset($_GET['style'])) {
+      $variables['portfolio_style'] = $_GET['style'];
+  } elseif (!empty(theme_get_setting('portfolio_style', 'ementy'))) {
+      $variables['portfolio_style'] = theme_get_setting('portfolio_style', 'ementy');
+  } else {
+      $variables['portfolio_style'] = 'boxed';
+  }
+
+  if (isset($_GET['column'])) {
+      $variables['column'] = $_GET['column'];
+  } elseif (!empty(theme_get_setting('portfolio_column', 'ementy'))) {
+      $variables['column'] = theme_get_setting('portfolio_column', 'ementy');
+  } else {
+      $variables['column'] = '3col';
+  }
+
+
+
+  if (isset($_GET['style'])) {
+      $variables['blog_style'] = $_GET['style'];
+  } elseif (!empty(theme_get_setting('blog_style', 'ementy'))) {
+      $variables['blog_style'] = theme_get_setting('blog_style', 'ementy');
+  } else {
+      $variables['blog_style'] = 'standand';
+  }
+
+  if (isset($_GET['sidebar'])) {
+      $variables['blog_sidebar'] = $_GET['sidebar'];
+  } elseif (!empty(theme_get_setting('blog_sidebar', 'ementy'))) {
+      $variables['blog_sidebar'] = theme_get_setting('blog_sidebar', 'ementy');
+  } else {
+      $variables['blog_sidebar'] = 'full';
+  }
+
+
+  if (isset($_GET['column'])) {
+      $variables['shop_column'] = $_GET['column'];
+  } elseif (!empty(theme_get_setting('shop_column', 'ementy'))) {
+      $variables['shop_column'] = theme_get_setting('shop_column', 'ementy');
+  } else {
+      $variables['shop_column'] = '3col';
+  }
+  if (isset($_GET['sidebar'])) {
+      $variables['shop_sidebar'] = $_GET['sidebar'];
+  } elseif (!empty(theme_get_setting('shop_sidebar', 'ementy'))) {
+      $variables['shop_sidebar'] = theme_get_setting('shop_sidebar', 'ementy');
+  } else {
+      $variables['shop_sidebar'] = 'full';
+  }
+
+
+
+  if ($ntype == 'portfolios') {
+      if (isset($variables['node']->field_image) && !empty($variables['node']->field_image->getValue()[0]['target_id'])) {
+          $node_value = $variables['node']->field_image->getValue();
+
+          $fid = $node_value[0]['target_id'];
+          $file = File::load($fid);
+
+          if (ImageStyle::load('image635x405')) {
+              $image_uri = ImageStyle::load('image635x405')->buildUrl($file->getFileUri());
+              $variables['img_uri_635_405'] = '<img class="img-responsive" alt="' . $node_value[0]['alt'] . '" src="' . $image_uri . '" />';
+              ;
+          } else {
+              $variables['img_uri_635_405'] = '';
+          }
+          if (ImageStyle::load('image480x480')) {
+              $image_uri = ImageStyle::load('image480x480')->buildUrl($file->getFileUri());
+              $variables['img_uri_480_480'] = '<img class="img-responsive" alt="' . $node_value[0]['alt'] . '" src="' . $image_uri . '" />';
+              ;
+          } else {
+              $variables['img_uri_480_480'] = '';
+          }
+      } else {
+          $variables['img_uri_635_405'] = '';
+          $variables['img_uri_480_480'] = '';
+      }
+  }
+}
+
+
+
+  

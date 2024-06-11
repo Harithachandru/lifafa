@@ -1,0 +1,6 @@
+name: Employee Award Management
+type: module
+description: "Send Custom Email with selected tempaltes"
+package: Custom
+core: 8.x
+# version: VERSION

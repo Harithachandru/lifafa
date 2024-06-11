@@ -1,0 +1,15 @@
+<div class="fb-col-5">
+    <div class="title-box ov-hidden">
+        {% if fields.field_nominate_text.content %}
+            <div class="c-soon">
+                <div class="bage-t">{{fields.field_nominate_text.content}}</div>
+            </div>
+        {% endif %}
+        {% if fields.field_content_image.content %}
+            {{fields.field_content_image.content}}
+        {% endif %}
+        <div class="box-title text-center">
+            {{fields.title.content}}
+        </div>
+    </div>
+</div>

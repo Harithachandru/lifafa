@@ -1,0 +1,90 @@
+
+lifafa_store.lifafa_store_controller_getStore:
+  path: '/store/redirect'
+  defaults:
+    _controller: '\Drupal\lifafa_store\Controller\LifafaStoreController::getStore'
+    _title: 'Store Home Page'
+  requirements:
+    _permission: 'access content'
+  options:
+     no_cache: TRUE
+      
+lifafa_store.lifafa_store_controller_storeHomePage:
+  path: '/store/{id}/home'
+  defaults:
+    _controller: '\Drupal\lifafa_store\Controller\LifafaStoreController::storeHomePage'
+    _title: 'Store Home Page'
+  requirements:
+    _permission: 'access content'
+  options:
+     no_cache: TRUE  
+lifafa_store.lifafa_store_controller_pageNotFound:
+  path: '/store/%/page-not-found'
+  defaults:
+    _controller: '\Drupal\lifafa_store\Controller\LifafaStoreController::pageNotFound'
+    _title: '404 Page Not Found'
+  requirements:
+    _permission: 'access content'
+  options:
+     no_cache: TRUE  
+lifafa_store.lifafa_store_controller_getStoreTerminalLogo:
+  path: '/storelogo/{id}'
+  defaults:
+    _controller: '\Drupal\lifafa_store\Controller\LifafaStoreController::getStoreTerminalLogo'
+    _title: '404 Page Not Found'
+  requirements:
+    _permission: 'access content'   
+  options:
+     no_cache: TRUE  
+lifafa_store.lifafa_store_controller_sendPerksClaimEmail:
+  path: '/semdEmailToCustomer'
+  defaults:
+    _controller: '\Drupal\lifafa_store\Controller\LifafaStoreController::sendPerksClaimEmail'
+    _title: 'Claim Now'
+  requirements:
+    _permission: 'access content'
+ 
+lifafa_store.wellbeing_controller_detailPage:
+  path: 'rewards-marketplace/{id}'
+  defaults:
+    _controller: '\Drupal\lifafa_store\Controller\WellbeingController::detailPage'
+    _title: 'Wellbeing'
+  requirements:
+    _permission: 'access content'
+    
+    
+lifafa_store.wellbeing_controller_request_booking:
+  path: 'request-booking/{id}'
+  defaults:
+    _controller: '\Drupal\lifafa_store\Controller\WellbeingController::requestBooking'
+    _title: 'Wellbeing'
+  requirements:
+    _permission: 'access content'
+    
+    
+lifafa_store.wellbeing_controller_request_insurance_plan:
+  path: 'store/insurance-lead/{id}'
+  defaults:
+    _controller: '\Drupal\lifafa_store\Controller\WellbeingController::requestInsurancePlan'
+    _title: 'Wellbeing'
+  requirements:
+    _permission: 'access content'    
+
+lifafa_store.lifafa_store_controller_setStoreLogout:
+  path: '/storeLogout'
+  defaults:
+    _controller: '\Drupal\lifafa_store\Controller\LifafaStoreController::setStoreLogout'
+    _title: 'Store Home Page'
+  requirements:
+    _permission: 'access content'
+
+lifafa_store.lifafa_store_controller_invalidStore:
+  path: '/store/logoutpage/{id}'
+  defaults:
+    _controller: '\Drupal\lifafa_store\Controller\LifafaStoreController::invalidStore'
+    _title: 'Store Home Page'
+  requirements:
+    _permission: 'access content'    
+  options:
+     no_cache: TRUE  
+    

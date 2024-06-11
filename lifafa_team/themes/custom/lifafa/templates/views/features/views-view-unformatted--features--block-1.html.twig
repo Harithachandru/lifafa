@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="top-border"></div>
+    <div class="title text-center">
+        <h2>Tech led rewards and incentives programmes</h2>
+    </div>
+    {% set myVal = 0 %}
+    {% for row in rows %}
+
+        {% if myVal%2==0 %} 
+            <div class="fb-row fb-row m-40">
+            {% endif %}                    
+            {{ row.content }}
+            {% if myVal%2==1 %} 
+            </div>
+        {% endif %}    
+        {% set myVal = myVal + 1 %}            
+    {% endfor %}
+
+</div>
+

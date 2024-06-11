@@ -1,0 +1,52 @@
+
+     {% include theme_path ~ "/templates/header.html.twig" %}
+        <div class="page-title-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-title-item text-center">
+                        <h2 class="title">Admin</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="../">Home </a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Admin</li>
+                            </ol>
+                        </nav>
+                    </div> <!-- page title -->
+                </div>
+            </div> <!-- row -->
+        </div> <!-- container -->
+    </div> 
+
+
+
+       {# Action Links #}
+    {% if action_links %}
+        {% block action_links %}
+            <ul class="action-links">{{ action_links }}</ul>
+        {% endblock %}
+    {% endif %}
+
+    {# Help #}
+    {% if page.help %}
+        {% block help %}
+            {{ page.help }}
+        {% endblock %}
+    {% endif %}
+
+    {# Content #}
+    {% block content %}
+        <a id="main-content"></a>
+        {{ page.content }}
+    {% endblock %}
+    
+    
+
+    
+  
+   
+
+  
+
+    <!-- Main Footer -->
+  {% include theme_path ~ "/templates/footer.html.twig" %}

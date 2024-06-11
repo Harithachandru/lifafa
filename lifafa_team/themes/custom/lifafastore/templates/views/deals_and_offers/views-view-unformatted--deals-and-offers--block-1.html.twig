@@ -1,0 +1,24 @@
+<div class="steps clear">
+         <div class="container container-1500">
+            <div class="top-border"></div>
+            <div class="title text-center">
+               <h2>Deals and offers</h2>
+               <div class="text-1">Redeem your Lifafa points here. Fabulous savings on your daily needs
+               </div>
+            </div>
+         </div>
+      </div>
+
+
+
+
+<div class="logged-steps clear">
+         <div class="container container-1500">
+            <div class="rewards-marketplace rewards-logged">              
+            {% for row in rows %}
+                {{ row.content }}
+            {% endfor %}   
+
+        </div>
+    </div>
+</div>

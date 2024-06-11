@@ -1,0 +1,6 @@
+name: Form Alter
+type: module
+description: "For altering the forms"
+package: Custom
+core: 8.x
+# version: VERSION

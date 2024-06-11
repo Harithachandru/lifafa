@@ -1,0 +1,20 @@
+<div class="steps clear pb-30">
+    <div class="container">
+        <div class="top-border"></div>
+        <div class="title text-center">
+            <h2>Insurance Type​</h2>
+            <div class="text-1">Select type of cover that you would like to take​</div>
+        </div>
+    </div>
+    <div class="logged-steps clear">
+        <div class="container">
+            <div class="row">                   
+                <div class="rewards-marketplace rewards-logged">
+                    {% for row in rows %}
+                        {{ row.content }}
+                    {% endfor %}
+                </div>                   
+            </div>
+        </div>
+    </div>
+</div>

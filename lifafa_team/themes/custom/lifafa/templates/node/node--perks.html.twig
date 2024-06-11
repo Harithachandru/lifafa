@@ -1,0 +1,33 @@
+{# empty Twig template #}
+<div class="banner-inner clear">    
+    {{content.field_perk_main_banner}}
+</div>
+<div class="steps clear">
+    <div class="container">
+        <div class="title text-center">
+            <h2>{{node.getTitle}}</h2>
+            <span class="link-dsc">{{content.field_perk_category}}</span>
+            <span class="loction pb-30">{{content.field_perk_location}}</span>
+        </div>               
+        <div class="content text-center ">
+            {{content.body}}            
+        </div>        
+        {% if node.id in claimed_perks.claim_perks %}      
+        <div class="steps clear">
+            <div class="container">       
+                <div class="text-center ">
+                    <button  class="btn btn-primary claimnow" id="claimnow_{{node.id}}" data-id="{{node.id}}" data-title="{{node.getTitle}}" disabled="disabled" title="Claim Now">Claimed</button>
+                </div>                                
+            </div>
+        </div>        
+        {% else %}                
+            <div class="steps clear">
+            <div class="container">       
+                <div class="text-center ">
+                    <button  class="btn btn-primary claimnow" id="claimnow_{{node.id}}" data-id="{{node.id}}" data-title="{{node.getTitle}}" title="Claim Now">Claim Now</button>
+                </div>                                
+            </div>
+        </div>
+        {% endif %}        
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<?php
+/**
+ * Implements hook_form_alter().
+ */
+function lifafa_form_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+
+  if ($form_id == 'search-block-form') {
+
+    $form['keys']['#attributes']['placeholder'] = t('Search topics...'); 
+  }
+}

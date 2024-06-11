@@ -1,0 +1,63 @@
+{#
+/**
+ * @file
+ * Theme implementation for a 'webform' element.
+ *
+ * This is an copy of the webform.html.twig theme_wrapper which includes the
+ * 'title_prefix' and 'title_suffix' variables needed for
+ * contextual links to appear.
+ *
+ * Available variables
+ * - attributes: A list of HTML attributes for the wrapper element.
+ * - children: The child elements of the webform.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ *
+ * @see template_preprocess_webform()
+ * @see _webform_form_after_build()
+ *
+ * @ingroup themeable
+ */
+#}
+
+<div class="steps clear">
+    <div class="container container-500">
+        <div class="title text-center">
+            <h2>Credit Note</h2>
+        </div>
+
+       {% set elements = element.elements %}
+<form{{ attributes.addClass('book-demo-form') }}>
+    {{ title_prefix }}
+    {% if element.status_messages %}
+        {{ element.status_messages }}
+    {% endif %}
+    
+    {{ elements.first_name }}
+    
+    {{ elements.last_name }}
+    
+    
+    {{ elements.email_address }}
+    
+
+    
+    {{ elements.phone_number }}
+
+    <div class="title text-center">
+     your points {{points}}
+    </div>
+    
+    {{ element.form_build_id }}
+    {{ element.form_token }}
+    {{ element.form_id }} 
+    {{ element.actions }}  
+    {{ elements.actions }}
+    
+    {{ title_suffix }}
+</form>
+    </div>
+</div>
+

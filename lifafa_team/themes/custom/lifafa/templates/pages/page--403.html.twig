@@ -1,0 +1,39 @@
+{#{% if logged_in %}
+    {% if page.mainheader %}
+        {{ page.mainheader }}    
+    {% else %}
+        {% include theme_path ~ "/templates/layout/header.html.twig" %}
+    {% endif %}
+
+{% else %}
+    {% include theme_path ~ "/templates/layout/header.html.twig" %}
+{% endif %}
+#}
+<div class="steps clear">
+    <div class="container">
+        <div class="title text-center">
+
+            <img src="{{ base_path ~ directory }}/images/logo-404.png" alt="logo">
+            <div class="broken-link"><img src="{{ base_path ~ directory }}/images/Broken-link.png" alt="logo"></div>
+
+            <div class="text-1 pb-20"><strong>Sign in</strong></div>
+            <p>Access Denied.</p>
+            <div class="back-link text-center back-link-small pb-30">
+                <a href="javascript:history.go(-1)"> Back </a>
+            </div>
+        </div>
+    </div>
+</div>
+{#
+{% if logged_in and page.mainfooter %}       
+    {% if page.mainfooter %}
+        {{ page.mainfooter }}    
+    {% else %}
+        {% include theme_path ~ "/templates/layout/storefooter.html.twig" %}
+    {% endif %}
+
+
+{% else %}
+    {% include theme_path ~ "/templates/layout/footer.html.twig" %}
+{% endif %}            
+#}

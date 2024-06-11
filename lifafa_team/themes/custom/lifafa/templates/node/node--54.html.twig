@@ -1,0 +1,50 @@
+{# empty Twig template #}
+<div class="banner-inner clear">
+    {{content.field_page_banner}}    
+    <div class="banner-dsc banner-2"> 
+        <div class="container ">
+            <div class="title text-center">
+                <h2>{{ content.field_banner_title }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="top-sec clear">
+    {{content.body}}
+</div>
+
+<div class="steps clear">
+    <div class="container">
+        <div class="top-border"></div>
+        <div class="title text-center">
+            <h2>Our Team</h2>
+        </div>
+        {{ drupal_view('team', 'block_1') }}	  
+    </div>
+</div> 
+
+<div class="steps clear">
+    <div class="container">
+        <div class="top-border"></div>
+        <div class="title text-center">
+            <h2>Registered Office</h2>
+        </div>
+
+    </div>
+</div>
+<div class="our-office clear">
+    <div class="container container-1500">
+        <div class="office-map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.7922295536932!2d72.86741511540963!3d19.072870557025997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c8f21a283513%3A0x45c6ad9e5e90e6f6!2s91springboard%20BKC%20Kalina!5e0!3m2!1sen!2sin!4v1663265042501!5m2!1sen!2sin" width="300" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="box-title-3 office-text-address">
+            <p>Registered Office:</p>
+            <p>175, Kagalwala House, 2nd Floor, Vidyanagri Marg,</p>
+            <p>Kalina, Santacruz (E), Behind Honda Showroom,</p>
+            <p>Kalina, Mumbai 400098</p>
+        </div>
+
+    </div>
+</div>	

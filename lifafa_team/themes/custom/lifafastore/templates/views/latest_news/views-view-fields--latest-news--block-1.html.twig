@@ -1,0 +1,12 @@
+<div class="item">
+    <div class="announcements-box">
+        {% if fields.field_banner.content %}
+        {{fields.field_banner.content}}
+    {% endif %}
+        <div class="announcements-dsc">
+            <h4>{{fields.title.content}}</h4>
+            <p><a href="#">{{fields.body.content}}</a></p>
+            <span class="day">1 day ago</span>
+        </div>
+    </div>
+</div>

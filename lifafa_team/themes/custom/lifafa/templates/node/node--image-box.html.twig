@@ -1,0 +1,22 @@
+{# empty Twig template #}
+<div class="banner-inner clear">
+    {{content.field_page_banner}}
+    <div class="banner-dsc banner-2"> 
+        <div class="container ">
+            <div class="title text-center">
+                <h2>{{ content.field_banner_title }}</h2>
+                
+                {% if content.field_banner_description %}
+                    <div class="text-1">{{content.field_banner_description}}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>  
+
+
+<div class="top-sec clear prt-1 pb-30">
+    <div class="container container-1500">                
+        {{content.body}}
+    </div>
+</div>
